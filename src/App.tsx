@@ -21,9 +21,10 @@ function App() {
       <BrowserRouter>
         <main className="flex">
           <Sidebar>
-            <SidebarItem to="/" icon={<LayoutDashboard size={20} />} text="Adicionar Cliente" />
-            <SidebarItem to="add-user" icon={<BarChart3 size={20} />} active text="Listar Clientes" />
+            <SidebarItem to="/add-user" icon={<LayoutDashboard size={20} />} text="Adicionar Cliente" />
+            <SidebarItem to="/" icon={<BarChart3 size={20} />} active text="Listar Clientes" />
             <SidebarItem to="add-user" icon={<BarChart3 size={20} />} alert text="Adicionar Serviço/Produto" />
+            <SidebarItem to="add-user" icon={<BarChart3 size={20} />} alert text="Listar Serviço/Produto" />
             <SidebarItem to="add-service" icon={<UserCircle size={20} />} text="Nota Rápida" />
             <hr className="my-3" />
             <SidebarItem to="teste" icon={<Settings size={20} />} text="Meus Dados" />
@@ -31,13 +32,11 @@ function App() {
           {/* conteudo da pagina */}
           <div className='flex-1 h-screen overflow-y-auto p-8'>
             <div className='max-w-4xl mx-auto'>
-              <div className="bg-blue-100 rounded-xl p-5 pl-14">
                 <Routes>
                   <Route path='/' element={<Home />} />
                   <Route path='/add-user' element={<AddUser />} />
                   <Route path='/add-service' element={<AddService />} />
                 </Routes>
-              </div>
               {/* fim do conteudo da pagina */}
             </div>
           </div>
