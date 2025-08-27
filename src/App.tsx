@@ -3,31 +3,32 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import AddUser from './pages/AddUser';
 import AddService from './pages/AddService';
-import Sidebar, { SidebarItem } from './layout/Sidebar'
-
-
-
+import Sidebar from './layout/Sidebar';
+import { SidebarItem } from './components/SidebarItem';
 import {
-  UserCircle,
-  BarChart3,
-  LayoutDashboard,
-  Settings,
+  UsersRound,
+  UserRoundPlus,
+  PackagePlus,
+  PackageSearch,
+  File,
+  Info,
 } from "lucide-react"
 
 function App() {
 
   return (
     <>
+    
       <BrowserRouter>
         <main className="flex">
           <Sidebar>
-            <SidebarItem to="/add-user" icon={<LayoutDashboard size={20} />} text="Adicionar Cliente" />
-            <SidebarItem to="add-service" icon={<BarChart3 size={20} />} alert text="Adicionar Serviço/Produto" />
-            <SidebarItem to="/" icon={<BarChart3 size={20} />} active text="Listar Clientes" />
-            <SidebarItem to="add-user" icon={<BarChart3 size={20} />} alert text="Listar Serviço/Produto" />
-            <SidebarItem to="add-service" icon={<UserCircle size={20} />} text="Nota Rápida" />
+            <SidebarItem to="/add-user" icon={<UserRoundPlus size={20} />} text="Adicionar Cliente" />
+            <SidebarItem to="add-service" icon={<PackagePlus size={20} />} alert text="Adicionar Serviço/Produto" />
+            <SidebarItem to="/" icon={<UsersRound size={20} />} active text="Lista de Clientes" />
+            <SidebarItem to="add-user" icon={<PackageSearch size={20} />} alert text="Lista de Serviço/Produto" />
+            <SidebarItem to="add-service" icon={<File size={20} />} text="Nota Rápida" />
             <hr className="my-3" />
-            <SidebarItem to="teste" icon={<Settings size={20} />} text="Meus Dados" />
+            <SidebarItem to="teste" icon={<Info size={20} />} text="Meus Dados" />
           </Sidebar>
           {/* conteudo da pagina */}
           <div className='flex-1 h-screen overflow-y-auto p-8'>
