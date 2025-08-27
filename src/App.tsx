@@ -13,6 +13,7 @@ import {
   File,
   Info,
 } from "lucide-react"
+import NoteFast from './pages/NoteFast';
 
 function App() {
 
@@ -26,7 +27,7 @@ function App() {
             <SidebarItem to="add-service" icon={<PackagePlus size={20} />} alert text="Adicionar Serviço/Produto" />
             <SidebarItem to="/" icon={<UsersRound size={20} />} active text="Lista de Clientes" />
             <SidebarItem to="add-user" icon={<PackageSearch size={20} />} alert text="Lista de Serviço/Produto" />
-            <SidebarItem to="add-service" icon={<File size={20} />} text="Nota Rápida" />
+            <SidebarItem to="nota" icon={<File size={20} />} text="Nota Rápida" />
             <hr className="my-3" />
             <SidebarItem to="teste" icon={<Info size={20} />} text="Meus Dados" />
           </Sidebar>
@@ -38,6 +39,7 @@ function App() {
                   <Route path='/' element={<Home />} />
                   <Route path='/add-user' element={<AddUser />} />
                   <Route path='/add-service' element={<AddService />} />
+                  <Route path='/nota' element={<NoteFast />} />
                 </Routes>
               </div>
               {/* fim do conteudo da pagina */}

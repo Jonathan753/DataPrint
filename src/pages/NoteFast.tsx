@@ -1,11 +1,11 @@
 import Input from "../components/Input"; // Importando nosso novo componente
 
 
-const AddUser = () => {
+const NoteFast = () => {
     return (
         <>
             {/* Formulário */}
-            <h1>Adicionar Cliente</h1>
+            <h1>Nota Rápida</h1>
             <form method="GET">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                     {/* Usamos as classes de grid para posicionar os campos */}
@@ -37,4 +37,4 @@ const AddUser = () => {
     )
 }
 
-export default AddUser;
+export default NoteFast;
