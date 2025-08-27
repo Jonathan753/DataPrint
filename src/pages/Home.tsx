@@ -11,7 +11,6 @@ const Home = () => {
             <Button nome='Adicionar' rota='add-user' img={client} />
             <Button nome='Adicionar Prod' rota='add-seervice' img={client} />
             <Button nome='Listar cliente' rota='add-seervice' img={client} />
-            <Button nome='Criar Nota Avulsa' rota='nota' img={lapis} />
         </div>
         </>
     )
