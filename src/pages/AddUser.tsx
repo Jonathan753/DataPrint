@@ -5,7 +5,6 @@ export default function AddUser() {
     return (
         <>
             {/* Formulário */}
-            <div className="bg-white p-8 rounded-lg shadow-md">
                 <h1>Adicionar Cliente</h1>
                 <form method="GET">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
@@ -32,7 +31,7 @@ export default function AddUser() {
                         </button>
                     </div>
                 </form>
-            </div>
+            
         </>
     )
 }
