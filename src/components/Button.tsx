@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Save } from "lucide-react";
 
 interface ButtonProps {
     nome: string;
@@ -6,18 +6,13 @@ interface ButtonProps {
     rota: string;
 }
 
-const Button = ({ nome, img, rota }: ButtonProps) => {
+const Button = () => {
+    // Fazer o botao de salvar 
     return (
         <>
-            <Link to={rota}>
-                <div className='p-0.5 flex w-full hover:bg-blue-200 rounded-2xl'>
-                    <button type="button" className="shadow-xl/30 p-2.5 m-1 w-15 h-15 cursor-pointer bg-blue-500 rounded-full border-b-slate-800" >
-                        <img src={img} className='h-7 m-auto' alt={nome} />
-                    </button>
-                    <h3 className='p-2 font-bold mt-4'>{nome}</h3>
-                </div>
-            </Link>
-
+            <button type="submit" className="px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <Save size={20} /> Salvar
+            </button>
         </>
     )
 }
