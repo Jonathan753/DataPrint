@@ -67,3 +67,21 @@ ipcMain.handle('ping', () => 'pong');
 app.whenReady().then(createWindow);
 app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit(); });
 app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });
+
+//TitleBar
+// ipcMain.on('minimize-app', () => {
+//     BrowserWindow.getFocusedWindow()?.minimize();
+// });
+
+// ipcMain.on('maximize-app', () => {
+//     const win = BrowserWindow.getFocusedWindow();
+//     if (win?.isMaximized()) {
+//         win.unmaximize();
+//     } else {
+//         win?.maximize();
+//     }
+// });
+
+// ipcMain.on('close-app', () => {
+//     BrowserWindow.getFocusedWindow()?.close();
+// });

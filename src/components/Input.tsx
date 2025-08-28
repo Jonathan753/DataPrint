@@ -1,10 +1,5 @@
-// src/components/Input.tsx
-
 import type { InputHTMLAttributes } from "react";
 
-// Usamos a interface para tipar as props do nosso componente.
-// Estendemos InputHTMLAttributes<HTMLInputElement> para que nosso
-// componente aceite todas as props de um input HTML padrão (como placeholder, type, etc.)
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     label: string;
     gridClass?: string; // Prop opcional para classes de grid do Tailwind
