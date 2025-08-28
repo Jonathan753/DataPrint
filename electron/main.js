@@ -1,5 +1,41 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
+const db = require('./db');
+
+
+// criar usuario
+ipcMain.handle("clients:add", (e, client) => {
+    const stmt = db.prepare(`
+    INSERT INTO clients (
+      id, name, razao, email, adress, number, neighborhood,
+      city, uf, complemento, phone, cell
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+
+    stmt.run(
+        client.id,
+        client.name,
+        client.razao,
+        client.email,
+        client.adress,
+        client.number,
+        client.neighborhood,
+        client.city,
+        client.uf,
+        client.complemento,
+        client.phone,
+        client.cell
+    );
+
+    return { success: true };
+});
+
+ipcMain.handle("clients:all", () => {
+    const stmt = db.prepare("SELECT * FROM clients");
+    return stmt.all();
+});
+
+
 
 const isDev = !!process.env.ELECTRON_START_URL; // setado no script de dev
 
