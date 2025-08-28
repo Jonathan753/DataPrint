@@ -48,6 +48,8 @@ function createWindow() {
             nodeIntegration: false,
             preload: path.join(__dirname, 'preload.js'),
         },
+        // titleBarStyle: 'hidden'
+        // frame: false
     });
 
     if (isDev) {

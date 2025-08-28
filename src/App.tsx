@@ -34,6 +34,14 @@ function App() {
             <SidebarItem to="my-info" icon={<Info size={20} />} text="Meus Dados" />
           </Sidebar>
           {/* conteudo da pagina */}
+          <div className='title-bar'>
+            <div className='title'>Seu Aplicativo Maneiro</div>
+            <div className='window-controls'>
+              <button id="minimize-btn">_</button>
+              <button id="max-unmax-btn">[]</button>
+              <button id="close-btn">X</button>
+            </div>
+          </div>
           <div className='flex-1 h-screen overflow-y-auto p-8'>
             <div className='max-w-4xl mx-auto'>
               <div className="bg-white p-8 rounded-lg shadow-md">
