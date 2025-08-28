@@ -1,8 +1,8 @@
 // src/components/Sidebar.tsx
 
-import { ChevronFirst, ChevronLast, MoreVertical } from "lucide-react";
+import { ChevronFirst, ChevronLast } from "lucide-react";
 import { createContext, useContext, useState } from "react";
-import { Link } from "react-router-dom";
+
 
 // Criando um contexto para compartilhar o estado da sidebar
 
