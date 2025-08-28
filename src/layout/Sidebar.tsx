@@ -46,12 +46,13 @@ export default function Sidebar({ children }: SidebarProps) {
    );
 }
 
+
 export function useMyContext() {
    const context = useContext(SidebarContext);
-  if (!context) {
-    throw new Error("useMyContext deve ser usado dentro de um <MyProvider>");
-  }
-  return context;
+   if (!context) {
+      throw new Error("useMyContext deve ser usado dentro de um <MyProvider>");
+   }
+   return context;
 }
 
 // Componente para os itens da Sidebar

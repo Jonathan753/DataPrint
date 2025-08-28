@@ -2,9 +2,6 @@ import { useContext, createContext } from "react";
 import Sidebar, { useMyContext } from "../layout/Sidebar";
 import { Link } from "react-router-dom";
 
-
-
-
 interface SidebarItemProps {
   icon: React.ReactNode;
   text: string;
@@ -63,3 +60,4 @@ export function SidebarItem({ icon, text, active, alert, to }: SidebarItemProps)
     </li>
   );
 }
+
