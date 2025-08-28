@@ -11,7 +11,9 @@ interface SidebarProps {
    children: React.ReactNode;
 }
 
-export default function Sidebar({ children }: SidebarProps) {
+
+
+const Sidebar = ({ children }: SidebarProps) => {
    const [expanded, setExpanded] = useState(true);
 
    return (
@@ -45,6 +47,7 @@ export default function Sidebar({ children }: SidebarProps) {
       </aside>
    );
 }
+export default Sidebar;
 
 
 export function useMyContext() {

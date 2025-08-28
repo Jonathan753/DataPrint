@@ -1,5 +1,4 @@
-import { useContext, createContext } from "react";
-import Sidebar, { useMyContext } from "../layout/Sidebar";
+import { useMyContext } from "../layout/Sidebar";
 import { Link } from "react-router-dom";
 
 interface SidebarItemProps {
@@ -10,7 +9,7 @@ interface SidebarItemProps {
   to: string
 }
 
-export function SidebarItem({ icon, text, active, alert, to }: SidebarItemProps) {
+const SidebarItem = ({ icon, text, active, alert, to }: SidebarItemProps) => {
   const { expanded } = useMyContext();
 
   return (
