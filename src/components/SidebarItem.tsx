@@ -9,7 +9,7 @@ interface SidebarItemProps {
   to: string
 }
 
-const SidebarItem = ({ icon, text, active, alert, to }: SidebarItemProps) => {
+export const SidebarItem = ({ icon, text, active, alert, to }: SidebarItemProps) => {
   const { expanded } = useMyContext();
 
   return (
