@@ -17,8 +17,8 @@ const Sidebar = ({ children }: SidebarProps) => {
    const [expanded, setExpanded] = useState(true);
 
    return (
-      <aside className="h-screen">
-         <nav className="h-full flex flex-col bg-white border-r shadow-sm">
+      <aside className="h-auto m-5">
+         <nav className="h-full flex flex-col bg-white border-r shadow-sm rounded-lg">
             <div className="p-4 pb-2 flex justify-between items-center">
                {/* Logo que encolhe e expande */}
                <img
