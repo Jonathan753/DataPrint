@@ -1,9 +1,60 @@
+import Button from "../components/Button";
 import Title from "../components/Title"
+import { useState,useEffect } from "react";
 
+
+type Client = {
+    id: string;
+    name: string;
+    razao: string;
+    email: string;
+    adress: string;
+    number: string;
+    neighborhood: string;
+    city: string;
+    uf: string;
+    complemento: string;
+    phone: string;
+    cell: string
+}
 const ClientList = () => {
+
+    const [clients, setClients] = useState<Client[]>([]);
+
+    useEffect(() => {
+            (async () => {
+                const data = await (window as any).clients.all();
+                setClients(data);
+            })();
+        }, []);
+
     return (
         <>
-            <Title title="Lista de Clientes"/>
+            <Title title="Lista de Clientes" />
+            <table className="border-separate border-spacing-2 border border-gray-400 dark:border-gray-500">
+                <thead>
+
+                    <tr className="">
+                        <th>Cliente</th>
+                        <th>CNPJ/CPF</th>
+                        <th>Cidade</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {clients.map((c)=> (
+                        <tr>
+                            <td>{c.name}</td>
+                            <td>{c.id}</td>
+                            <td>{c.city}</td>
+                            <td><Button/></td>
+                            <td><Button/></td>
+                        </tr>
+                    ))}
+
+                </tbody>
+            </table>
         </>
     )
 }
