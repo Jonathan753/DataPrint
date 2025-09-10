@@ -1,4 +1,7 @@
 import Button from "../components/Button";
+import ButtonDelete from "../components/ButtonDelete";
+import ButtonNota from "../components/ButtonNota";
+import ButtonUpdate from "../components/ButtonUpdate";
 import Title from "../components/Title"
 import { useState,useEffect } from "react";
 
@@ -40,6 +43,7 @@ const ClientList = () => {
                         <th>Cidade</th>
                         <th></th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,8 +52,9 @@ const ClientList = () => {
                             <td>{c.name}</td>
                             <td>{c.id}</td>
                             <td>{c.city}</td>
-                            <td><Button/></td>
-                            <td><Button/></td>
+                            <td><ButtonNota/></td>
+                            <td><ButtonDelete/></td>
+                            <td><ButtonUpdate/></td>
                         </tr>
                     ))}
 
