@@ -6,7 +6,7 @@ interface ButtonProps {
     rota: string;
 }
 
-const Button = () => {
+const ButtonSave = () => {
     // Fazer o botao de salvar 
     return (
         <>
@@ -17,4 +17,4 @@ const Button = () => {
     )
 }
 
-export default Button
+export default ButtonSave

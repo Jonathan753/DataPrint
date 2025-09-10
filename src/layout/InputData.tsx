@@ -1,4 +1,4 @@
-import Button from "../components/Button";
+import Button from "../components/ButtonSave";
 import Input from "../components/Input"; // Importando nosso novo componente
 import Title from "../components/Title";
 

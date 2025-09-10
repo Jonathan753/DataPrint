@@ -1,10 +1,8 @@
-import Button from "../components/Button";
 import ButtonDelete from "../components/ButtonDelete";
 import ButtonNota from "../components/ButtonNota";
 import ButtonUpdate from "../components/ButtonUpdate";
 import Title from "../components/Title"
 import { useState,useEffect } from "react";
-
 
 type Client = {
     id: string;

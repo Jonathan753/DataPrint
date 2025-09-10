@@ -1,4 +1,7 @@
-import logo from "../assets/add_user.svg"
+import logo from "../assets/logo.png"
+
+
+
 const TemplateNota = () => {
     return (
         <>

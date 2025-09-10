@@ -16,6 +16,7 @@ import NoteFast from './pages/NoteFast';
 import ClientList from './pages/ClientList';
 import ServiceList from './pages/ServiceList';
 import MyInfo from './pages/MyInfo';
+import TemplateNota from './service/TemplateNota';
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
             <SidebarItem to="nota" icon={<File size={20} />} text="Nota Rápida" />
             <hr className="my-3" />
             <SidebarItem to="my-info" icon={<Info size={20} />} text="Meus Dados" />
+            <SidebarItem to="template" icon={<Info size={20} />} text="Teste" />
           </Sidebar>
           {/* conteudo da pagina */}
           {/* <div className='title-bar'>
@@ -54,6 +56,7 @@ function App() {
                   <Route path='/nota' element={<NoteFast />} />
                   <Route path='/service-list' element={<ServiceList />} />
                   <Route path='/my-info' element={<MyInfo />} />
+                  <Route path='/template' element={<TemplateNota />} />
                 </Routes>
               </div>
               {/* fim do conteudo da pagina */}
