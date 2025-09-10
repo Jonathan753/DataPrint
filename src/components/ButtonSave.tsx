@@ -1,11 +1,5 @@
 import { Save } from "lucide-react";
 
-interface ButtonProps {
-    nome: string;
-    img: string;
-    rota: string;
-}
-
 const ButtonSave = () => {
     // Fazer o botao de salvar 
     return (

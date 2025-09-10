@@ -35,6 +35,63 @@ ipcMain.handle("clients:all", () => {
     return stmt.all();
 });
 
+// criar myInfo
+ipcMain.handle("myInfo:add", (e, myInfo) => {
+    const stmt = db.prepare(`
+    INSERT INTO myInfo (
+      id, name, razao, email, adress, number, neighborhood,
+      city, uf, complemento, phone, cell
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+
+    stmt.run(
+        myInfo.id,
+        myInfo.name,
+        myInfo.razao,
+        myInfo.email,
+        myInfo.adress,
+        myInfo.number,
+        myInfo.neighborhood,
+        myInfo.city,
+        myInfo.uf,
+        myInfo.complemento,
+        myInfo.phone,
+        myInfo.cell
+    );
+
+    return { success: true };
+});
+
+ipcMain.handle("myInfo:all", () => {
+    const stmt = db.prepare("SELECT * FROM myInfo");
+    return stmt.all();
+});
+
+
+// criar Servico
+ipcMain.handle("services:add", (e, service) => {
+    const stmt = db.prepare(`
+    INSERT INTO myInfo (
+      id, servico, value
+    ) VALUES (?, ?, ?)
+  `);
+
+    stmt.run(
+        service.id,
+        service.servico,
+        service.value,
+    );
+
+    return { success: true };
+});
+
+ipcMain.handle("services:all", () => {
+    const stmt = db.prepare("SELECT * FROM service");
+    return stmt.all();
+});
+
+
+
 
 
 const isDev = !!process.env.ELECTRON_START_URL; // setado no script de dev

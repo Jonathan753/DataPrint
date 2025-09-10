@@ -1,11 +1,5 @@
 import { Trash } from "lucide-react";
 
-interface ButtonProps {
-    nome: string;
-    img: string;
-    rota: string;
-}
-
 const ButtonDelete = () => {
     // Fazer o botao de salvar 
     return (

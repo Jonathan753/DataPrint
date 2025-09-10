@@ -1,11 +1,5 @@
 import { UserPen } from "lucide-react";
 
-interface ButtonProps {
-    nome: string;
-    img: string;
-    rota: string;
-}
-
 const ButtonUpdate = () => {
     // Fazer o botao de salvar 
     return (
