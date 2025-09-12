@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import Input from "../components/Input"; // Importando nosso novo componente
+import Input from "../components/Input";
 import Title from "../components/Title";
+import ButtonSave from "../components/ButtonSave";
 
 type Client = {
     id: string;
@@ -20,7 +21,7 @@ type Client = {
 
 const AddUser = () => {
     //tentiva de banco
-    const [clients, setClients] = useState<Client[]>([]);
+    // const [clients, setClients] = useState<Client[]>([]);
     const [form, setForm] = useState<Client>({
         id: "",
         name: "",
@@ -36,12 +37,12 @@ const AddUser = () => {
         cell: "",
     });
 
-    useEffect(() => {
-        (async () => {
-            const data = await (window as any).clients.all();
-            setClients(data);
-        })();
-    }, []);
+    // useEffect(() => {
+    //     (async () => {
+    //         const data = await (window as any).clients.all();
+    //         setClients(data);
+    //     })();
+    // }, []);
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = e.target;
@@ -51,8 +52,8 @@ const AddUser = () => {
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         await (window as any).clients.add(form);
-        const data = await (window as any).clients.all();
-        setClients(data);
+        // const data = await (window as any).clients.all();
+        // setClients(data);
         setForm({ ...form, id: crypto.randomUUID(), name: "", razao: "", email: "", adress: "", number: "", neighborhood: "", city: "", uf: "", complemento: "", phone: "", cell: "" });
     }
 
@@ -84,20 +85,18 @@ const AddUser = () => {
                     <button type="button" className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-400">
                         Cancelar
                     </button>
-                    <button type="submit" className="px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        Salvar
-                    </button>
+                    <ButtonSave/>
                 </div>
             </form>
 
-            <h2 className="text-lg font-semibold mt-6">Clientes cadastrados</h2>
+            {/* <h2 className="text-lg font-semibold mt-6">Clientes cadastrados</h2>
             <ul className="mt-2 space-y-1">
                 {clients.map((c) => (
                     <li key={c.id} className="border p-2 rounded">
                         <b>{c.name}</b> - {c.email} ({c.city}/{c.uf})
                     </li>
                 ))}
-            </ul>
+            </ul> */}
         </>
     )
 }
