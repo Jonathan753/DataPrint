@@ -7,13 +7,14 @@ const db = require('./db');
 ipcMain.handle("clients:add", (e, client) => {
     const stmt = db.prepare(`
     INSERT INTO clients (
-      id, name, razao, email, adress, number, neighborhood,
+      id, cnpj_cpf, name, razao, email, adress, number, neighborhood,
       city, uf, complemento, phone, cell
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
 
     stmt.run(
         client.id,
+        client.cnpj_cpf,
         client.name,
         client.razao,
         client.email,
@@ -35,40 +36,50 @@ ipcMain.handle("clients:all", () => {
     return stmt.all();
 });
 
-// criar myInfo
-ipcMain.handle("myInfo:add", (e, myInfo) => {
-    const stmt = db.prepare(`
-    INSERT INTO myInfo (
-      id, name, razao, email, adress, number, neighborhood,
-      city, uf, complemento, phone, cell
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `);
+////////////////////// criar myInfo //////////////////////////
+ipcMain.handle("myInfo:get", () => {
+    const stmt = db.prepare("SELECT * FROM myInfo WHERE id = 1");
+    return stmt.get();
+});
 
-    stmt.run(
-        myInfo.id,
-        myInfo.name,
-        myInfo.razao,
-        myInfo.email,
-        myInfo.adress,
-        myInfo.number,
-        myInfo.neighborhood,
-        myInfo.city,
-        myInfo.uf,
-        myInfo.complemento,
-        myInfo.phone,
-        myInfo.cell
-    );
+ipcMain.handle("myInfo:save", (e, data) => {
+    const exists = db.prepare("SELECT 1 FROM myInfo WHERE id = 1").get();
+
+    if (exists) {
+        const stmt = db.prepare(`
+      UPDATE myInfo SET
+        cnpj = ?, name = ?, razao = ?, email = ?, adress = ?,
+        number=?, neighborhood = ?, city = ?, uf = ?, complemento = ?, 
+        phone = ?, cell =?
+      WHERE id = 1
+    `);
+        stmt.run(
+            data.cnpj, data.name, data.razao, data.email, data.adress,
+            data.number, data.neighborhood, data.city, data.uf, data.complemento,
+            data.phone, data.cell
+        );
+    } else {
+        const stmt = db.prepare(`
+      INSERT INTO empresa (
+        id, cnpj , name , razao , email , adress,
+        number, neighborhood, city, uf, complemento, 
+        phone, cell
+      ) VALUES (
+        1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+      )
+    `);
+        stmt.run(
+            data.cnpj, data.name, data.razao, data.email, data.adress,
+            data.number, data.neighborhood, data.city, data.uf, data.complemento,
+            data.phone, data.cell
+        );
+    }
 
     return { success: true };
 });
 
-ipcMain.handle("myInfo:all", () => {
-    const stmt = db.prepare("SELECT * FROM myInfo");
-    return stmt.all();
-});
 
-
-// criar Servico
+////////////////////////////////////////////////// criar Servico
 ipcMain.handle("services:add", (e, service) => {
     const stmt = db.prepare(`
     INSERT INTO myInfo (

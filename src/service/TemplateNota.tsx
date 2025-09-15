@@ -57,6 +57,8 @@ const TemplateNota = () => {
                 </div>
                 <p>Obs.:</p>
                 <table>
+                    <thead>
+
                     <tr>
                         <th>Código</th>
                         <th>Descrição</th>
@@ -65,6 +67,16 @@ const TemplateNota = () => {
                         <th>Preço</th>
                         <th>Total</th>
                     </tr>
+                    </thead>
+                    <tbody>
+                        <td>Código</td>
+                        <td>Descrição</td>
+                        <td>Un</td>
+                        <td>Qtd</td>
+                        <td>Preço</td>
+                        <td>Total</td>
+                    </tbody>
+
                 </table>
                 <hr className="border-black" />
                 <h1 className="text-4xl">Analisar aqui</h1>
