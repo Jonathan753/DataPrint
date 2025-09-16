@@ -4,7 +4,7 @@ import Title from "../components/Title";
 import ButtonSave from "../components/ButtonSave";
 
 type Client = {
-    id: string;
+    cnpj_cpf: string;
     name: string;
     razao: string;
     email: string;
@@ -23,7 +23,7 @@ const AddUser = () => {
     //tentiva de banco
     // const [clients, setClients] = useState<Client[]>([]);
     const [form, setForm] = useState<Client>({
-        id: "",
+        cnpj_cpf: "",
         name: "",
         razao: "",
         email: "",
@@ -54,7 +54,8 @@ const AddUser = () => {
         await (window as any).clients.add(form);
         // const data = await (window as any).clients.all();
         // setClients(data);
-        setForm({ ...form, id: crypto.randomUUID(), name: "", razao: "", email: "", adress: "", number: "", neighborhood: "", city: "", uf: "", complemento: "", phone: "", cell: "" });
+        setForm({ ...form, cnpj_cpf: crypto.randomUUID(), name: "", razao: "", email: "", adress: "", number: "", neighborhood: "", city: "", uf: "", complemento: "", phone: "", cell: "" });
+        alert("client cadastrado com sucesso");
     }
 
     //Fim 
@@ -74,7 +75,7 @@ const AddUser = () => {
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.neighborhood} label="Bairro" id="bairro" name="neighborhood" type="text" placeholder="Centro" />
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.city} label="Cidade" id="cidade" name="city" type="text" placeholder="São Paulo" />
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.uf} label="UF" id="uf" name="uf" type="text" placeholder="PE" />
-                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.id} label="CPF/CNPJ" id="cpf_cnpj" name="id" type="text" placeholder="00.000.000/0001-00" />
+                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cnpj_cpf} label="CPF/CNPJ" id="cnpj_cpf" name="cnpj_cpf" type="text" placeholder="00.000.000/0001-00" />
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.complemento} label="Complemento" id="complemento" name="complemento" type="text" placeholder="Apto 42" />
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.phone} label="Telefone" id="telefone" name="phone" type="tel" placeholder="(11) 2345-6789" />
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cell} label="Celular" id="celular" name="cell" type="tel" placeholder="(11) 98765-4321" />

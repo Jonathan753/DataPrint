@@ -9,6 +9,15 @@ contextBridge.exposeInMainWorld("clients", {
     all: () => ipcRenderer.invoke("clients:all"),
 });
 
+contextBridge.exposeInMainWorld("myInfo", {
+    get: () => ipcRenderer.invoke("myInfo:get"),
+    save: (data) => ipcRenderer.invoke("myInfo:save", data),
+});
+
+contextBridge.exposeInMainWorld("services", {
+    add: (service) => ipcRenderer.invoke("services:add", service),
+    all: () => ipcRenderer.invoke("services:all"),
+});
 //Titlebar
 
 // contextBridge.exposeInMainWorld('electron', {

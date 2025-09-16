@@ -1,27 +1,41 @@
+import { useEffect, useState } from "react";
 import logo from "../assets/logo.png"
 
 
 
 const TemplateNota = () => {
+
+    const [empresa, setEmpresa] = useState<any>(null);
+
+    useEffect(() => {
+        (async () => {
+            const data = await (window as any).myInfo.get();
+            setEmpresa(data);
+        })();
+    }, []);
+    
+    if (!empresa) return <p>Necessita dos dados da empresa</p>;
+
+
     return (
         <>
-            <div className="bg-white">
+            <div className="bg-white w-auto">
 
                 <div className="flex">
                     <img className="w-48" src={logo} alt="" />
                     <div>
-                        <p>Endereço: { }</p>
+                        <p>Endereço: {empresa.adress}</p>
                         <div className="flex">
-                            <p>Cidade:</p>
-                            <p>UF:</p>
-                            <p>CEP:</p>
+                            <p>Cidade:{empresa.city}</p>
+                            <p>UF:{empresa.uf}</p>
+                            <p>CEP: {empresa.neighborhood}</p>
                         </div>
                         <div>
-                            <p>Telefone:</p>
-                            <p>Cel:</p>
+                            <p>Telefone:{empresa.phone}</p>
+                            <p>Cel:{empresa.cell}</p>
                         </div>
-                        <p>Email:</p>
-                        <p>CNPJ:</p>
+                        <p>Email:{empresa.email}</p>
+                        <p>CNPJ:{empresa.cnpj}</p>
                     </div>
                 </div>
                 <hr className="border-black" />
@@ -59,14 +73,14 @@ const TemplateNota = () => {
                 <table>
                     <thead>
 
-                    <tr>
-                        <th>Código</th>
-                        <th>Descrição</th>
-                        <th>Un</th>
-                        <th>Qtd</th>
-                        <th>Preço</th>
-                        <th>Total</th>
-                    </tr>
+                        <tr>
+                            <th>Código</th>
+                            <th>Descrição</th>
+                            <th>Un</th>
+                            <th>Qtd</th>
+                            <th>Preço</th>
+                            <th>Total</th>
+                        </tr>
                     </thead>
                     <tbody>
                         <td>Código</td>

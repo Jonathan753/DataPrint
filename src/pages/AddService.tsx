@@ -1,28 +1,60 @@
+import { useState } from "react";
 import Input from "../components/Input";
 import Title from "../components/Title";
+import ButtonSave from "../components/ButtonSave";
+
+type Service = {
+    servico: string;
+    value: string;
+}
 
 const AddService = () => {
+
+    const [form, setForm] = useState<Service>({
+        servico: "",
+        value: "",
+    });
+
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const { name, value } = e.target;
+        setForm((prev) => ({ ...prev, [name]: value }));
+    }
+
+    async function handleSubmit(e: React.FormEvent) {
+        e.preventDefault();
+        await (window as any).services.add(form);
+        console.log("ÖI")
+        setForm({ servico: "", value: "" });
+        alert("Serviço cadastrado com sucesso");
+    }
+
+
     return (
         <>
 
 
             <Title title="Adicionar Serviço/Produto" />
-            <form >
+            <form onSubmit={handleSubmit} >
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6">
                     <Input
+                        onChange={handleChange}
+                        value={form.servico}
                         gridClass="md:col-span-2"
                         label="Serviço/Produto"
-                        id="servico_produto"
-                        name="servico_produto"
+                        id="servico"
+                        name="servico"
                         type="text"
                         placeholder="Ex: Formatação de Notebook"
                     />
+
                     <Input
+                        onChange={handleChange}
+                        value={form.value}
                         gridClass="md:col-span-1"
                         label="Valor (R$)"
-                        id="valor"
-                        name="valor"
-                        type="number"
+                        id="value"
+                        name="value"
+                        type="text"
                         placeholder="150,00"
                         step="0.01" // Permite casas decimais para os centavos
                     />
@@ -36,12 +68,7 @@ const AddService = () => {
                     >
                         Cancelar
                     </button>
-                    <button
-                        type="submit"
-                        className="px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                        Salvar
-                    </button>
+                    <ButtonSave />
                 </div>
             </form>
 

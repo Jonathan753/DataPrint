@@ -7,13 +7,12 @@ const db = require('./db');
 ipcMain.handle("clients:add", (e, client) => {
     const stmt = db.prepare(`
     INSERT INTO clients (
-      id, cnpj_cpf, name, razao, email, adress, number, neighborhood,
+      cnpj_cpf, name, razao, email, adress, number, neighborhood,
       city, uf, complemento, phone, cell
-    ) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
 
     stmt.run(
-        client.id,
         client.cnpj_cpf,
         client.name,
         client.razao,
@@ -48,29 +47,27 @@ ipcMain.handle("myInfo:save", (e, data) => {
     if (exists) {
         const stmt = db.prepare(`
       UPDATE myInfo SET
-        cnpj = ?, name = ?, razao = ?, email = ?, adress = ?,
-        number=?, neighborhood = ?, city = ?, uf = ?, complemento = ?, 
-        phone = ?, cell =?
+        cnpj = ?, name = ?, email = ?, adress = ?,
+        number=?, cep = ?, city = ?, uf = ?, phone = ?, cell =?
       WHERE id = 1
     `);
         stmt.run(
-            data.cnpj, data.name, data.razao, data.email, data.adress,
-            data.number, data.neighborhood, data.city, data.uf, data.complemento,
+            data.cnpj, data.name, data.email, data.adress,
+            data.number, data.cep, data.city, data.uf, 
             data.phone, data.cell
         );
     } else {
         const stmt = db.prepare(`
-      INSERT INTO empresa (
-        id, cnpj , name , razao , email , adress,
-        number, neighborhood, city, uf, complemento, 
-        phone, cell
+      INSERT INTO myInfo (
+        id, cnpj , name , email , adress,
+        number, cep, city, uf, phone, cell
       ) VALUES (
-        1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+        1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
       )
     `);
         stmt.run(
-            data.cnpj, data.name, data.razao, data.email, data.adress,
-            data.number, data.neighborhood, data.city, data.uf, data.complemento,
+            data.cnpj, data.name, data.email, data.adress,
+            data.number, data.cep, data.city, data.uf,
             data.phone, data.cell
         );
     }
@@ -82,13 +79,12 @@ ipcMain.handle("myInfo:save", (e, data) => {
 ////////////////////////////////////////////////// criar Servico
 ipcMain.handle("services:add", (e, service) => {
     const stmt = db.prepare(`
-    INSERT INTO myInfo (
-      id, servico, value
-    ) VALUES (?, ?, ?)
+    INSERT INTO service (
+      servico, value
+    ) VALUES ( ?, ?)
   `);
 
     stmt.run(
-        service.id,
         service.servico,
         service.value,
     );

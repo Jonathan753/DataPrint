@@ -33,14 +33,12 @@ db.exec(`
     id INTEGER PRIMARY KEY CHECK (id=1),
     cnpj VARCHAR(10),
     name VARCHAR(50),
-    razao VARCHAR(50),
     email VARCHAR(150),
     adress VARCHAR(100),
     number VARCHAR(10),
-    neighborhood VARCHAR(50),
+    cep VARCHAR(50),
     city VARCHAR(50),
     uf VARCHAR(2),
-    complemento VARCHAR(100),
     phone VARCHAR(20),
     cell VARCHAR(20)
   );

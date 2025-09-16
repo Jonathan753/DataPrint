@@ -5,7 +5,8 @@ import Title from "../components/Title"
 import { useState,useEffect } from "react";
 
 type Client = {
-    id: string;
+    id : number;
+    cnpj_cpf: string;
     name: string;
     razao: string;
     email: string;
@@ -36,6 +37,7 @@ const ClientList = () => {
                 <thead>
 
                     <tr className="">
+                        <th></th>
                         <th>Cliente</th>
                         <th>CNPJ/CPF</th>
                         <th>Cidade</th>
@@ -47,8 +49,9 @@ const ClientList = () => {
                 <tbody>
                     {clients.map((c)=> (
                         <tr>
-                            <td>{c.name}</td>
                             <td>{c.id}</td>
+                            <td>{c.name}</td>
+                            <td>{c.cnpj_cpf}</td>
                             <td>{c.city}</td>
                             <td><ButtonNota/></td>
                             <td><ButtonDelete/></td>
