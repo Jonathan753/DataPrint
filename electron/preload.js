@@ -7,6 +7,7 @@ contextBridge.exposeInMainWorld('electron', {
 contextBridge.exposeInMainWorld("clients", {
     add: (client) => ipcRenderer.invoke("clients:add", client),
     all: () => ipcRenderer.invoke("clients:all"),
+    getById: (id) => ipcRenderer.invoke("clients:getById", id)
 });
 
 contextBridge.exposeInMainWorld("myInfo", {

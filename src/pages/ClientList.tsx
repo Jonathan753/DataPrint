@@ -1,11 +1,13 @@
+import { useNavigate } from "react-router-dom";
 import ButtonDelete from "../components/ButtonDelete";
 import ButtonNota from "../components/ButtonNota";
 import ButtonUpdate from "../components/ButtonUpdate";
 import Title from "../components/Title"
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
+
 
 type Client = {
-    id : number;
+    id: number;
     cnpj_cpf: string;
     name: string;
     razao: string;
@@ -20,15 +22,18 @@ type Client = {
     cell: string
 }
 const ClientList = () => {
-
+    
     const [clients, setClients] = useState<Client[]>([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
-            (async () => {
-                const data = await (window as any).clients.all();
-                setClients(data);
-            })();
-        }, []);
+        (async () => {
+            const data = await (window as any).clients.all();
+            setClients(data);
+        })();
+    }, []);
+
+
 
     return (
         <>
@@ -47,15 +52,15 @@ const ClientList = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {clients.map((c)=> (
+                    {clients.map((c) => (
                         <tr>
                             <td>{c.id}</td>
                             <td>{c.name}</td>
                             <td>{c.cnpj_cpf}</td>
                             <td>{c.city}</td>
-                            <td><ButtonNota/></td>
-                            <td><ButtonDelete/></td>
-                            <td><ButtonUpdate/></td>
+                            <td><ButtonNota onClick={() => navigate(`/modelo/${c.id}`)} /></td>
+                            <td><ButtonDelete /></td>
+                            <td><ButtonUpdate /></td>
                         </tr>
                     ))}
 

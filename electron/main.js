@@ -35,6 +35,11 @@ ipcMain.handle("clients:all", () => {
     return stmt.all();
 });
 
+ipcMain.handle("clients:getById", (e, id) => {
+    const stmt = db.prepare("SELECT * FROM clients WHERE id = ?");
+    return stmt.get(id);
+});
+
 ////////////////////// criar myInfo //////////////////////////
 ipcMain.handle("myInfo:get", () => {
     const stmt = db.prepare("SELECT * FROM myInfo WHERE id = 1");
