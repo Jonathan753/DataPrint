@@ -52,8 +52,8 @@ const ClientList = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {clients.map((c) => (
-                        <tr>
+                    {clients.map((c, idx) => (
+                        <tr key={idx}>
                             <td>{c.id}</td>
                             <td>{c.name}</td>
                             <td>{c.cnpj_cpf}</td>

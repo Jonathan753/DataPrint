@@ -36,8 +36,8 @@ const ServiceList = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {clients.map((c) => (
-                        <tr>
+                    {clients.map((c, idx) => (
+                        <tr key={idx}>
                             <td>{c.id}</td>
                             <td>{c.servico}</td>
                             <td>{c.value}</td>

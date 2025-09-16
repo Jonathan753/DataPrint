@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import logo from "../assets/logo.png"
 import SearchService from "../components/SearchService";
+import Input from "../components/Input";
 
 type Client = {
     id: number;
@@ -19,8 +20,15 @@ type Client = {
     cell: string
 };
 
+type SelectService = {
+    id: number,
+    qtd: number,
+    servico: string;
+    value: string;
+}
 type Service = {
     id: number,
+    qtd: number,
     servico: string;
     value: string;
 }
@@ -36,7 +44,9 @@ const Modelo = () => {
     //UseSate para cada cado
     const { id } = useParams();
     const [cliente, setCliente] = useState<Client | null>(null);
-    const [produtos, setProdutos] = useState<Service[]>([]);
+    const [obs, setObs] = useState('');
+    // const [produtos, setProdutos] = useState<Service[]>([]);
+    const [produtos, setProdutos] = useState<SelectService[]>([]);
     const [nota, setNota] = useState<Nota | null>(null);
     const [empresa, setEmpresa] = useState<any>(null);
 
@@ -64,6 +74,8 @@ const Modelo = () => {
 
 
 
+
+
     useEffect(() => {
         (async () => {
             const c = await (window as any).clients.getById(id);
@@ -77,8 +89,12 @@ const Modelo = () => {
     if (!empresa) return <p>Necessita dos dados da empresa</p>;
     /////////////
     function addProduto(servico: Service) {
-        
-            setProdutos((prev) => [...prev, servico]);
+
+        setProdutos((prev) => [...prev, servico]);
+    }
+
+    const handleChange = (e:any) => {
+        setObs(e.target.value)
     }
 
 
@@ -99,6 +115,8 @@ const Modelo = () => {
                             </li>
                         ))}
                     </ul>
+
+                    <Input gridClass="md:col-span-1" onChange={handleChange} value={obs} label="OBS" id="obs" name="obs" type="text" placeholder="Uma Observação" />
 
                 </div>
 
@@ -121,9 +139,10 @@ const Modelo = () => {
                 </div>
                 <hr className="border-black" />
                 <div className="flex">
-                    <p>Cidade:{cliente?.city}</p>
-                    <p>UF:{cliente?.uf}</p>
-                    <p>CEP:{cliente?.neighborhood}</p>
+                    <p>Vendedor:{cliente?.city}</p>
+                    <p>Pedido:{cliente?.uf}</p>
+                    <p>Emissão:{cliente?.neighborhood}</p>
+                    <p>Hora:{cliente?.neighborhood}</p>
                 </div>
                 <hr className="border-black" />
                 <div className="flex">
@@ -150,13 +169,12 @@ const Modelo = () => {
                     <p>UF:{cliente?.uf}</p>
                     <p>CEP:{cliente?.uf}</p>
                 </div>
-                <p>Obs.:</p>
+                <p>Obs.:{obs}</p>
                 <table>
                     <thead>
                         <tr>
                             <th>Código</th>
                             <th>Descrição</th>
-                            <th>Un</th>
                             <th>Qtd</th>
                             <th>Preço</th>
                             <th>Total</th>
@@ -167,10 +185,9 @@ const Modelo = () => {
                             <tr key={idx}>
                                 <td >{p.id}</td>
                                 <td>{p.servico}</td>
-                                <td> 2 </td>
-                                <td> 2 </td>
+                                <td> {p.qtd} </td>
                                 <td>{p.value}</td>
-                                <td>Total</td>
+                                <td>{parseFloat(p.value) * p.qtd}</td>
                             </tr>
                         ))}
                     </tbody>
@@ -179,7 +196,7 @@ const Modelo = () => {
                 <hr className="border-black" />
                 <br />
                 <br />
-                <h1 className="text-4xl">Analisar aqui</h1>
+                <h1 className="text-4xl">Total</h1>
             </div>
         </>
     )
