@@ -18,15 +18,15 @@ type Client = {
     cell: string
 };
 
-type Produto = {
-    id: number;
-    nome: string;
-    preco: number;
-};
+type Service = {
+    id:  number,
+    servico: string;
+    value: string;
+}
 
 type Nota = {
     cliente: Client;
-    produtos: Produto[];
+    servicos: Service[];
 };
 
 const Modelo = () => {
@@ -35,14 +35,14 @@ const Modelo = () => {
     //UseSate para cada cado
     const { id } = useParams();
     const [cliente, setCliente] = useState<Client | null>(null);
-    const [produtos, setProdutos] = useState<Produto[]>([]);
+    const [produtos, setProdutos] = useState<Service[]>([]);
     const [nota, setNota] = useState<Nota | null>(null);
     const [empresa, setEmpresa] = useState<any>(null);
 
     // useEffect(() => {
     //     (async () => {
-            
-            
+
+
     //     })();
     // }, []);
 
@@ -64,23 +64,37 @@ const Modelo = () => {
         (async () => {
             const c = await (window as any).clients.getById(id);
             const e = await (window as any).myInfo.get();
+            const p = await (window as any).services.all();
+            setProdutos(p);
             setCliente(c);
             setEmpresa(e);
         })();
     }, [id]);
-    /////////////
-    function addProduto(produto: Produto) {
-    setNota((prev) =>
-      prev ? { ...prev, produtos: [...prev.produtos, produto] } : prev
-    );
-  }
-
     if (!empresa) return <p>Necessita dos dados da empresa</p>;
+    /////////////
+    function addProduto(servico: Service) {
+        setNota((prev) =>
+            prev ? { ...prev, servicos: [...prev.servicos, servico] } : prev
+        );
+    }
+
 
 
     return (
         <>
             <div className="bg-white w-auto">
+
+                <div>
+                    <h3>Produtos disponíveis</h3>
+                    <ul>
+                        {produtos.map((p) => (
+                            <li key={p.id}>
+                                {p.servico} - R$ {p.value}{" "}
+                                <button onClick={() => addProduto(p)}>Adicionar</button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
 
                 <div className="flex">
                     <img className="w-48" src={logo} alt="" />
@@ -143,18 +157,21 @@ const Modelo = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Código</td>
-                            <td>Descrição</td>
-                            <td>Un</td>
-                            <td>Qtd</td>
-                            <td>Preço</td>
+                         {nota?.servicos.map((p, idx) => (
+                        <tr key={idx}>
+                            <td >{p.id}</td>
+                            <td>{p.servico}</td>
+                            <td> 2 </td>
+                            <td>{p.value}</td>
                             <td>Total</td>
                         </tr>
+                    ))}
                     </tbody>
 
                 </table>
                 <hr className="border-black" />
+                <br />
+                <br />
                 <h1 className="text-4xl">Analisar aqui</h1>
             </div>
         </>
