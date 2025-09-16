@@ -102,6 +102,13 @@ ipcMain.handle("services:all", () => {
     return stmt.all();
 });
 
+ipcMain.handle("services:search", (e, term) => {
+  const stmt = db.prepare(`
+    SELECT * FROM service WHERE servico LIKE ?
+  `);
+  return stmt.all(`%${term}%`);
+});
+
 
 
 

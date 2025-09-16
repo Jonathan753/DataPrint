@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import logo from "../assets/logo.png"
+import SearchService from "../components/SearchService";
 
 type Client = {
     id: number;
@@ -19,7 +20,7 @@ type Client = {
 };
 
 type Service = {
-    id:  number,
+    id: number,
     servico: string;
     value: string;
 }
@@ -60,12 +61,15 @@ const Modelo = () => {
     //     }
     //     fetchData();
     // }, [id]);
+
+
+
     useEffect(() => {
         (async () => {
             const c = await (window as any).clients.getById(id);
             const e = await (window as any).myInfo.get();
-            const p = await (window as any).services.all();
-            setProdutos(p);
+            // const p = await (window as any).services.all();
+            // setProdutos(p);
             setCliente(c);
             setEmpresa(e);
         })();
@@ -73,9 +77,8 @@ const Modelo = () => {
     if (!empresa) return <p>Necessita dos dados da empresa</p>;
     /////////////
     function addProduto(servico: Service) {
-        setNota((prev) =>
-            prev ? { ...prev, servicos: [...prev.servicos, servico] } : prev
-        );
+        
+            setProdutos((prev) => [...prev, servico]);
     }
 
 
@@ -85,15 +88,18 @@ const Modelo = () => {
             <div className="bg-white w-auto">
 
                 <div>
-                    <h3>Produtos disponíveis</h3>
+                    <SearchService onAdd={addProduto} />
+
+
+                    <h3>Produtos na Nota</h3>
                     <ul>
-                        {produtos.map((p) => (
-                            <li key={p.id}>
-                                {p.servico} - R$ {p.value}{" "}
-                                <button onClick={() => addProduto(p)}>Adicionar</button>
+                        {produtos.map((p, idx) => (
+                            <li key={idx}>
+                                {p.servico} - R$ {p.value}
                             </li>
                         ))}
                     </ul>
+
                 </div>
 
                 <div className="flex">
@@ -157,15 +163,16 @@ const Modelo = () => {
                         </tr>
                     </thead>
                     <tbody>
-                         {nota?.servicos.map((p, idx) => (
-                        <tr key={idx}>
-                            <td >{p.id}</td>
-                            <td>{p.servico}</td>
-                            <td> 2 </td>
-                            <td>{p.value}</td>
-                            <td>Total</td>
-                        </tr>
-                    ))}
+                        {produtos.map((p, idx) => (
+                            <tr key={idx}>
+                                <td >{p.id}</td>
+                                <td>{p.servico}</td>
+                                <td> 2 </td>
+                                <td> 2 </td>
+                                <td>{p.value}</td>
+                                <td>Total</td>
+                            </tr>
+                        ))}
                     </tbody>
 
                 </table>

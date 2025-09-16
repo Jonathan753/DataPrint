@@ -18,6 +18,7 @@ contextBridge.exposeInMainWorld("myInfo", {
 contextBridge.exposeInMainWorld("services", {
     add: (service) => ipcRenderer.invoke("services:add", service),
     all: () => ipcRenderer.invoke("services:all"),
+    search: (term) => ipcRenderer.invoke("services:search", term),
 });
 //Titlebar
 
