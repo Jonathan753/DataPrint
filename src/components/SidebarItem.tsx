@@ -6,15 +6,16 @@ interface SidebarItemProps {
   text: string;
   active?: boolean;
   alert?: boolean;
-  to: string
+  to: string;
+  onClick?: () => void;
 }
 
-export const SidebarItem = ({ icon, text, active, alert, to }: SidebarItemProps) => {
+export const SidebarItem = ({ icon, text, active, alert, to, onClick }: SidebarItemProps) => {
   const { expanded } = useMyContext();
 
   return (
 
-    <li>
+    <li  onClick={onClick}>
       <Link to={to}
         className={`
                relative flex items-center py-2 px-3 my-1

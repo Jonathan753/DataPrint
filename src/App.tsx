@@ -17,8 +17,12 @@ import ClientList from './pages/ClientList';
 import ServiceList from './pages/ServiceList';
 import MyInfo from './pages/MyInfo';
 import TemplateNota from './service/TemplateNota';
+import { useState } from 'react';
+
+type Page = "add-user" | "add-service" | "client-list" | "service-list" | "nota" | "my-info";
 
 function App() {
+  const [activePage, setActivePage] = useState<Page>("add-user")
 
   return (
     <>
@@ -26,13 +30,13 @@ function App() {
       <BrowserRouter>
         <main className="flex">
           <Sidebar>
-            <SidebarItem to="add-user" icon={<UserRoundPlus size={20} />} text="Adicionar Cliente" />
-            <SidebarItem to="add-service" icon={<PackagePlus size={20} />} alert text="Adicionar Serviço/Produto" />
-            <SidebarItem to="client-list" icon={<UsersRound size={20} />} active text="Lista de Clientes" />
-            <SidebarItem to="service-list" icon={<PackageSearch size={20} />} alert text="Lista de Serviço/Produto" />
-            <SidebarItem to="nota" icon={<File size={20} />} text="Nota Rápida" />
+            <SidebarItem onClick={() => setActivePage("add-user")} active={activePage === "add-user"} to="add-user" icon={<UserRoundPlus size={20} />} text="Adicionar Cliente" />
+            <SidebarItem onClick={() => setActivePage("add-service")} active={activePage === "add-service"} to="add-service" icon={<PackagePlus size={20} />} text="Adicionar Serviço/Produto" />
+            <SidebarItem onClick={() => setActivePage("client-list")} active={activePage === "client-list"} to="client-list" icon={<UsersRound size={20} />} text="Lista de Clientes" />
+            <SidebarItem onClick={() => setActivePage("service-list")} active={activePage === "service-list"} to="service-list" icon={<PackageSearch size={20} />} text="Lista de Serviço/Produto" />
+            <SidebarItem onClick={() => setActivePage("nota")} active={activePage === "nota"} to="nota" icon={<File size={20} />} text="Nota Rápida" />
             <hr className="my-3" />
-            <SidebarItem to="my-info" icon={<Info size={20} />} text="Meus Dados" />
+            <SidebarItem to="my-info" onClick={() => setActivePage("my-info")} active={activePage === "my-info"} icon={<Info size={20} />} text="Meus Dados" />
             <SidebarItem to="template" icon={<Info size={20} />} text="Teste" />
           </Sidebar>
           {/* conteudo da pagina */}

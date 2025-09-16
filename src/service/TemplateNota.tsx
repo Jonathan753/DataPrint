@@ -13,7 +13,7 @@ const TemplateNota = () => {
             setEmpresa(data);
         })();
     }, []);
-    
+
     if (!empresa) return <p>Necessita dos dados da empresa</p>;
 
 
@@ -83,12 +83,14 @@ const TemplateNota = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <td>Código</td>
-                        <td>Descrição</td>
-                        <td>Un</td>
-                        <td>Qtd</td>
-                        <td>Preço</td>
-                        <td>Total</td>
+                        <tr>
+                            <td>Código</td>
+                            <td>Descrição</td>
+                            <td>Un</td>
+                            <td>Qtd</td>
+                            <td>Preço</td>
+                            <td>Total</td>
+                        </tr>
                     </tbody>
 
                 </table>

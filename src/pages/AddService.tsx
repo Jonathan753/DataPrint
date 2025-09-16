@@ -23,7 +23,6 @@ const AddService = () => {
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         await (window as any).services.add(form);
-        console.log("ÖI")
         setForm({ servico: "", value: "" });
         alert("Serviço cadastrado com sucesso");
     }

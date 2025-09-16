@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import ButtonDelete from "../components/ButtonDelete";
-import ButtonNota from "../components/ButtonNota";
 import ButtonUpdate from "../components/ButtonUpdate";
 import Title from "../components/Title"
 
@@ -42,7 +41,6 @@ const ServiceList = () => {
                             <td>{c.id}</td>
                             <td>{c.servico}</td>
                             <td>{c.value}</td>
-                            <td><ButtonNota /></td>
                             <td><ButtonDelete /></td>
                             <td><ButtonUpdate /></td>
                         </tr>
