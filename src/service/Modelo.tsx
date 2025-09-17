@@ -41,6 +41,10 @@ type Nota = {
 
 const Modelo = () => {
 
+    let today = new Date().toLocaleDateString('pt-BR');
+    let hours = new Date().getHours;
+    let second = new Date().getMinutes;
+
     //UseSate para cada cado
     const { id } = useParams();
     const [cliente, setCliente] = useState<Clients | null>(null);
@@ -140,10 +144,10 @@ const Modelo = () => {
                 </div>
                 <hr className="border-black" />
                 <div className="flex">
-                    <p>Vendedor:{cliente?.city}</p>
+                    <p>Vendedor:{empresa.salesperson}</p>
                     <p>Pedido:{cliente?.uf}</p>
-                    <p>Emissão:{}</p>
-                    <p>Hora:{cliente?.neighborhood}</p>
+                    <p>Emissão:{today}</p>
+                    <p>Hora:{hours}:{second}</p>
                 </div>
                 <hr className="border-black" />
                 <div className="flex">
