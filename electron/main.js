@@ -3,108 +3,126 @@ const path = require('path');
 const db = require('./db');
 
 
-// criar usuario
-ipcMain.handle("clients:add", (e, client) => {
-    const stmt = db.prepare(`
+//////////////////////////// CLIENT /////////////////////////////
+ipcMain.handle("clients:add", (e, data) => {
+  const stmt = db.prepare(`
     INSERT INTO clients (
-      cnpj_cpf, name, razao, email, adress, number, neighborhood,
-      city, uf, complemento, phone, cell
-    ) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      cnpj_cpf, name, company, email, adress, number, neighborhood,
+      city, uf, cep, complement, phone, cell
+    ) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
 
-    stmt.run(
-        client.cnpj_cpf,
-        client.name,
-        client.razao,
-        client.email,
-        client.adress,
-        client.number,
-        client.neighborhood,
-        client.city,
-        client.uf,
-        client.complemento,
-        client.phone,
-        client.cell
-    );
+  stmt.run(
+    data.cnpj_cpf,
+    data.name,
+    data.company,
+    data.email,
+    data.adress,
+    data.number,
+    data.neighborhood,
+    data.city,
+    data.uf,
+    data.cep,
+    data.complement,
+    data.phone,
+    data.cell
+  );
 
-    return { success: true };
+  return { success: true };
 });
 
 ipcMain.handle("clients:all", () => {
-    const stmt = db.prepare("SELECT * FROM clients");
-    return stmt.all();
+  const stmt = db.prepare("SELECT * FROM clients");
+  return stmt.all();
 });
 
 ipcMain.handle("clients:getById", (e, id) => {
-    const stmt = db.prepare("SELECT * FROM clients WHERE id = ?");
-    return stmt.get(id);
+  const stmt = db.prepare("SELECT * FROM clients WHERE clientId = ?");
+  return stmt.get(id);
 });
 
-////////////////////// criar myInfo //////////////////////////
+//////////////////////////// MY INFO ////////////////////////////////////
 ipcMain.handle("myInfo:get", () => {
-    const stmt = db.prepare("SELECT * FROM myInfo WHERE id = 1");
-    return stmt.get();
+  const stmt = db.prepare("SELECT * FROM myInfo WHERE myInfoId = 1");
+  return stmt.get();
 });
 
 ipcMain.handle("myInfo:save", (e, data) => {
-    const exists = db.prepare("SELECT 1 FROM myInfo WHERE id = 1").get();
+  const exists = db.prepare("SELECT 1 FROM myInfo WHERE myInfoId = 1").get();
 
-    if (exists) {
-        const stmt = db.prepare(`
+  if (exists) {
+    const stmt = db.prepare(`
       UPDATE myInfo SET
-        cnpj = ?, name = ?, email = ?, adress = ?,
+        cnpj = ?, name = ?,salesperson =?, email = ?, adress = ?,
         number=?, cep = ?, city = ?, uf = ?, phone = ?, cell =?
-      WHERE id = 1
+      WHERE myInfoId = 1
     `);
-        stmt.run(
-            data.cnpj, data.name, data.email, data.adress,
-            data.number, data.cep, data.city, data.uf, 
-            data.phone, data.cell
-        );
-    } else {
-        const stmt = db.prepare(`
+
+    stmt.run(
+      data.cnpj, 
+      data.name,
+      data.salesperson, 
+      data.email, 
+      data.adress,
+      data.number, 
+      data.cep, 
+      data.city, 
+      data.uf,
+      data.phone, 
+      data.cell
+    );
+  } else {
+    const stmt = db.prepare(`
       INSERT INTO myInfo (
-        id, cnpj , name , email , adress,
+        myInfoId, cnpj , name ,salesperson, email , adress,
         number, cep, city, uf, phone, cell
       ) VALUES (
-        1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+        1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
       )
     `);
-        stmt.run(
-            data.cnpj, data.name, data.email, data.adress,
-            data.number, data.cep, data.city, data.uf,
-            data.phone, data.cell
-        );
-    }
+    stmt.run(
+      data.cnpj, 
+      data.name,
+      data.salesperson, 
+      data.email, 
+      data.adress,
+      data.number, 
+      data.cep, 
+      data.city, 
+      data.uf,
+      data.phone, 
+      data.cell
+    );
+  }
 
-    return { success: true };
+  return { success: true };
 });
 
 
-////////////////////////////////////////////////// criar Servico
-ipcMain.handle("services:add", (e, service) => {
-    const stmt = db.prepare(`
-    INSERT INTO service (
-      servico, value
+////////////////////////// Servico ///////////////////////////////
+ipcMain.handle("services:add", (e, data) => {
+  const stmt = db.prepare(`
+    INSERT INTO services (
+      service, value
     ) VALUES ( ?, ?)
   `);
 
-    stmt.run(
-        service.servico,
-        service.value,
-    );
+  stmt.run(
+    data.service,
+    data.value,
+  );
 
-    return { success: true };
+  return { success: true };
 });
 
 ipcMain.handle("services:all", () => {
-    const stmt = db.prepare("SELECT * FROM service");
-    return stmt.all();
+  const stmt = db.prepare("SELECT * FROM services");
+  return stmt.all();
 });
 
 ipcMain.handle("services:search", (e, term) => {
   const stmt = db.prepare(`
-    SELECT * FROM service WHERE servico LIKE ?
+    SELECT * FROM services WHERE service LIKE ?
   `);
   return stmt.all(`%${term}%`);
 });
@@ -116,25 +134,23 @@ ipcMain.handle("services:search", (e, term) => {
 const isDev = !!process.env.ELECTRON_START_URL; // setado no script de dev
 
 function createWindow() {
-    const win = new BrowserWindow({
-        width: 1000,
-        height: 800,
-        webPreferences: {
-            contextIsolation: true,
-            nodeIntegration: false,
-            preload: path.join(__dirname, 'preload.js'),
-        },
-        // titleBarStyle: 'hidden'
-        // frame: false
-    });
+  const win = new BrowserWindow({
+    width: 1000,
+    height: 800,
+    webPreferences: {
+      contextIsolation: true,
+      nodeIntegration: false,
+      preload: path.join(__dirname, 'preload.js'),
+    },
+  });
 
-    if (isDev) {
-        win.loadURL(process.env.ELECTRON_START_URL);
-        win.webContents.openDevTools();
-    } else {
-        // IMPORTANTÍSSIMO: com Vite, use base './' (ver passo 4)
-        win.loadFile(path.join(__dirname, '../dist/index.html'));
-    }
+  if (isDev) {
+    win.loadURL(process.env.ELECTRON_START_URL);
+    win.webContents.openDevTools();
+  } else {
+    // IMPORTANTÍSSIMO: com Vite, use base './' (ver passo 4)
+    win.loadFile(path.join(__dirname, '../dist/index.html'));
+  }
 }
 
 // exemplo de IPC (só pra provar que o preload funciona)

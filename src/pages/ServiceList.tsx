@@ -5,18 +5,18 @@ import Title from "../components/Title"
 
 type Service = {
     id:  number,
-    servico: string;
+    service: string;
     value: string;
 }
 
 
 const ServiceList = () => {
-    const [clients, setClients] = useState<Service[]>([]);
+    const [form, setForm] = useState<Service[]>([]);
 
     useEffect(() => {
         (async () => {
             const data = await (window as any).services.all();
-            setClients(data);
+            setForm(data);
         })();
     }, []);
 
@@ -36,11 +36,11 @@ const ServiceList = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {clients.map((c, idx) => (
+                    {form.map((service, idx) => (
                         <tr key={idx}>
-                            <td>{c.id}</td>
-                            <td>{c.servico}</td>
-                            <td>{c.value}</td>
+                            <td>{service.id}</td>
+                            <td>{service.service}</td>
+                            <td>{service.value}</td>
                             <td><ButtonDelete /></td>
                             <td><ButtonUpdate /></td>
                         </tr>

@@ -3,15 +3,15 @@ import Input from "../components/Input";
 import Title from "../components/Title";
 import ButtonSave from "../components/ButtonSave";
 
-type Service = {
-    servico: string;
+type Services = {
+    service: string;
     value: string;
 }
 
 const AddService = () => {
 
-    const [form, setForm] = useState<Service>({
-        servico: "",
+    const [form, setForm] = useState<Services>({
+        service: "",
         value: "",
     });
 
@@ -23,7 +23,7 @@ const AddService = () => {
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         await (window as any).services.add(form);
-        setForm({ servico: "", value: "" });
+        setForm({ service: "", value: "" });
         alert("Serviço cadastrado com sucesso");
     }
 
@@ -37,11 +37,11 @@ const AddService = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6">
                     <Input
                         onChange={handleChange}
-                        value={form.servico}
+                        value={form.service}
                         gridClass="md:col-span-2"
                         label="Serviço/Produto"
-                        id="servico"
-                        name="servico"
+                        id="service"
+                        name="service"
                         type="text"
                         placeholder="Ex: Formatação de Notebook"
                     />

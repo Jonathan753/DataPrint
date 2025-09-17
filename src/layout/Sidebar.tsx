@@ -2,6 +2,8 @@
 
 import { ChevronFirst, ChevronLast } from "lucide-react";
 import { createContext, useContext, useState } from "react";
+import logo from "../assets/logo.png";
+
 
 
 // Criando um contexto para compartilhar o estado da sidebar
@@ -22,7 +24,7 @@ const Sidebar = ({ children }: SidebarProps) => {
             <div className="p-4 pb-2 flex justify-between items-center">
                {/* Logo que encolhe e expande */}
                <img
-                  src="https://img.logoipsum.com/243.svg"
+                  src={logo}
                   className={`overflow-hidden transition-all ${expanded ? "w-32" : "w-0"
                      }`}
                   alt="Logo"

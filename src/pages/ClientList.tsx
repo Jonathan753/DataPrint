@@ -6,24 +6,25 @@ import Title from "../components/Title"
 import { useState, useEffect } from "react";
 
 
-type Client = {
+type Clients = {
     id: number;
     cnpj_cpf: string;
     name: string;
-    razao: string;
+    company: string;
     email: string;
     adress: string;
     number: string;
     neighborhood: string;
     city: string;
     uf: string;
-    complemento: string;
+    cep: string;
+    complement: string;
     phone: string;
     cell: string
 }
 const ClientList = () => {
     
-    const [clients, setClients] = useState<Client[]>([]);
+    const [clients, setClients] = useState<Clients[]>([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -63,7 +64,6 @@ const ClientList = () => {
                             <td><ButtonUpdate /></td>
                         </tr>
                     ))}
-
                 </tbody>
             </table>
         </>
