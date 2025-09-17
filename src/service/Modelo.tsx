@@ -4,50 +4,50 @@ import logo from "../assets/logo.png"
 import SearchService from "../components/SearchService";
 import Input from "../components/Input";
 
-type Client = {
+type Clients = {
     id: number;
     cnpj_cpf: string;
     name: string;
-    razao: string;
+    company: string;
     email: string;
     adress: string;
     number: string;
     neighborhood: string;
     city: string;
     uf: string;
-    complemento: string;
+    cep: string;
+    complement: string;
     phone: string;
     cell: string
 };
 
-type SelectService = {
-    id: number,
-    qtd: number,
-    servico: string;
-    value: string;
-}
+// type SelectService = {
+//     id: number,
+//     qtd: number,
+//     service: string;
+//     value: string;
+// }
 type Service = {
-    id: number,
+    serviceId: number,
     qtd: number,
-    servico: string;
+    service: string;
     value: string;
 }
 
 type Nota = {
-    cliente: Client;
+    cliente: Clients;
     servicos: Service[];
 };
 
 const Modelo = () => {
 
-
     //UseSate para cada cado
     const { id } = useParams();
-    const [cliente, setCliente] = useState<Client | null>(null);
+    const [cliente, setCliente] = useState<Clients | null>(null);
     const [obs, setObs] = useState('');
     // const [produtos, setProdutos] = useState<Service[]>([]);
-    const [produtos, setProdutos] = useState<SelectService[]>([]);
-    const [nota, setNota] = useState<Nota | null>(null);
+    const [services, setServices] = useState<Service[]>([]);
+    // const [nota, setNota] = useState<Nota | null>(null);
     const [empresa, setEmpresa] = useState<any>(null);
 
     // useEffect(() => {
@@ -82,15 +82,16 @@ const Modelo = () => {
             const e = await (window as any).myInfo.get();
             // const p = await (window as any).services.all();
             // setProdutos(p);
+            
             setCliente(c);
             setEmpresa(e);
         })();
     }, [id]);
     if (!empresa) return <p>Necessita dos dados da empresa</p>;
     /////////////
-    function addProduto(servico: Service) {
+    function addService(service: Service) {
 
-        setProdutos((prev) => [...prev, servico]);
+        setServices((prev) => [...prev, service]);
     }
 
     const handleChange = (e:any) => {
@@ -104,14 +105,14 @@ const Modelo = () => {
             <div className="bg-white w-auto">
 
                 <div>
-                    <SearchService onAdd={addProduto} />
+                    <SearchService onAdd={addService} />
 
 
                     <h3>Produtos na Nota</h3>
                     <ul>
-                        {produtos.map((p, idx) => (
+                        {services.map((s, idx) => (
                             <li key={idx}>
-                                {p.servico} - R$ {p.value}
+                                {s.service} - R$ {s.value}
                             </li>
                         ))}
                     </ul>
@@ -141,7 +142,7 @@ const Modelo = () => {
                 <div className="flex">
                     <p>Vendedor:{cliente?.city}</p>
                     <p>Pedido:{cliente?.uf}</p>
-                    <p>Emissão:{cliente?.neighborhood}</p>
+                    <p>Emissão:{}</p>
                     <p>Hora:{cliente?.neighborhood}</p>
                 </div>
                 <hr className="border-black" />
@@ -151,7 +152,7 @@ const Modelo = () => {
                     <p>Cel:{cliente?.cell}</p>
                 </div>
                 <div className="flex">
-                    <p>Razão:{cliente?.razao}</p>
+                    <p>Razão:{cliente?.company}</p>
                     <p>CNPJ/CPF:{cliente?.cnpj_cpf}</p>
                 </div>
                 <div className="flex">
@@ -162,7 +163,7 @@ const Modelo = () => {
                     <p>End:{cliente?.adress}</p>
                     <p>N:{cliente?.number}</p>
                     <p>Bairro:{cliente?.neighborhood}</p>
-                    <p>Compl.:{cliente?.complemento}</p>
+                    <p>Compl.:{cliente?.complement}</p>
                 </div>
                 <div className="flex">
                     <p>Cidade:{cliente?.city}</p>
@@ -181,13 +182,13 @@ const Modelo = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {produtos.map((p, idx) => (
+                        {services.map((s, idx) => (
                             <tr key={idx}>
-                                <td >{p.id}</td>
-                                <td>{p.servico}</td>
-                                <td> {p.qtd} </td>
-                                <td>{p.value}</td>
-                                <td>{parseFloat(p.value) * p.qtd}</td>
+                                <td >{s.serviceId}</td>
+                                <td>{s.service}</td>
+                                <td> {s.qtd} </td>
+                                <td>{s.value}</td>
+                                <td>{parseFloat(s.value) * s.qtd}</td>
                             </tr>
                         ))}
                     </tbody>

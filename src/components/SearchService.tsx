@@ -1,15 +1,15 @@
 import { useState } from "react";
 
 type Service = {
-    id: number,
-    servico: string;
+    serviceId: number,
+    service: string;
     value: string;
 }
 
 type SelectService = Service & { qtd: number }
 
 const SearchService = ({ onAdd }: { onAdd: (p: SelectService) => void }) => {
-    const [produtos, setProdutos] = useState<Service[]>([]);
+    const [services, setServices] = useState<Service[]>([]);
     const [termo, setTermo] = useState('');
     const [quantidade, setQuantidade] = useState<{ [id: number]: number }>({});
 
@@ -19,9 +19,9 @@ const SearchService = ({ onAdd }: { onAdd: (p: SelectService) => void }) => {
 
         if (value.length > 1) {
             const res = await (window as any).services.search(value);
-            setProdutos(res);
+            setServices(res);
         } else {
-            setProdutos([]);
+            setServices([]);
         }
     }
 
@@ -42,25 +42,25 @@ const SearchService = ({ onAdd }: { onAdd: (p: SelectService) => void }) => {
                 className="border p-2 rounded w-full"
             />
 
-            {produtos.length > 0 && (
+            {services.length > 0 && (
                 <ul className="border mt-2 rounded bg-white shadow">
-                    {produtos.map((p) => (
-                        <li key={p.id} className="p-2 flex items-center gap-2 border-b">
+                    {services.map((p) => (
+                        <li key={p.serviceId} className="p-2 flex items-center gap-2 border-b">
                             <span className="flex-1">
-                                {p.servico} — R$ {p.value}
+                                {p.service} — R$ {p.value}
                             </span>
                             <input
                                 type="number"
                                 min={1}
-                                value={quantidade[p.id] || 1}
-                                onChange={(e) => handleQuantidadeChange(p.id, e.target.value)}
+                                value={quantidade[p.serviceId] || 1}
+                                onChange={(e) => handleQuantidadeChange(p.serviceId, e.target.value)}
                                 className="w-16 border p-1 rounded"
                             />
                             <button
                                 onClick={() => {
-                                    onAdd({ ...p, qtd: quantidade[p.id] || 1 });
+                                    onAdd({ ...p, qtd: quantidade[p.serviceId] || 1 });
                                     setTermo("");       // limpa o campo
-                                    setProdutos([]);  // limpa resultados
+                                    setServices([]);  // limpa resultados
                                     setQuantidade({}); // reseta quantidades
                                 }}
                                 className="bg-green-500 text-white px-3 py-1 rounded"

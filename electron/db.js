@@ -45,14 +45,14 @@ db.exec(`
     cell VARCHAR(20)
   );
 
-  CREATE TABLE otc (
+  CREATE TABLE IF NOT EXISTS otc (
   otcId INTEGER PRIMARY KEY AUTOINCREMENT,
   clientId INTEGER,
   date TEXT,
   FOREIGN KEY (clientId) REFERENCES clients(clientId)
   );
 
-  CREATE TABLE oct_services (
+  CREATE TABLE IF NOT EXISTS oct_services (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   octId INTEGER,
   serviceId INTEGER,

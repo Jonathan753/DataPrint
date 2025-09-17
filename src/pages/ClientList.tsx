@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 
 
 type Clients = {
-    id: number;
+    clientId: number;
     cnpj_cpf: string;
     name: string;
     company: string;
@@ -55,11 +55,11 @@ const ClientList = () => {
                 <tbody>
                     {clients.map((c, idx) => (
                         <tr key={idx}>
-                            <td>{c.id}</td>
+                            <td>{c.clientId}</td>
                             <td>{c.name}</td>
                             <td>{c.cnpj_cpf}</td>
                             <td>{c.city}</td>
-                            <td><ButtonNota onClick={() => navigate(`/modelo/${c.id}`)} /></td>
+                            <td><ButtonNota onClick={() => navigate(`/modelo/${c.clientId}`)} /></td>
                             <td><ButtonDelete /></td>
                             <td><ButtonUpdate /></td>
                         </tr>
