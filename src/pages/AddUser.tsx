@@ -55,7 +55,7 @@ const AddUser = () => {
         await (window as any).clients.add(form);
         // const data = await (window as any).clients.all();
         // setClients(data);
-        setForm({ ...form, cnpj_cpf: crypto.randomUUID(), name: "", company: "", email: "", adress: "", number: "", neighborhood: "", city: "", uf: "", cep: "", complement: "", phone: "", cell: "" });
+        setForm({ ...form, cnpj_cpf: "", name: "", company: "", email: "", adress: "", number: "", neighborhood: "", city: "", uf: "", cep: "", complement: "", phone: "", cell: "" });
         alert("client cadastrado com sucesso");
     }
 

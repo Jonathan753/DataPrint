@@ -42,8 +42,8 @@ type Nota = {
 const Modelo = () => {
 
     let today = new Date().toLocaleDateString('pt-BR');
-    let hours = new Date().getHours;
-    let second = new Date().getMinutes;
+    let hours = new Date().getHours();
+    let minute = String(new Date().getMinutes()).padStart(2,'0');
 
     //UseSate para cada cado
     const { id } = useParams();
@@ -130,51 +130,51 @@ const Modelo = () => {
                     <div>
                         <p>Endereço: {empresa.adress}</p>
                         <div className="flex">
-                            <p>Cidade:{empresa.city}</p>
-                            <p>UF:{empresa.uf}</p>
+                            <p>Cidade: {empresa.city}</p>
+                            <p>UF: {empresa.uf}</p>
                             <p>CEP: {empresa.neighborhood}</p>
                         </div>
                         <div>
-                            <p>Telefone:{empresa.phone}</p>
-                            <p>Cel:{empresa.cell}</p>
+                            <p>Telefone: {empresa.phone}</p>
+                            <p>Cel: {empresa.cell}</p>
                         </div>
-                        <p>Email:{empresa.email}</p>
-                        <p>CNPJ:{empresa.cnpj}</p>
+                        <p>Email: {empresa.email}</p>
+                        <p>CNPJ: {empresa.cnpj}</p>
                     </div>
                 </div>
                 <hr className="border-black" />
                 <div className="flex">
-                    <p>Vendedor:{empresa.salesperson}</p>
-                    <p>Pedido:{cliente?.uf}</p>
-                    <p>Emissão:{today}</p>
-                    <p>Hora:{hours}:{second}</p>
+                    <p>Vendedor: {empresa.salesperson}</p>
+                    <p>Pedido: {cliente?.uf}</p>
+                    <p>Emissão: {today}</p>
+                    <p>Hora: {hours}:{minute}</p>
                 </div>
                 <hr className="border-black" />
                 <div className="flex">
-                    <p>Nome:{cliente?.name}</p>
-                    <p>Telefone:{cliente?.phone}</p>
-                    <p>Cel:{cliente?.cell}</p>
+                    <p>Nome: {cliente?.name}</p>
+                    <p>Telefone: {cliente?.phone}</p>
+                    <p>Cel: {cliente?.cell}</p>
                 </div>
                 <div className="flex">
-                    <p>Razão:{cliente?.company}</p>
-                    <p>CNPJ/CPF:{cliente?.cnpj_cpf}</p>
+                    <p>Razão: {cliente?.company}</p>
+                    <p>CNPJ/CPF: {cliente?.cnpj_cpf}</p>
                 </div>
                 <div className="flex">
-                    <p>Email:{cliente?.email}</p>
-                    <p>Contato:{cliente?.phone}</p>
+                    <p>Email: {cliente?.email}</p>
+                    <p>Contato: {cliente?.phone}</p>
                 </div>
                 <div className="flex">
-                    <p>End:{cliente?.adress}</p>
-                    <p>N:{cliente?.number}</p>
-                    <p>Bairro:{cliente?.neighborhood}</p>
-                    <p>Compl.:{cliente?.complement}</p>
+                    <p>End: {cliente?.adress}</p>
+                    <p>N: {cliente?.number}</p>
+                    <p>Bairro: {cliente?.neighborhood}</p>
+                    <p>Compl.: {cliente?.complement}</p>
                 </div>
                 <div className="flex">
-                    <p>Cidade:{cliente?.city}</p>
-                    <p>UF:{cliente?.uf}</p>
-                    <p>CEP:{cliente?.uf}</p>
+                    <p>Cidade: {cliente?.city}</p>
+                    <p>UF: {cliente?.uf}</p>
+                    <p>CEP: {cliente?.cep}</p>
                 </div>
-                <p>Obs.:{obs}</p>
+                <p>Obs.: {obs}</p>
                 <table>
                     <thead>
                         <tr>
@@ -192,7 +192,7 @@ const Modelo = () => {
                                 <td>{s.service}</td>
                                 <td> {s.qtd} </td>
                                 <td>{s.value}</td>
-                                <td>{parseFloat(s.value) * s.qtd}</td>
+                                <td>{(parseFloat(s.value) * s.qtd)/100}</td>
                             </tr>
                         ))}
                     </tbody>
