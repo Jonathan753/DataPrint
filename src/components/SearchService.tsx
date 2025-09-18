@@ -3,7 +3,7 @@ import { useState } from "react";
 type Service = {
     serviceId: number,
     service: string;
-    value: string;
+    value: number;
 }
 
 type SelectService = Service & { qtd: number }

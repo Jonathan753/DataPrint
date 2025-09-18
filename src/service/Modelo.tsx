@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import logo from "../assets/logo.png"
 import SearchService from "../components/SearchService";
 import Input from "../components/Input";
+import { gerarQrCodePix } from "./pix";
+
+
 
 type Clients = {
     id: number;
@@ -31,19 +34,21 @@ type Service = {
     serviceId: number,
     qtd: number,
     service: string;
-    value: string;
+    value: number;
 }
 
-type Nota = {
-    cliente: Clients;
-    servicos: Service[];
-};
+// type Nota = {
+//     cliente: Clients;
+//     servicos: Service[];
+// };
 
 const Modelo = () => {
 
+
+
     let today = new Date().toLocaleDateString('pt-BR');
     let hours = new Date().getHours();
-    let minute = String(new Date().getMinutes()).padStart(2,'0');
+    let minute = String(new Date().getMinutes()).padStart(2, '0');
 
     //UseSate para cada cado
     const { id } = useParams();
@@ -53,6 +58,22 @@ const Modelo = () => {
     const [services, setServices] = useState<Service[]>([]);
     // const [nota, setNota] = useState<Nota | null>(null);
     const [empresa, setEmpresa] = useState<any>(null);
+    const [qrCode, setQrCode] = useState<string | null>(null);
+
+    const totalBruto = services.reduce((acc, s) => acc + (s.value * s.qtd), 0);
+    console.log(totalBruto / 100)
+
+
+    useEffect(() => {
+        async function makeQr() {
+            if (totalBruto > 0) {
+                const dataUrl = await gerarQrCodePix(totalBruto);
+                setQrCode(dataUrl);
+            }
+        }
+        makeQr();
+    }, [totalBruto]);
+
 
     // useEffect(() => {
     //     (async () => {
@@ -86,7 +107,7 @@ const Modelo = () => {
             const e = await (window as any).myInfo.get();
             // const p = await (window as any).services.all();
             // setProdutos(p);
-            
+
             setCliente(c);
             setEmpresa(e);
         })();
@@ -98,7 +119,7 @@ const Modelo = () => {
         setServices((prev) => [...prev, service]);
     }
 
-    const handleChange = (e:any) => {
+    const handleChange = (e: any) => {
         setObs(e.target.value)
     }
 
@@ -191,8 +212,18 @@ const Modelo = () => {
                                 <td >{s.serviceId}</td>
                                 <td>{s.service}</td>
                                 <td> {s.qtd} </td>
-                                <td>{s.value}</td>
-                                <td>{(parseFloat(s.value) * s.qtd)/100}</td>
+                                <td>{
+                                    new Intl.NumberFormat("ptt-BR", {
+                                        style: "currency",
+                                        currency: "BRL",
+                                    }).format(s.value / 100)
+                                }</td>
+                                <td>{
+                                    new Intl.NumberFormat("ptt-BR", {
+                                        style: "currency",
+                                        currency: "BRL",
+                                    }).format((s.value / 100) * s.qtd)
+                                }</td>
                             </tr>
                         ))}
                     </tbody>
@@ -201,7 +232,15 @@ const Modelo = () => {
                 <hr className="border-black" />
                 <br />
                 <br />
-                <h1 className="text-4xl">Total</h1>
+                <h1 className="text-4xl">Total: {
+                    new Intl.NumberFormat("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                    }).format(totalBruto / 100)
+                }</h1>
+                {qrCode && (
+                    <img src={qrCode} alt="QR Code Pix" className="w-32 h-32" />
+                )}
             </div>
         </>
     )
