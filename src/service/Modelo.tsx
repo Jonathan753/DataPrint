@@ -146,16 +146,16 @@ const Modelo = () => {
 
                 </div>
 
-                <div className="flex">
+                <div className="grid grid-cols-2 grid-rows-1">
                     <img className="w-48" src={logo} alt="" />
-                    <div>
+                    <div className="grid grid-rows-1">
                         <p>Endereço: {empresa.adress}</p>
-                        <div className="flex">
+                        <div className="grid grid-cols-3">
                             <p>Cidade: {empresa.city}</p>
                             <p>UF: {empresa.uf}</p>
                             <p>CEP: {empresa.neighborhood}</p>
                         </div>
-                        <div>
+                        <div className="flex">
                             <p>Telefone: {empresa.phone}</p>
                             <p>Cel: {empresa.cell}</p>
                         </div>
@@ -164,33 +164,33 @@ const Modelo = () => {
                     </div>
                 </div>
                 <hr className="border-black" />
-                <div className="flex">
+                <div className="grid grid-cols-4 grid-rows-1">
                     <p>Vendedor: {empresa.salesperson}</p>
                     <p>Pedido: {cliente?.uf}</p>
                     <p>Emissão: {today}</p>
                     <p>Hora: {hours}:{minute}</p>
                 </div>
                 <hr className="border-black" />
-                <div className="flex">
+                <div className="grid grid-cols-3">
                     <p>Nome: {cliente?.name}</p>
                     <p>Telefone: {cliente?.phone}</p>
                     <p>Cel: {cliente?.cell}</p>
                 </div>
-                <div className="flex">
+                <div className="grid grid-cols-3">
                     <p>Razão: {cliente?.company}</p>
                     <p>CNPJ/CPF: {cliente?.cnpj_cpf}</p>
                 </div>
-                <div className="flex">
+                <div className="grid grid-cols-3">
                     <p>Email: {cliente?.email}</p>
                     <p>Contato: {cliente?.phone}</p>
                 </div>
-                <div className="flex">
+                <div className="grid grid-cols-3">
                     <p>End: {cliente?.adress}</p>
                     <p>N: {cliente?.number}</p>
                     <p>Bairro: {cliente?.neighborhood}</p>
                     <p>Compl.: {cliente?.complement}</p>
                 </div>
-                <div className="flex">
+                <div className="grid grid-cols-3">
                     <p>Cidade: {cliente?.city}</p>
                     <p>UF: {cliente?.uf}</p>
                     <p>CEP: {cliente?.cep}</p>
