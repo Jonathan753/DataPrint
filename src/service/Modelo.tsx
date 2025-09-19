@@ -127,7 +127,7 @@ const Modelo = () => {
 
     return (
         <>
-            <div className="bg-white w-auto">
+            <div className="bg-white" style={{minWidth: "800px"}}>
 
                 <div>
                     <SearchService onAdd={addService} />
@@ -151,16 +151,16 @@ const Modelo = () => {
 
                 </div>
 
-                <div className="grid grid-cols-2 grid-rows-1">
+                <div className="grid grid-cols-2">
                     <img className="w-48" src={logo} alt="" />
-                    <div className="grid grid-rows-1">
+                    <div className="grid grid-rows-5">
                         <p>Endereço: {empresa.adress}</p>
-                        <div className="grid grid-cols-3">
+                        <div className="grid grid-cols-3 gap-1">
                             <p>Cidade: {empresa.city}</p>
                             <p>UF: {empresa.uf}</p>
                             <p>CEP: {empresa.neighborhood}</p>
                         </div>
-                        <div className="flex">
+                        <div className="grid grid-cols-2">
                             <p>Telefone: {empresa.phone}</p>
                             <p>Cel: {empresa.cell}</p>
                         </div>
@@ -169,7 +169,7 @@ const Modelo = () => {
                     </div>
                 </div>
                 <hr className="border-black" />
-                <div className="grid grid-cols-4 grid-rows-1">
+                <div className="grid grid-cols-4">
                     <p>Vendedor: {empresa.salesperson}</p>
                     <p>Pedido: {cliente?.uf}</p>
                     <p>Emissão: {today}</p>
@@ -189,7 +189,7 @@ const Modelo = () => {
                     <p>Email: {cliente?.email}</p>
                     <p>Contato: {cliente?.phone}</p>
                 </div>
-                <div className="grid grid-cols-3">
+                <div className="grid grid-cols-4">
                     <p>End: {cliente?.adress}</p>
                     <p>Nº: {cliente?.number}</p>
                     <p>Bairro: {cliente?.neighborhood}</p>
@@ -201,6 +201,7 @@ const Modelo = () => {
                     <p>CEP: {cliente?.cep}</p>
                 </div>
                 <p>Obs.: {obs}</p>
+                <hr className="border-black" />
                 <table className="w-full">
                     <thead>
                         <tr className="text-left">
@@ -245,10 +246,9 @@ const Modelo = () => {
                         }).format(totalBruto / 100)
                     }</h1>
                     <div>
-
-                        <div className="border-black border-solid border-2 p-6 mx-16">
+                        <div className="border-black border-solid border-2 w-36 m-auto">
                             {qrCode && (
-                                <img src={qrCode} alt="QR Code Pix" className="w-32 h-32" />
+                                <img src={qrCode} alt="QR Code Pix" className="w-32 h-32 m-auto" />
                             )}
                         </div>
                         <h3 className="text-center">QR Code PIX</h3>
