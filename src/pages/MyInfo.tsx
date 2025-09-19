@@ -34,7 +34,7 @@ const MyInfo = () => {
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.name} label="Nome" id="nome" name="name" type="text" placeholder="João da Silva" />
                     <Input gridClass="md:col-span-2" onChange={handleChange} value={form.email} label="Email" id="email" name="email" type="email" placeholder="contato@silvacomercio.com" />
                     <Input gridClass="md:col-span-2" onChange={handleChange} value={form.adress} label="Endereço" id="endereco" name="adress" type="text" placeholder="Rua das Flores, 123" />
-                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.number} label="N" id="numero" name="number" type="text" placeholder="122" />
+                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.number} label="Nº" id="numero" name="number" type="text" placeholder="122" />
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.salesperson} label="Vendedor" id="vendedor" name="salesperson" type="text" placeholder="Maria" />
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.city} label="Cidade" id="cidade" name="city" type="text" placeholder="São Paulo" />
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.uf} label="UF" id="uf" name="uf" type="text" placeholder="PE" />
@@ -42,6 +42,7 @@ const MyInfo = () => {
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cnpj} label="CPF/CNPJ" id="cnpj" name="cnpj" type="text" placeholder="00.000.000/0001-00" />
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.phone} label="Telefone" id="telefone" name="phone" type="tel" placeholder="(11) 2345-6789" />
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cell} label="Celular" id="celular" name="cell" type="tel" placeholder="(11) 98765-4321" />
+                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cell} label="Chave PIX" id="celular" name="cell" type="tel" placeholder="(11) 98765-4321" />
                 </div>
 
                 {/* Botões do Formulário */}

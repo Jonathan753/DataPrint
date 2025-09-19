@@ -47,7 +47,12 @@ const SearchService = ({ onAdd }: { onAdd: (p: SelectService) => void }) => {
                     {services.map((p) => (
                         <li key={p.serviceId} className="p-2 flex items-center gap-2 border-b">
                             <span className="flex-1">
-                                {p.service} — R$ {p.value}
+                                {p.service} — {
+                                     new Intl.NumberFormat("ptt-BR", {
+                                        style: "currency",
+                                        currency: "BRL",
+                                    }).format(p.value / 100)
+                                }
                             </span>
                             <input
                                 type="number"

@@ -71,7 +71,7 @@ const AddUser = () => {
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.company} label="Razão Social" id="company" name="company" type="text" placeholder="Silva Comércio LTDA" />
                     <Input gridClass="md:col-span-2" onChange={handleChange} value={form.email} label="Email" id="email" name="email" type="email" placeholder="contato@silvacomercio.com" />
                     <Input gridClass="md:col-span-2" onChange={handleChange} value={form.adress} label="Endereço" id="endereco" name="adress" type="text" placeholder="Rua das Flores, 123" />
-                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.number} label="N" id="numero" name="number" type="text" placeholder="122" />
+                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.number} label="Nº" id="numero" name="number" type="text" placeholder="122" />
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.neighborhood} label="Bairro" id="bairro" name="neighborhood" type="text" placeholder="Centro" />
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.city} label="Cidade" id="cidade" name="city" type="text" placeholder="São Paulo" />
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.uf} label="UF" id="uf" name="uf" type="text" placeholder="PE" />

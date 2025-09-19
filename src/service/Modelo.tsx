@@ -137,7 +137,12 @@ const Modelo = () => {
                     <ul>
                         {services.map((s, idx) => (
                             <li key={idx}>
-                                {s.service} - R$ {s.value}
+                                {s.service} - {
+                                    new Intl.NumberFormat("ptt-BR", {
+                                        style: "currency",
+                                        currency: "BRL",
+                                    }).format(s.value / 100)
+                                }
                             </li>
                         ))}
                     </ul>
@@ -186,7 +191,7 @@ const Modelo = () => {
                 </div>
                 <div className="grid grid-cols-3">
                     <p>End: {cliente?.adress}</p>
-                    <p>N: {cliente?.number}</p>
+                    <p>Nº: {cliente?.number}</p>
                     <p>Bairro: {cliente?.neighborhood}</p>
                     <p>Compl.: {cliente?.complement}</p>
                 </div>
@@ -196,9 +201,9 @@ const Modelo = () => {
                     <p>CEP: {cliente?.cep}</p>
                 </div>
                 <p>Obs.: {obs}</p>
-                <table>
+                <table className="w-full">
                     <thead>
-                        <tr>
+                        <tr className="text-left">
                             <th>Código</th>
                             <th>Descrição</th>
                             <th>Qtd</th>
@@ -232,15 +237,23 @@ const Modelo = () => {
                 <hr className="border-black" />
                 <br />
                 <br />
-                <h1 className="text-4xl">Total: {
-                    new Intl.NumberFormat("pt-BR", {
-                        style: "currency",
-                        currency: "BRL",
-                    }).format(totalBruto / 100)
-                }</h1>
-                {qrCode && (
-                    <img src={qrCode} alt="QR Code Pix" className="w-32 h-32" />
-                )}
+                <div className="grid grid-cols-2">
+                    <h1 className="text-4xl">Total: {
+                        new Intl.NumberFormat("pt-BR", {
+                            style: "currency",
+                            currency: "BRL",
+                        }).format(totalBruto / 100)
+                    }</h1>
+                    <div>
+
+                        <div className="border-black border-solid border-2 p-6 mx-16">
+                            {qrCode && (
+                                <img src={qrCode} alt="QR Code Pix" className="w-32 h-32" />
+                            )}
+                        </div>
+                        <h3 className="text-center">QR Code PIX</h3>
+                    </div>
+                </div>
             </div>
         </>
     )
