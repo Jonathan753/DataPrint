@@ -1,16 +1,24 @@
-import { Trash } from "lucide-react";
+import { Trash2 } from "lucide-react";
 
 interface Props {
-    onClick?: () => void
+    onClick?: () => void,
+    textMain?: string
+
 }
 
-
-const ButtonDelete = ({ onClick }: Props) => {
+const ButtonDelete = ({ onClick, textMain }: Props) => {
     // Fazer o botao de salvar 
     return (
         <>
-            <button type="submit" onClick={onClick} className="px-4 py-2 flex gap-2 bg-red-500 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <Trash size={20} />
+            <button type="submit" onClick={onClick} className="relative group text-red-600 hover:text-red-800 transition-colors">
+                <Trash2 size={20} />
+                <span className="
+                          absolute bottom-full left-1/2 -translate-x-1/2 mb-2
+                          px-2 py-1 bg-gray-800 text-white text-xs rounded-md 
+                          opacity-0 group-hover:opacity-100 transition-opacity duration-300
+                          pointer-events-none whitespace-nowrap">
+                    {textMain}
+                </span>
             </button>
         </>
     )

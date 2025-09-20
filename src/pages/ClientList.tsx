@@ -4,6 +4,7 @@ import ButtonNota from "../components/ButtonNota";
 import ButtonUpdate from "../components/ButtonUpdate";
 import Title from "../components/Title"
 import { useState, useEffect } from "react";
+import { Pencil, Trash2 } from "lucide-react";
 
 
 type Clients = {
@@ -41,50 +42,71 @@ const ClientList = () => {
     return (
         <>
             <Title title="Lista de Clientes" />
-            <table className="border-separate w-full border-spacing-2 border border-gray-400 dark:border-gray-500">
-                <thead>
 
-                    <tr className="text-left">
-                        <th></th>
-                        <th>Cliente</th>
-                        <th>CNPJ/CPF</th>
-                        <th>Cidade</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {clients.map((c, idx) => (
-                        <tr key={idx}>
-                            <td>{c.clientId}</td>
-                            <td>{c.name}</td>
-                            <td>{c.cnpj_cpf}</td>
-                            <td>{c.city}</td>
-                            <td><ButtonNota onClick={() => navigate(`/modelo/${c.clientId}`)} /></td>
-                            <td><ButtonDelete onClick={
-                                async () => {
-                                    await (window as any).clients.delete(c.clientId);
-                                    setClients(clients.filter(cl => cl.clientId !== c.clientId));
-                                }
-                            } /></td>
-                            <td><ButtonUpdate
-                                onClick={async () => {
-                                    const novoNome = prompt("Digite o novo nome:", c.name);
-                                    if (novoNome) {
-                                        await (window as any).clients.update({
-                                            ...c,
-                                            name: novoNome,
-                                        });
-                                        setClients(clients.map(cl =>
-                                            cl.clientId === c.clientId ? { ...cl, name: novoNome } : cl
-                                        ));
-                                    }
-                                }}/></td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            <div className="max-w-7xl mx-auto">
+                {/* Header da Página */}
+                <div className="mb-8">
+                    <h1 className="text-3xl font-bold text-gray-800">Lista de Clientes</h1>
+                    <p className="text-gray-500 mt-1">Visualize e gerencie os clientes cadastrados.</p>
+                </div>
+
+                {/* Container da Tabela com Estilo de Card */}
+                <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                    {/* Wrapper para permitir rolagem horizontal em telas pequenas */}
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-sm text-left text-gray-600">
+                            {/* Cabeçalho da Tabela */}
+                            <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                                <tr>
+                                    <th scope="col" className="px-6 py-3">Nome</th>
+                                    <th scope="col" className="px-6 py-3">Email</th>
+                                    <th scope="col" className="px-6 py-3">Celular</th>
+                                    <th scope="col" className="px-6 py-3">Cidade</th>
+                                    <th scope="col" className="px-6 py-3 text-center">Ações</th>
+                                </tr>
+                            </thead>
+                            {/* Corpo da Tabela */}
+                            <tbody className="divide-y divide-gray-200">
+                                {clients.map((c, idx) => (
+                                    <tr key={idx} className="bg-white hover:bg-gray-50">
+                                        <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                            {c.name}
+                                        </td>
+                                        <td className="px-6 py-4">{c.email}</td>
+                                        <td className="px-6 py-4">{c.phone}</td>
+                                        <td className="px-6 py-4">{c.city}</td>
+                                        <td className="px-6 py-4">
+                                            {/* Botões de Ação */}
+                                            <div className="flex justify-center items-center gap-4">
+                                                <ButtonNota textMain="Criar Nota" onClick={() => navigate(`/modelo/${c.clientId}`)} />
+                                                <ButtonDelete textMain="Excluir CLiente" onClick={
+                                                    async () => {
+                                                        await (window as any).clients.delete(c.clientId);
+                                                        setClients(clients.filter(cl => cl.clientId !== c.clientId));
+                                                    }
+                                                } />
+                                                <ButtonUpdate textMain="Editar Cliente"
+                                                    onClick={async () => {
+                                                        const novoNome = prompt("Digite o novo nome:", c.name);
+                                                        if (novoNome) {
+                                                            await (window as any).clients.update({
+                                                                ...c,
+                                                                name: novoNome,
+                                                            });
+                                                            setClients(clients.map(cl =>
+                                                                cl.clientId === c.clientId ? { ...cl, name: novoNome } : cl
+                                                            ));
+                                                        }
+                                                    }} />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </>
     )
 }

@@ -1,15 +1,25 @@
-import { UserPen } from "lucide-react";
+import { Pencil } from "lucide-react";
 
 interface Props {
-    onClick?: () => void
-}
+    onClick?: () => void,
+    textMain?: string
 
-const ButtonUpdate = ({ onClick }: Props) => {
+}
+const ButtonUpdate = ({ onClick, textMain }: Props) => {
     // Fazer o botao de salvar 
     return (
         <>
-            <button onClick={onClick} type="submit" className="px-4 py-2 flex gap-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <UserPen size={20} /> </button>
+            <button onClick={onClick} type="submit" className="relative group text-blue-600 hover:text-blue-800 transition-colors">
+                <Pencil size={20} />
+                <span className="
+                          absolute bottom-full left-1/2 -translate-x-1/2 mb-2
+                          px-2 py-1 bg-gray-800 text-white text-xs rounded-md 
+                          opacity-0 group-hover:opacity-100 transition-opacity duration-300
+                          pointer-events-none whitespace-nowrap">
+                    {textMain}
+                </span>
+            </button>
+
         </>
     )
 }

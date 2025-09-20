@@ -34,11 +34,11 @@ const AddService = () => {
 
             <Title title="Adicionar Serviço/Produto" />
             <form onSubmit={handleSubmit} >
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-x-8 gap-y-6">
                     <Input
                         onChange={handleChange}
                         value={form.service}
-                        gridClass="md:col-span-2"
+                        gridClass="md:col-span-5"
                         label="Serviço/Produto"
                         id="service"
                         name="service"
