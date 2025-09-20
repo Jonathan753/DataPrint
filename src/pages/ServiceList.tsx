@@ -4,9 +4,9 @@ import ButtonUpdate from "../components/ButtonUpdate";
 import Title from "../components/Title"
 
 type Service = {
-    id:  number,
+    serviceId: number,
     service: string;
-    value: string;
+    value: number;
 }
 
 
@@ -23,11 +23,11 @@ const ServiceList = () => {
     return (
         <>
             <Title title="Lista de Servicos" />
-            <table className="border-separate border-spacing-2 border border-gray-400 dark:border-gray-500">
+            <table className="border-separate w-full border-spacing-2 border border-gray-400 dark:border-gray-500">
                 <thead>
 
-                    <tr className="">
-                        <th></th>
+                    <tr className="text-left">
+                        <th>Código</th>
                         <th>Produto</th>
                         <th>Valor</th>
                         <th></th>
@@ -38,10 +38,20 @@ const ServiceList = () => {
                 <tbody>
                     {form.map((service, idx) => (
                         <tr key={idx}>
-                            <td>{service.id}</td>
+                            <td>{service.serviceId}</td>
                             <td>{service.service}</td>
-                            <td>{service.value}</td>
-                            <td><ButtonDelete /></td>
+                            <td>{
+                                new Intl.NumberFormat("ptt-BR", {
+                                    style: "currency",
+                                    currency: "BRL",
+                                }).format(service.value / 100)
+                            }</td>
+                            <td><ButtonDelete onClick={
+                                async () => {
+                                    await (window as any).services.delete(service.serviceId);
+                                    setForm(form.filter(ser => ser.serviceId !== service.serviceId));
+                                }
+                            } /></td>
                             <td><ButtonUpdate /></td>
                         </tr>
                     ))}

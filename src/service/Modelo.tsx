@@ -8,7 +8,7 @@ import { gerarQrCodePix } from "./pix";
 
 
 type Clients = {
-    id: number;
+    clientId: number;
     cnpj_cpf: string;
     name: string;
     company: string;
@@ -127,7 +127,7 @@ const Modelo = () => {
 
     return (
         <>
-            <div className="bg-white" style={{minWidth: "800px"}}>
+            <div className="bg-white" style={{ minWidth: "800px" }}>
 
                 <div>
                     <SearchService onAdd={addService} />

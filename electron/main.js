@@ -41,6 +41,37 @@ ipcMain.handle("clients:getById", (e, id) => {
   return stmt.get(id);
 });
 
+ipcMain.handle("clients:delete", (e, id) => {
+  const stmt = db.prepare("DELETE FROM clients WHERE clientId = ?");
+  stmt.run(id);
+  return { success: true }
+});
+
+ipcMain.handle("clients:update", (e, client) => {
+  const stmt = db.prepare(`
+    UPDATE clients SET cnpj_cpf = ?, name = ?, company = ?, email = ?, adress = ?, number = ?, neighborhood = ?,
+      city = ?, uf = ?, cep = ?, complement = ?, phone = ?, cell = ?
+  `);
+
+  stmt.run(
+    client.cnpj_cpf,
+    client.name,
+    client.company,
+    client.email,
+    client.adress,
+    client.number,
+    client.neighborhood,
+    client.city,
+    client.uf,
+    client.cep,
+    client.complement,
+    client.phone,
+    client.cell
+  );
+
+  return { success: true };
+});
+
 //////////////////////////// MY INFO ////////////////////////////////////
 ipcMain.handle("myInfo:get", () => {
   const stmt = db.prepare("SELECT * FROM myInfo WHERE myInfoId = 1");
@@ -59,16 +90,16 @@ ipcMain.handle("myInfo:save", (e, data) => {
     `);
 
     stmt.run(
-      data.cnpj, 
+      data.cnpj,
       data.name,
-      data.salesperson, 
-      data.email, 
+      data.salesperson,
+      data.email,
       data.adress,
-      data.number, 
-      data.cep, 
-      data.city, 
+      data.number,
+      data.cep,
+      data.city,
       data.uf,
-      data.phone, 
+      data.phone,
       data.cell
     );
   } else {
@@ -81,16 +112,16 @@ ipcMain.handle("myInfo:save", (e, data) => {
       )
     `);
     stmt.run(
-      data.cnpj, 
+      data.cnpj,
       data.name,
-      data.salesperson, 
-      data.email, 
+      data.salesperson,
+      data.email,
       data.adress,
-      data.number, 
-      data.cep, 
-      data.city, 
+      data.number,
+      data.cep,
+      data.city,
       data.uf,
-      data.phone, 
+      data.phone,
       data.cell
     );
   }
@@ -120,11 +151,31 @@ ipcMain.handle("services:all", () => {
   return stmt.all();
 });
 
+ipcMain.handle("services:delete", (e, id) => {
+  const stmt = db.prepare("DELETE FROM services WHERE serviceId = ?");
+  stmt.run(id);
+  return { success: true }
+});
+
 ipcMain.handle("services:search", (e, term) => {
   const stmt = db.prepare(`
     SELECT * FROM services WHERE service LIKE ?
   `);
   return stmt.all(`%${term}%`);
+});
+
+ipcMain.handle("services:update", (e, data) => {
+  const stmt = db.prepare(`
+    UPDATE services SET service = ?,value = ?
+  `);
+
+  stmt.run(
+    data.service,
+    data.value,
+  );
+
+
+  return { success: true };
 });
 
 
