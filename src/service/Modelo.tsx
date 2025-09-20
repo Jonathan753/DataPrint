@@ -4,8 +4,7 @@ import logo from "../assets/logo.png"
 import SearchService from "../components/SearchService";
 import Input from "../components/Input";
 import { gerarQrCodePix } from "./pix";
-
-
+import ButtonPrinter from "../components/ButtonPrinter";
 
 type Clients = {
     clientId: number;
@@ -24,12 +23,6 @@ type Clients = {
     cell: string
 };
 
-// type SelectService = {
-//     id: number,
-//     qtd: number,
-//     service: string;
-//     value: string;
-// }
 type Service = {
     serviceId: number,
     qtd: number,
@@ -44,96 +37,38 @@ type Service = {
 
 const Modelo = () => {
 
-
-
-    let today = new Date().toLocaleDateString('pt-BR');
-    let hours = new Date().getHours();
-    let minute = String(new Date().getMinutes()).padStart(2, '0');
-
-    //UseSate para cada cado
+    //UseSate para cada dado
     const { id } = useParams();
     const [cliente, setCliente] = useState<Clients | null>(null);
     const [obs, setObs] = useState('');
-    // const [produtos, setProdutos] = useState<Service[]>([]);
     const [services, setServices] = useState<Service[]>([]);
-    // const [nota, setNota] = useState<Nota | null>(null);
     const [empresa, setEmpresa] = useState<any>(null);
     const [qrCode, setQrCode] = useState<string | null>(null);
-    const [acreDescValue, setAcreDescValue] = useState(0);
-    const [acreDesc, setAcreDesc] = useState('');
+    const [acressimo, setAcressimo] = useState(0);
+    const [desconto, setDesconto] = useState(0);
 
     const totalBruto = services.reduce((acc, s) => acc + (s.value * s.qtd), 0);
     console.log(totalBruto)
 
-    const Desconto = () => {
-        if (acreDesc == "desconto") {
-
-            return totalBruto
-        }
-        if (acreDesc == "acressimo") {
-            console.log("////////////////////////")
-            console.log(acreDescValue)
-            console.log(totalBruto)
-            return totalBruto
-        }
-        else {
-            return totalBruto
-        }
-    }
-
-
-    // useEffect(() => {
-    //     if (acreDesc == "Desconto") {
-
-    //     }
-    // },[acreDesc])
-
-
-
+    let result = (totalBruto) - (totalBruto * (desconto / 10000)) + (totalBruto * (acressimo / 10000))
+    let today = new Date().toLocaleDateString('pt-BR');
+    let hours = new Date().getHours();
+    let minute = String(new Date().getMinutes()).padStart(2, '0');
 
     useEffect(() => {
         async function makeQr() {
-            if (Desconto() > 0) {
-                const dataUrl = await gerarQrCodePix(Desconto());
+            if (result > 0) {
+                const dataUrl = await gerarQrCodePix(result);
                 setQrCode(dataUrl);
             }
         }
         makeQr();
-    }, [Desconto()]);
-
-
-    // useEffect(() => {
-    //     (async () => {
-
-
-    //     })();
-    // }, []);
-
-    ////////////////////
-    // useEffect(() => {
-    //     async function fetchData() {
-    //         // busca cliente no BD
-    //         const c = await (window as any).cliente.getById(Number(id));
-    //         // busca produtos no BD
-    //         // const p = await (window as any).produtos.getAll();
-    //         console.log('cliente do banco')
-    //         setCliente(c);
-    //         // setProdutos(p);
-    //         // setNota({ cliente: c, produtos: [] });
-    //     }
-    //     fetchData();
-    // }, [id]);
-
-
-
+    }, [result]);
 
     useEffect(() => {
         (async () => {
             const c = await (window as any).clients.getById(id);
             const e = await (window as any).myInfo.get();
-            // const p = await (window as any).services.all();
-            // setProdutos(p);
-
             setCliente(c);
             setEmpresa(e);
         })();
@@ -148,24 +83,28 @@ const Modelo = () => {
         setObs(e.target.value)
     }
 
-    const handleChangeAcreDescValue = (e: any) => {
+    const handleChangeAcressimo = (e: any) => {
         // setAcreDesc(e.target.value)
-        setAcreDescValue(e.target.value);
+        setAcressimo(e.target.value);
         console.log(e.target.value);
     }
-    console.log(acreDesc)
+    const handleChangeDesconto = (e: any) => {
+        // setAcreDesc(e.target.value)
+        setDesconto(e.target.value);
+        console.log(e.target.value);
+    }
+
 
 
     return (
         <>
             <div className="bg-white" style={{ minWidth: "800px" }}>
 
-                <div>
+                <div className="p-4">
+                    <label htmlFor="">Adição de Serviços</label>
                     <SearchService onAdd={addService} />
-
-
                     <h3>Produtos na Nota</h3>
-                    <ul>
+                    <ul className="mb-4">
                         {services.map((s, idx) => (
                             <li key={idx}>
                                 {s.service} - {
@@ -177,138 +116,139 @@ const Modelo = () => {
                             </li>
                         ))}
                     </ul>
+
+                    <div className="grid grid-cols-4 gap-2">
+                        <Input gridClass="md:col-span-4" onChange={handleChangeObs} value={obs} label="OBS" id="obs" name="obs" type="text" placeholder="Uma Observação" />
+                        <Input gridClass="md:col-span-1" onChange={handleChangeAcressimo} value={acressimo} label="Acréssimo" id="acressimo" name="acressimo" type="text" placeholder="20%" />
+                        <Input gridClass="md:col-span-1" onChange={handleChangeDesconto} value={desconto} label="Desconto" id="desconto" name="desconto" type="text" placeholder="10%" />
+                    </div>
+                </div>
+
+                <div className="template border-black border-2 p-2 mt-4 ">
                     <div className="grid grid-cols-2">
-
-                        <Input gridClass="md:col-span-2" onChange={handleChangeObs} value={obs} label="OBS" id="obs" name="obs" type="text" placeholder="Uma Observação" />
-
-
-                        <select name="" id="" className="md:col-span-1 bg-slate-500" value={acreDesc}
-                            onChange={e => setAcreDesc(e.target.value)} >
-                            <option value=""></option>
-                            <option value="acressimo">Acrescimo</option>
-                            <option value="desconto">Desconto</option>
-                        </select>
-
-                        <Input gridClass="md:col-span-1" onChange={handleChangeAcreDescValue} value={acreDescValue} label="AcreDesc" id="acre_desc" name="acre_desc" type="text" placeholder="Uma Observação" />
-                    </div>
-
-                </div>
-
-                <div className="grid grid-cols-2">
-                    <img className="w-48" src={logo} alt="" />
-                    <div className="grid grid-rows-5">
-                        <p>Endereço: {empresa.adress}</p>
-                        <div className="grid grid-cols-3 gap-1">
-                            <p>Cidade: {empresa.city}</p>
-                            <p>UF: {empresa.uf}</p>
-                            <p>CEP: {empresa.neighborhood}</p>
+                        <img className="w-48" src={logo} alt="" />
+                        <div className="grid grid-rows-5">
+                            <p>Endereço: {empresa.adress}</p>
+                            <div className="grid grid-cols-3 gap-1">
+                                <p>Cidade: {empresa.city}</p>
+                                <p>UF: {empresa.uf}</p>
+                                <p>CEP: {empresa.neighborhood}</p>
+                            </div>
+                            <div className="grid grid-cols-2">
+                                <p>Telefone: {empresa.phone}</p>
+                                <p>Cel: {empresa.cell}</p>
+                            </div>
+                            <p>Email: {empresa.email}</p>
+                            <p>CNPJ: {empresa.cnpj}</p>
                         </div>
-                        <div className="grid grid-cols-2">
-                            <p>Telefone: {empresa.phone}</p>
-                            <p>Cel: {empresa.cell}</p>
-                        </div>
-                        <p>Email: {empresa.email}</p>
-                        <p>CNPJ: {empresa.cnpj}</p>
                     </div>
-                </div>
-                <hr className="border-black" />
-                <div className="grid grid-cols-4">
-                    <p>Vendedor: {empresa.salesperson}</p>
-                    <p>Pedido: {cliente?.uf}</p>
-                    <p>Emissão: {today}</p>
-                    <p>Hora: {hours}:{minute}</p>
-                </div>
-                <hr className="border-black" />
-                <div className="grid grid-cols-3">
-                    <p>Nome: {cliente?.name}</p>
-                    <p>Telefone: {cliente?.phone}</p>
-                    <p>Cel: {cliente?.cell}</p>
-                </div>
-                <div className="grid grid-cols-3">
-                    <p>Razão: {cliente?.company}</p>
-                    <p>CNPJ/CPF: {cliente?.cnpj_cpf}</p>
-                </div>
-                <div className="grid grid-cols-3">
-                    <p>Email: {cliente?.email}</p>
-                    <p>Contato: {cliente?.phone}</p>
-                </div>
-                <div className="grid grid-cols-4">
-                    <p>End: {cliente?.adress}</p>
-                    <p>Nº: {cliente?.number}</p>
-                    <p>Bairro: {cliente?.neighborhood}</p>
-                    <p>Compl.: {cliente?.complement}</p>
-                </div>
-                <div className="grid grid-cols-3">
-                    <p>Cidade: {cliente?.city}</p>
-                    <p>UF: {cliente?.uf}</p>
-                    <p>CEP: {cliente?.cep}</p>
-                </div>
-                <p>Obs.: {obs}</p>
-                <hr className="border-black" />
-                <table className="w-full">
-                    <thead>
-                        <tr className="text-left">
-                            <th>Código</th>
-                            <th>Descrição</th>
-                            <th>Qtd</th>
-                            <th>Preço</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {services.map((s, idx) => (
-                            <tr key={idx}>
-                                <td >{s.serviceId}</td>
-                                <td>{s.service}</td>
-                                <td> {s.qtd} </td>
-                                <td>{
-                                    new Intl.NumberFormat("pt-BR", {
-                                        style: "currency",
-                                        currency: "BRL",
-                                    }).format(s.value / 100)
-                                }</td>
-                                <td>{
-
-                                    new Intl.NumberFormat("pt-BR", {
-                                        style: "currency",
-                                        currency: "BRL",
-                                    }).format((s.value / 100) * s.qtd)
-                                }</td>
+                    <hr className="border-black" />
+                    <div className="grid grid-cols-4">
+                        <p>Vendedor: {empresa.salesperson}</p>
+                        <p>Pedido: {cliente?.uf}</p>
+                        <p>Emissão: {today}</p>
+                        <p>Hora: {hours}:{minute}</p>
+                    </div>
+                    <hr className="border-black" />
+                    <div className="grid grid-cols-3">
+                        <p>Nome: {cliente?.name}</p>
+                        <p>Telefone: {cliente?.phone}</p>
+                        <p>Cel: {cliente?.cell}</p>
+                    </div>
+                    <div className="grid grid-cols-3">
+                        <p>Razão: {cliente?.company}</p>
+                        <p>CNPJ/CPF: {cliente?.cnpj_cpf}</p>
+                    </div>
+                    <div className="grid grid-cols-3">
+                        <p>Email: {cliente?.email}</p>
+                        <p>Contato: {cliente?.phone}</p>
+                    </div>
+                    <div className="grid grid-cols-4">
+                        <p>End: {cliente?.adress}</p>
+                        <p>Nº: {cliente?.number}</p>
+                        <p>Bairro: {cliente?.neighborhood}</p>
+                        <p>Compl.: {cliente?.complement}</p>
+                    </div>
+                    <div className="grid grid-cols-3">
+                        <p>Cidade: {cliente?.city}</p>
+                        <p>UF: {cliente?.uf}</p>
+                        <p>CEP: {cliente?.cep}</p>
+                    </div>
+                    <p>Obs.: {obs}</p>
+                    <hr className="border-black" />
+                    <table className="w-full">
+                        <thead>
+                            <tr className="text-left">
+                                <th>Código</th>
+                                <th>Descrição</th>
+                                <th>Qtd</th>
+                                <th>Preço</th>
+                                <th>Total</th>
                             </tr>
-                        ))}
-                    </tbody>
+                        </thead>
+                        <tbody>
+                            {services.map((s, idx) => (
+                                <tr key={idx}>
+                                    <td >{s.serviceId}</td>
+                                    <td>{s.service}</td>
+                                    <td> {s.qtd} </td>
+                                    <td>{
+                                        new Intl.NumberFormat("pt-BR", {
+                                            style: "currency",
+                                            currency: "BRL",
+                                        }).format(s.value / 100)
+                                    }</td>
+                                    <td>{
 
-                </table>
-                <hr className="border-black" />
-                <br />
-                <br />
-                <div className="grid grid-cols-2">
-                    <div className="content-center">
-                        <h2>Total Bruto:
-                            {
+                                        new Intl.NumberFormat("pt-BR", {
+                                            style: "currency",
+                                            currency: "BRL",
+                                        }).format((s.value / 100) * s.qtd)
+                                    }</td>
+                                </tr>
+                            ))}
+                        </tbody>
+
+                    </table>
+                    <hr className="border-black" />
+                    <br />
+                    <br />
+                    <div className="grid grid-cols-2">
+                        <div className="content-center">
+                            <h2>Total Bruto:
+                                {
+                                    new Intl.NumberFormat("pt-BR", {
+                                        style: "currency",
+                                        currency: "BRL",
+                                    }).format(totalBruto / 100)
+                                }
+                            </h2>
+                            <h2>Desconto: {
+                                new Intl.NumberFormat("pt-BR").format(desconto / 100)
+                            } %</h2>
+                            <h2>Acrésssimo: {
+                                new Intl.NumberFormat("pt-BR").format(acressimo / 100)
+                            } %</h2>
+                            <h1 className="text-3xl">Total Liq: {
                                 new Intl.NumberFormat("pt-BR", {
                                     style: "currency",
                                     currency: "BRL",
-                                }).format(totalBruto / 100)
-                            }
-                        </h2>
-                        <h2>Acrés/Desc: {
-                            new Intl.NumberFormat("pt-BR").format(acreDescValue / 100)
-                        } %</h2>
-                        <h1 className="text-3xl">Total Liq: {
-                            new Intl.NumberFormat("pt-BR", {
-                                style: "currency",
-                                currency: "BRL",
-                            }).format(Desconto() / 100)
-                        }</h1>
-                    </div>
-                    <div>
-                        <div className="border-black border-solid border-2 w-36 m-auto">
-                            {qrCode && (
-                                <img src={qrCode} alt="QR Code Pix" className="w-32 h-32 m-auto" />
-                            )}
+                                }).format((totalBruto / 100) - (((totalBruto / 100) * desconto / 100) / 100) + (((totalBruto / 100) * acressimo / 100) / 100))
+                            }</h1>
                         </div>
-                        <h3 className="text-center">QR Code PIX</h3>
+                        <div>
+                            <div className="border-black border-solid border-2 w-36 m-auto">
+                                {qrCode && (
+                                    <img src={qrCode} alt="QR Code Pix" className="w-32 h-32 m-auto" />
+                                )}
+                            </div>
+                            <h3 className="text-center">QR Code PIX</h3>
+                        </div>
+                    </div>
+                </div>
+                <div className="grid grid-cols-6 p-4">
+                    <div className="col-start-6">
+                        <ButtonPrinter />
                     </div>
                 </div>
             </div>

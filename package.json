@@ -13,6 +13,8 @@
   "dependencies": {
     "@types/react-router-dom": "^5.3.3",
     "better-sqlite3": "^12.2.0",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.3",
     "lucide-react": "^0.542.0",
     "pix-payload": "^1.0.4",
     "qrcode": "^1.5.4",
