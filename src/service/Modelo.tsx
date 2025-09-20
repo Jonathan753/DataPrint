@@ -59,20 +59,47 @@ const Modelo = () => {
     // const [nota, setNota] = useState<Nota | null>(null);
     const [empresa, setEmpresa] = useState<any>(null);
     const [qrCode, setQrCode] = useState<string | null>(null);
+    const [acreDescValue, setAcreDescValue] = useState(0);
+    const [acreDesc, setAcreDesc] = useState('');
 
     const totalBruto = services.reduce((acc, s) => acc + (s.value * s.qtd), 0);
-    console.log(totalBruto / 100)
+    console.log(totalBruto)
+
+    const Desconto = () => {
+        if (acreDesc == "desconto") {
+
+            return totalBruto
+        }
+        if (acreDesc == "acressimo") {
+            console.log("////////////////////////")
+            console.log(acreDescValue)
+            console.log(totalBruto)
+            return totalBruto
+        }
+        else {
+            return totalBruto
+        }
+    }
+
+
+    // useEffect(() => {
+    //     if (acreDesc == "Desconto") {
+
+    //     }
+    // },[acreDesc])
+
+
 
 
     useEffect(() => {
         async function makeQr() {
-            if (totalBruto > 0) {
-                const dataUrl = await gerarQrCodePix(totalBruto);
+            if (Desconto() > 0) {
+                const dataUrl = await gerarQrCodePix(Desconto());
                 setQrCode(dataUrl);
             }
         }
         makeQr();
-    }, [totalBruto]);
+    }, [Desconto()]);
 
 
     // useEffect(() => {
@@ -100,7 +127,6 @@ const Modelo = () => {
 
 
 
-
     useEffect(() => {
         (async () => {
             const c = await (window as any).clients.getById(id);
@@ -115,14 +141,19 @@ const Modelo = () => {
     if (!empresa) return <p>Necessita dos dados da empresa</p>;
     /////////////
     function addService(service: Service) {
-
         setServices((prev) => [...prev, service]);
     }
 
-    const handleChange = (e: any) => {
+    const handleChangeObs = (e: any) => {
         setObs(e.target.value)
     }
 
+    const handleChangeAcreDescValue = (e: any) => {
+        // setAcreDesc(e.target.value)
+        setAcreDescValue(e.target.value);
+        console.log(e.target.value);
+    }
+    console.log(acreDesc)
 
 
     return (
@@ -138,7 +169,7 @@ const Modelo = () => {
                         {services.map((s, idx) => (
                             <li key={idx}>
                                 {s.service} - {
-                                    new Intl.NumberFormat("ptt-BR", {
+                                    new Intl.NumberFormat("pt-BR", {
                                         style: "currency",
                                         currency: "BRL",
                                     }).format(s.value / 100)
@@ -146,8 +177,20 @@ const Modelo = () => {
                             </li>
                         ))}
                     </ul>
+                    <div className="grid grid-cols-2">
 
-                    <Input gridClass="md:col-span-1" onChange={handleChange} value={obs} label="OBS" id="obs" name="obs" type="text" placeholder="Uma Observação" />
+                        <Input gridClass="md:col-span-2" onChange={handleChangeObs} value={obs} label="OBS" id="obs" name="obs" type="text" placeholder="Uma Observação" />
+
+
+                        <select name="" id="" className="md:col-span-1 bg-slate-500" value={acreDesc}
+                            onChange={e => setAcreDesc(e.target.value)} >
+                            <option value=""></option>
+                            <option value="acressimo">Acrescimo</option>
+                            <option value="desconto">Desconto</option>
+                        </select>
+
+                        <Input gridClass="md:col-span-1" onChange={handleChangeAcreDescValue} value={acreDescValue} label="AcreDesc" id="acre_desc" name="acre_desc" type="text" placeholder="Uma Observação" />
+                    </div>
 
                 </div>
 
@@ -219,13 +262,14 @@ const Modelo = () => {
                                 <td>{s.service}</td>
                                 <td> {s.qtd} </td>
                                 <td>{
-                                    new Intl.NumberFormat("ptt-BR", {
+                                    new Intl.NumberFormat("pt-BR", {
                                         style: "currency",
                                         currency: "BRL",
                                     }).format(s.value / 100)
                                 }</td>
                                 <td>{
-                                    new Intl.NumberFormat("ptt-BR", {
+
+                                    new Intl.NumberFormat("pt-BR", {
                                         style: "currency",
                                         currency: "BRL",
                                     }).format((s.value / 100) * s.qtd)
@@ -239,12 +283,25 @@ const Modelo = () => {
                 <br />
                 <br />
                 <div className="grid grid-cols-2">
-                    <h1 className="text-4xl">Total: {
-                        new Intl.NumberFormat("pt-BR", {
-                            style: "currency",
-                            currency: "BRL",
-                        }).format(totalBruto / 100)
-                    }</h1>
+                    <div className="content-center">
+                        <h2>Total Bruto:
+                            {
+                                new Intl.NumberFormat("pt-BR", {
+                                    style: "currency",
+                                    currency: "BRL",
+                                }).format(totalBruto / 100)
+                            }
+                        </h2>
+                        <h2>Acrés/Desc: {
+                            new Intl.NumberFormat("pt-BR").format(acreDescValue / 100)
+                        } %</h2>
+                        <h1 className="text-3xl">Total Liq: {
+                            new Intl.NumberFormat("pt-BR", {
+                                style: "currency",
+                                currency: "BRL",
+                            }).format(Desconto() / 100)
+                        }</h1>
+                    </div>
                     <div>
                         <div className="border-black border-solid border-2 w-36 m-auto">
                             {qrCode && (
