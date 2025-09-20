@@ -4,6 +4,15 @@ contextBridge.exposeInMainWorld('electron', {
     ping: () => ipcRenderer.invoke('ping'),
 });
 
+// contextBridge.exposeInMainWorld('electronAPI', {
+//     printBuffer: (pdfBuffer) => ipcRenderer.invoke('print-buffer', pdfBuffer),
+// });
+
+// contextBridge.exposeInMainWorld('pdf', {
+//     gerar: (html) => ipcRenderer.invoke('pdf:gerar', html),
+//     imprimir: (html) => ipcRenderer.invoke('pdf:imprimir', html),
+// });
+
 contextBridge.exposeInMainWorld("clients", {
     add: (data) => ipcRenderer.invoke("clients:add", data),
     all: () => ipcRenderer.invoke("clients:all"),

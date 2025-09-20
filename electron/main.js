@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const db = require('./db');
+const fs = require('node:fs');
 
 
 //////////////////////////// CLIENT /////////////////////////////
@@ -178,7 +179,27 @@ ipcMain.handle("services:update", (e, data) => {
   return { success: true };
 });
 
+/////////////////////////////////////
+// // Geração de PDF
+// ipcMain.handle("pdf:gerar", async (e, html) => {
+//   const tempWin = new BrowserWindow({ show: false }); // janela oculta
+//   await tempWin.loadURL("data:text/html;charset=utf-8," + encodeURIComponent(html));
 
+//   const pdfBuffer = await tempWin.webContents.printToPDF({});
+//   fs.writeFileSync("nota.pdf", pdfBuffer);
+//   tempWin.close();
+//   return "nota.pdf";
+// });
+
+// // Impressão direta
+// ipcMain.handle("pdf:imprimir", async (e, html) => {
+//   const tempWin = new BrowserWindow({ show: false });
+//   await tempWin.loadURL("data:text/html;charset=utf-8," + encodeURIComponent(html));
+
+//   tempWin.webContents.print({ silent: false }); // manda pra impressora
+//   return true;
+// });
+////////////////////////////////////
 
 
 

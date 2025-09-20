@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import logo from "../assets/logo.png"
 import SearchService from "../components/SearchService";
 import Input from "../components/Input";
 import { gerarQrCodePix } from "./pix";
 import ButtonPrinter from "../components/ButtonPrinter";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 type Clients = {
     clientId: number;
@@ -37,6 +39,7 @@ type Service = {
 
 const Modelo = () => {
 
+    const notaRef = useRef<HTMLDivElement | null>(null)
     //UseSate para cada dado
     const { id } = useParams();
     const [cliente, setCliente] = useState<Clients | null>(null);
@@ -48,7 +51,6 @@ const Modelo = () => {
     const [desconto, setDesconto] = useState(0);
 
     const totalBruto = services.reduce((acc, s) => acc + (s.value * s.qtd), 0);
-    console.log(totalBruto)
 
     let result = (totalBruto) - (totalBruto * (desconto / 10000)) + (totalBruto * (acressimo / 10000))
     let today = new Date().toLocaleDateString('pt-BR');
@@ -74,25 +76,76 @@ const Modelo = () => {
         })();
     }, [id]);
     if (!empresa) return <p>Necessita dos dados da empresa</p>;
+
+    /////////////////
+
+    async function handleDownloadPDF() {
+        if (!notaRef.current) return;
+
+        const canvas = await html2canvas(notaRef.current);
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF("p", "mm", "a4");
+
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+        const imgProps = pdf.getImageProperties(imgData);
+        const imgHeight = (imgProps.height * pageWidth) / imgProps.width;
+
+        pdf.addImage(imgData, "PNG", 0, 0, pageWidth, imgHeight);
+        pdf.save("nota.pdf");
+    }
+
+    async function handlePrintPDF() {
+        if (!notaRef.current) return;
+
+        const canvas = await html2canvas(notaRef.current);
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF("p", "mm", "a4");
+
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+        const imgProps = pdf.getImageProperties(imgData);
+        const imgHeight = (imgProps.height * pageWidth) / imgProps.width;
+
+        pdf.addImage(imgData, "PNG", 1, 1, pageWidth, imgHeight);
+
+        // gera blob e manda para o Electron imprimir
+        const pdfBlob = pdf.output("blob");
+        const arrayBuffer = await pdfBlob.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+
+        await (window as any).electronAPI.printBuffer(buffer);
+    }
+
+    // const handleGerarPDF = () => {
+    //     const div = document.getElementById("nota-pdf");
+    //     if (div) {
+    //         (window as any).pdf.gerar(div.outerHTML);
+    //     }
+    // };
+
+    // const handleImprimir = () => {
+    //     const div = document.getElementById("nota-pdf");
+    //     if (div) {
+    //         (window as any).pdf.imprimir(div.outerHTML);
+    //     }
+    // };
+
     /////////////
     function addService(service: Service) {
         setServices((prev) => [...prev, service]);
     }
-
     const handleChangeObs = (e: any) => {
         setObs(e.target.value)
     }
-
     const handleChangeAcressimo = (e: any) => {
-        // setAcreDesc(e.target.value)
         setAcressimo(e.target.value);
-        console.log(e.target.value);
     }
     const handleChangeDesconto = (e: any) => {
-        // setAcreDesc(e.target.value)
         setDesconto(e.target.value);
-        console.log(e.target.value);
     }
+
+
 
 
 
@@ -124,7 +177,7 @@ const Modelo = () => {
                     </div>
                 </div>
 
-                <div className="template border-black border-2 p-2 mt-4 ">
+                <div ref={notaRef} id="nota" className="template border-black border-2 p-2 mt-4 ">
                     <div className="grid grid-cols-2">
                         <img className="w-48" src={logo} alt="" />
                         <div className="grid grid-rows-5">
@@ -143,7 +196,7 @@ const Modelo = () => {
                         </div>
                     </div>
                     <hr className="border-black" />
-                    <div className="grid grid-cols-4">
+                    <div className="grid grid-cols-4 py-1">
                         <p>Vendedor: {empresa.salesperson}</p>
                         <p>Pedido: {cliente?.uf}</p>
                         <p>Emissão: {today}</p>
@@ -247,8 +300,9 @@ const Modelo = () => {
                     </div>
                 </div>
                 <div className="grid grid-cols-6 p-4">
+                        <ButtonPrinter onClick={handleDownloadPDF} />
                     <div className="col-start-6">
-                        <ButtonPrinter />
+                        <ButtonPrinter onClick={handlePrintPDF} />
                     </div>
                 </div>
             </div>
