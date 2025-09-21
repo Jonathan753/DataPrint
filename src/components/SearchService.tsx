@@ -13,7 +13,7 @@ const SearchService = ({ onAdd }: { onAdd: (p: SelectService) => void }) => {
     const [termo, setTermo] = useState('');
     const [quantidade, setQuantidade] = useState<{ [id: number]: number }>({});
 
-    async function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
+    const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setTermo(value);
 
@@ -25,7 +25,7 @@ const SearchService = ({ onAdd }: { onAdd: (p: SelectService) => void }) => {
         }
     }
 
-    function handleQuantidadeChange(id: number, value: string) {
+    const handleQuantidadeChange = (id: number, value: string) => {
         setQuantidade((prev) => ({
             ...prev,
             [id]: parseInt(value) || 1,
@@ -48,7 +48,7 @@ const SearchService = ({ onAdd }: { onAdd: (p: SelectService) => void }) => {
                         <li key={p.serviceId} className="p-2 flex items-center gap-2 border-b">
                             <span className="flex-1">
                                 {p.service} — {
-                                     new Intl.NumberFormat("ptt-BR", {
+                                    new Intl.NumberFormat("ptt-BR", {
                                         style: "currency",
                                         currency: "BRL",
                                     }).format(p.value / 100)

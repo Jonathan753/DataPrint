@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
-import logo from "../assets/logo.png"
+import logo from "../assets/logo_newDataPrint.svg"
 import SearchService from "../components/SearchService";
 import Input from "../components/Input";
 import { gerarQrCodePix } from "./pix";
@@ -179,7 +179,7 @@ const Modelo = () => {
 
                 <div ref={notaRef} id="nota" className="template border-black border-2 p-2 mt-4 ">
                     <div className="grid grid-cols-2">
-                        <img className="w-48" src={logo} alt="" />
+                        <img className="" src={logo} alt="" />
                         <div className="grid grid-rows-5">
                             <p>Endereço: {empresa.adress}</p>
                             <div className="grid grid-cols-3 gap-1">

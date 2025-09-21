@@ -1,18 +1,16 @@
 import { Printer } from "lucide-react";
-
 interface Props {
     onClick?: () => void
 }
 
 const ButtonPrinter = ({onClick}:Props) => {
-    // Fazer o botao de salvar 
     return (
         <>
-            <button onClick={onClick} type="submit" className="px-6 py-2 flex gap-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <button onClick={onClick} className="px-6 py-2 flex gap-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 <Printer size={20} /> Salvar
             </button>
         </>
     )
 }
 
-export default ButtonPrinter
+export default ButtonPrinter;
