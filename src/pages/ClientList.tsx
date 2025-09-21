@@ -4,8 +4,6 @@ import ButtonNota from "../components/ButtonNota";
 import ButtonUpdate from "../components/ButtonUpdate";
 import Title from "../components/Title"
 import { useState, useEffect } from "react";
-import { Pencil, Trash2 } from "lucide-react";
-
 
 type Clients = {
     clientId: number;
@@ -32,7 +30,6 @@ const ClientList = () => {
 
     useEffect(() => {
         (async () => {
-
             const data = await (window as any).clients.all();
             setClients(data);
         })();
@@ -44,18 +41,13 @@ const ClientList = () => {
             <Title title="Lista de Clientes" />
 
             <div className="max-w-7xl mx-auto">
-                {/* Header da Página */}
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold text-gray-800">Lista de Clientes</h1>
                     <p className="text-gray-500 mt-1">Visualize e gerencie os clientes cadastrados.</p>
                 </div>
-
-                {/* Container da Tabela com Estilo de Card */}
                 <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                    {/* Wrapper para permitir rolagem horizontal em telas pequenas */}
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left text-gray-600">
-                            {/* Cabeçalho da Tabela */}
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                                 <tr>
                                     <th scope="col" className="px-6 py-3">Nome</th>
@@ -65,7 +57,6 @@ const ClientList = () => {
                                     <th scope="col" className="px-6 py-3 text-center">Ações</th>
                                 </tr>
                             </thead>
-                            {/* Corpo da Tabela */}
                             <tbody className="divide-y divide-gray-200">
                                 {clients.map((c, idx) => (
                                     <tr key={idx} className="bg-white hover:bg-gray-50">
@@ -76,7 +67,6 @@ const ClientList = () => {
                                         <td className="px-6 py-4">{c.phone}</td>
                                         <td className="px-6 py-4">{c.city}</td>
                                         <td className="px-6 py-4">
-                                            {/* Botões de Ação */}
                                             <div className="flex justify-center items-center gap-4">
                                                 <ButtonNota textMain="Criar Nota" onClick={() => navigate(`/modelo/${c.clientId}`)} />
                                                 <ButtonDelete textMain="Excluir CLiente" onClick={

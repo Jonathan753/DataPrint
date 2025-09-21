@@ -3,10 +3,10 @@ import { payload } from "pix-payload";
 
 export function gerarPixPayload(valor: number) {
     const data = {
-        key: "10958756473", // cpf, cnpj, email ou chave aleatória
+        key: "10958756473",
         name: "Jonathan Erik",
         city: "Recife",
-        amount: (valor / 100).toFixed(2), // valor em reais
+        amount: (valor / 100).toFixed(2),
         transactionId: "NOTA123",
     };
 

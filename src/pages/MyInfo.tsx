@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ButtonSave from "../components/ButtonSave";
-import Input from "../components/Input"; // Importando nosso novo componente
+import Input from "../components/Input";
 import Title from "../components/Title";
 
 const MyInfo = () => {
@@ -14,23 +14,22 @@ const MyInfo = () => {
     }, []);
 
 
-    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setForm((prev: any) => ({ ...prev, [name]: value }));
     }
 
-    async function handleSubmit(e: React.FormEvent) {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         await (window as any).myInfo.save(form);
         alert("Dados da empresa salvos!");
     }
+
     return (
         <>
-            {/* Formulário */}
             <Title title="Meus Dados" />
             <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                    {/* Usamos as classes de grid para posicionar os campos */}
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.name} label="Nome" id="nome" name="name" type="text" placeholder="João da Silva" />
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.email} label="Email" id="email" name="email" type="email" placeholder="contato@silvacomercio.com" />
                     <Input gridClass="md:col-span-2" onChange={handleChange} value={form.adress} label="Endereço" id="endereco" name="adress" type="text" placeholder="Rua das Flores, 123" />
@@ -44,8 +43,6 @@ const MyInfo = () => {
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cell} label="Celular" id="celular" name="cell" type="tel" placeholder="(11) 98765-4321" />
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cell} label="Chave PIX" id="celular" name="cell" type="tel" placeholder="(11) 98765-4321" />
                 </div>
-
-                {/* Botões do Formulário */}
                 <div className="mt-8 flex justify-end gap-4">
                     <button type="button" className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-400">
                         Cancelar
@@ -53,7 +50,6 @@ const MyInfo = () => {
                     <ButtonSave />
                 </div>
             </form>
-
         </>
     )
 }

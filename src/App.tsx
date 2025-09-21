@@ -4,14 +4,7 @@ import AddUser from './pages/AddUser';
 import AddService from './pages/AddService';
 import Sidebar from './layout/Sidebar';
 import { SidebarItem } from './components/SidebarItem';
-import {
-  UsersRound,
-  UserRoundPlus,
-  PackagePlus,
-  PackageSearch,
-  File,
-  Info,
-} from "lucide-react"
+import { UsersRound, UserRoundPlus, PackagePlus, PackageSearch, File, Info, } from "lucide-react"
 import NoteFast from './pages/NoteFast';
 import ClientList from './pages/ClientList';
 import ServiceList from './pages/ServiceList';
@@ -27,7 +20,6 @@ function App() {
 
   return (
     <>
-
       <BrowserRouter>
         <main className="flex">
           <Sidebar>
@@ -40,20 +32,10 @@ function App() {
             <SidebarItem to="my-info" onClick={() => setActivePage("my-info")} active={activePage === "my-info"} icon={<Info size={20} />} text="Meus Dados" />
             <SidebarItem to="nota" icon={<Info size={20} />} text="Teste" />
           </Sidebar>
-          {/* conteudo da pagina */}
-          {/* <div className='title-bar'>
-            <div className='title'>Seu Aplicativo Maneiro</div>
-            <div className='window-controls'>
-              <button id="minimize-btn">_</button>
-              <button id="max-unmax-btn">[]</button>
-              <button id="close-btn">X</button>
-            </div>
-          </div> */}
           <div className='flex-1 h-screen overflow-y-auto m-5'>
             <div className='max-w-4xl mx-auto'>
               <div className="bg-white p-8 rounded-lg shadow-md">
                 <Routes>
-                  {/* <Route path='/' element={<Home />} /> */}
                   <Route path='/' element={<AddUser />} />
                   <Route path='/add-user' element={<AddUser />} />
                   <Route path='/client-list' element={<ClientList />} />
@@ -63,14 +45,11 @@ function App() {
                   <Route path='/my-info' element={<MyInfo />} />
                   <Route path='/nota' element={<TemplateNota />} />
                   <Route path='/modelo/:id' element={<Modelo />} />
-                  
                 </Routes>
               </div>
-              {/* fim do conteudo da pagina */}
             </div>
           </div>
         </main>
-
       </BrowserRouter>
     </>
   )

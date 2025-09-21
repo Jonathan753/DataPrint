@@ -9,10 +9,9 @@ type Service = {
     value: number;
 }
 
-
 const ServiceList = () => {
-    const [form, setForm] = useState<Service[]>([]);
 
+    const [form, setForm] = useState<Service[]>([]);
     useEffect(() => {
         (async () => {
             const data = await (window as any).services.all();
@@ -23,21 +22,14 @@ const ServiceList = () => {
     return (
         <>
             <Title title="Lista de Servicos" />
-
-            {/* ///////////////////////////// */}
             <div className="max-w-7xl mx-auto">
-                {/* Header da Página */}
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold text-gray-800">Lista de Clientes</h1>
                     <p className="text-gray-500 mt-1">Visualize e gerencie os serviços cadastrados.</p>
                 </div>
-
-                {/* Container da Tabela com Estilo de Card */}
                 <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                    {/* Wrapper para permitir rolagem horizontal em telas pequenas */}
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left text-gray-600">
-                            {/* Cabeçalho da Tabela */}
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                                 <tr>
                                     <th scope="col" className="px-6 py-3">Código</th>
@@ -46,7 +38,6 @@ const ServiceList = () => {
                                     <th scope="col" className="px-6 py-3 text-center">Ações</th>
                                 </tr>
                             </thead>
-                            {/* Corpo da Tabela */}
                             <tbody className="divide-y divide-gray-200">
                                 {form.map((service, idx) => (
                                     <tr key={idx} className="bg-white hover:bg-gray-50">
@@ -61,7 +52,6 @@ const ServiceList = () => {
                                             }).format(service.value / 100)
                                         }</td>
                                         <td className="px-6 py-4">
-                                            {/* Botões de Ação */}
                                             <div className="flex justify-center items-center gap-4">
                                                 <ButtonDelete textMain="Excluir CLiente" onClick={
                                                     async () => {

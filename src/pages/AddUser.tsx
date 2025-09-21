@@ -20,8 +20,7 @@ type Clients = {
 }
 
 const AddUser = () => {
-    //tentiva de banco
-    // const [clients, setClients] = useState<Client[]>([]);
+
     const [form, setForm] = useState<Clients>({
         cnpj_cpf: "",
         name: "",
@@ -38,19 +37,12 @@ const AddUser = () => {
         cell: "",
     });
 
-    // useEffect(() => {
-    //     (async () => {
-    //         const data = await (window as any).clients.all();
-    //         setClients(data);
-    //     })();
-    // }, []);
-
-    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setForm((prev) => ({ ...prev, [name]: value }));
     }
 
-    async function handleSubmit(e: React.FormEvent) {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         await (window as any).clients.add(form);
         // const data = await (window as any).clients.all();
@@ -59,14 +51,11 @@ const AddUser = () => {
         alert("client cadastrado com sucesso");
     }
 
-
     return (
         <>
-            {/* Formulário */}
             <Title title="Adicionar Cliente" />
             <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                    {/* Usamos as classes de grid para posicionar os campos */}
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.name} label="Nome" id="nome" name="name" type="text" placeholder="João da Silva" />
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.company} label="Razão Social" id="company" name="company" type="text" placeholder="Silva Comércio LTDA" />
                     <Input gridClass="md:col-span-2" onChange={handleChange} value={form.email} label="Email" id="email" name="email" type="email" placeholder="contato@silvacomercio.com" />
@@ -82,7 +71,6 @@ const AddUser = () => {
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cell} label="Celular" id="celular" name="cell" type="tel" placeholder="(11) 98765-4321" />
                 </div>
 
-                {/* Botões do Formulário */}
                 <div className="mt-8 flex justify-end gap-4">
                     <button type="button" className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-400">
                         Cancelar
