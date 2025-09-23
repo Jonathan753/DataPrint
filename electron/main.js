@@ -249,3 +249,35 @@ app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) creat
 // ipcMain.on('close-app', () => {
 //     BrowserWindow.getFocusedWindow()?.close();
 // });
+
+// ipcMain.handle("print-nota", async (e, html)=>{
+//   const printWindow = new BrowserWindow({show:false});
+//   const fullHTML = `
+//   <html>
+//     <head>
+//       <meta charset="utf-8"/>
+//       <style>
+//         body {
+//           font-family: Arial, sans-serif;
+//           margin: 20px;
+//         }
+//       </style>
+//     </head>
+//     <body>
+//       ${htmlContent}
+//     </body>
+//   </html>
+//   `
+//   await printWindow.loadURL("data:text/html;charset=utf-8"+encodeURIComponent(fullHTML));
+
+//   const pdfBuffer = await printWindow.webContents.printToPDF({
+//     marginType: 1,
+//     pageSize: "A4",
+//     printBackground: true,
+//   });
+
+//   const filePath = path.join(app.getPath("desktop"), "nota.pdf");
+//   fs.writeFileSync(filePath, pdfBuffer);
+
+//   return filePath;
+// })

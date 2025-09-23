@@ -43,3 +43,17 @@
 .window-controls button:hover {
     background-color: #555;
 }
+
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+/* .line {
+  background: black;
+  height: 1px;
+  width: 100%;
+  transform: scaleY(0.5);
+} */
