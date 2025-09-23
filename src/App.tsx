@@ -20,8 +20,9 @@ function App() {
 
   return (
     <>
+    <div className='title-bar h-7 bg-white text-white flex justify-center items-center'></div>
       <BrowserRouter>
-        <main className="flex">
+        <main className="flex mt-7">
           <Sidebar>
             <SidebarItem onClick={() => setActivePage("add-user")} active={activePage === "add-user"} to="add-user" icon={<UserRoundPlus size={20} />} text="Adicionar Cliente" />
             <SidebarItem onClick={() => setActivePage("add-service")} active={activePage === "add-service"} to="add-service" icon={<PackagePlus size={20} />} text="Adicionar Serviço/Produto" />

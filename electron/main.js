@@ -2,8 +2,6 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const db = require('./db');
 const fs = require('node:fs');
-
-
 //////////////////////////// CLIENT /////////////////////////////
 ipcMain.handle("clients:add", (e, data) => {
   const stmt = db.prepare(`
@@ -209,12 +207,16 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 1000,
     height: 800,
+    titleBarStyle: 'hidden',
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
       preload: path.join(__dirname, 'preload.js'),
     },
+    ...(process.platform !== 'darwin' ? { titleBarOverlay: true } : {})
   });
+
+
 
   if (isDev) {
     win.loadURL(process.env.ELECTRON_START_URL);
