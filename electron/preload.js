@@ -5,7 +5,7 @@ contextBridge.exposeInMainWorld('electron', {
 });
 
 // contextBridge.exposeInMainWorld('electronAPI', {
-//     printBuffer: (pdfBuffer) => ipcRenderer.invoke('print-buffer', pdfBuffer),
+//     printNota: (html) => ipcRenderer.invoke('print-nota', html),
 // });
 
 // contextBridge.exposeInMainWorld('pdf', {
