@@ -68,7 +68,7 @@ const AddUser = () => {
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cnpj_cpf} label="CPF/CNPJ" id="cnpj_cpf" name="cnpj_cpf" type="text" placeholder="00.000.000/0001-00" />
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.complement} label="Complemento" id="complement" name="complement" type="text" placeholder="Apto 42" />
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.phone} label="Telefone" id="telefone" name="phone" type="tel" placeholder="(11) 2345-6789" />
-                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cell} label="Celular" id="celular" name="cell" type="tel" placeholder="(11) 98765-4321" />
+                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cell} mask="(99) 99999-9999" label="Celular" id="celular" name="cell" type="tel" placeholder="(11) 98765-4321" />
                 </div>
 
                 <div className="mt-8 flex justify-end gap-4">
