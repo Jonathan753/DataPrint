@@ -20,22 +20,24 @@ function App() {
 
   return (
     <>
-    <div className='title-bar h-7 bg-white text-white flex justify-center items-center'></div>
-      <BrowserRouter>
-        <main className="flex mt-7">
-          <Sidebar>
-            <SidebarItem onClick={() => setActivePage("add-user")} active={activePage === "add-user"} to="add-user" icon={<UserRoundPlus size={20} />} text="Adicionar Cliente" />
-            <SidebarItem onClick={() => setActivePage("add-service")} active={activePage === "add-service"} to="add-service" icon={<PackagePlus size={20} />} text="Adicionar Serviço/Produto" />
-            <SidebarItem onClick={() => setActivePage("client-list")} active={activePage === "client-list"} to="client-list" icon={<UsersRound size={20} />} text="Lista de Clientes" />
-            <SidebarItem onClick={() => setActivePage("service-list")} active={activePage === "service-list"} to="service-list" icon={<PackageSearch size={20} />} text="Lista de Serviço/Produto" />
-            <SidebarItem onClick={() => setActivePage("nota-fast")} active={activePage === "nota-fast"} to="nota-fast" icon={<File size={20} />} text="Nota Rápida" />
-            <hr className="my-3" />
-            <SidebarItem to="my-info" onClick={() => setActivePage("my-info")} active={activePage === "my-info"} icon={<Info size={20} />} text="Meus Dados" />
-            <SidebarItem to="nota" icon={<Info size={20} />} text="Teste" />
-          </Sidebar>
-          <div className='flex-1 h-screen overflow-y-auto m-5'>
-            <div className='max-w-4xl mx-auto'>
-              <div className="bg-white p-8 rounded-lg shadow-md">
+      <div className="flex flex-col h-dvh">
+        <div className='title-bar h-7 bg-white text-white flex justify-center items-center'>
+          <h3 className='text-black'>Data Print</h3>
+        </div>
+        <BrowserRouter>
+          <main className="flex flex-1 overflow-hidden">
+            <Sidebar>
+              <SidebarItem onClick={() => setActivePage("add-user")} active={activePage === "add-user"} to="add-user" icon={<UserRoundPlus size={20} />} text="Adicionar Cliente" />
+              <SidebarItem onClick={() => setActivePage("add-service")} active={activePage === "add-service"} to="add-service" icon={<PackagePlus size={20} />} text="Adicionar Serviço/Produto" />
+              <SidebarItem onClick={() => setActivePage("client-list")} active={activePage === "client-list"} to="client-list" icon={<UsersRound size={20} />} text="Lista de Clientes" />
+              <SidebarItem onClick={() => setActivePage("service-list")} active={activePage === "service-list"} to="service-list" icon={<PackageSearch size={20} />} text="Lista de Serviço/Produto" />
+              <SidebarItem onClick={() => setActivePage("nota-fast")} active={activePage === "nota-fast"} to="nota-fast" icon={<File size={20} />} text="Nota Rápida" />
+              <hr className="my-3" />
+              <SidebarItem to="my-info" onClick={() => setActivePage("my-info")} active={activePage === "my-info"} icon={<Info size={20} />} text="Meus Dados" />
+              <SidebarItem to="nota" icon={<Info size={20} />} text="Teste" />
+            </Sidebar>
+            <div className='flex-1 overflow-y-auto p-5 m-2'>
+              <div className="bg-white shadow-md w-full h-full">
                 <Routes>
                   <Route path='/' element={<AddUser />} />
                   <Route path='/add-user' element={<AddUser />} />
@@ -49,11 +51,13 @@ function App() {
                 </Routes>
               </div>
             </div>
-          </div>
-        </main>
-      </BrowserRouter>
+          </main>
+        </BrowserRouter>
+      </div>
     </>
   )
 }
 
 export default App
+
+
