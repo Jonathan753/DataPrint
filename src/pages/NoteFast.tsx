@@ -1,4 +1,4 @@
-import ButtonSave from "../components/ButtonSave";
+import {ButtonSave} from "../components/Button";
 import Input from "../components/Input";
 
 

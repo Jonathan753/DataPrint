@@ -15,7 +15,7 @@ const Sidebar = ({ children }: SidebarProps) => {
 
    return (
       <aside className="h-auto">
-         <nav className="h-full flex flex-col bg-white border-r shadow-sm">
+         <nav className="h-full flex flex-col bg-indigo-950 shadow-sm"> 
             <div className="p-4 pb-2 flex justify-between items-center">
                <img
                   src={logo}
@@ -25,7 +25,7 @@ const Sidebar = ({ children }: SidebarProps) => {
                />
                <button
                   onClick={() => setExpanded((curr) => !curr)}
-                  className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
+                  className="p-1.5 rounded-lg bg-slate-600 hover:bg-slate-300 text-white"
                >
                   {expanded ? <ChevronFirst /> : <ChevronLast />}
                </button>

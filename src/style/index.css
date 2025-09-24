@@ -3,8 +3,7 @@
 @tailwind utilities;
 
 :root {
-    background-color: rgb(125, 159, 159);
-
+    background-color: #e9edf6;
 }
 
 .title-bar {

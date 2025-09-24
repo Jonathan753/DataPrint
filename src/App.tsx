@@ -21,8 +21,8 @@ function App() {
   return (
     <>
       <div className="flex flex-col h-dvh">
-        <div className='title-bar h-7 bg-white text-white flex justify-center items-center'>
-          <h3 className='text-black'>Data Print</h3>
+        <div className='title-bar h-7 bg-indigo-950 text-white flex justify-center items-center'>
+          <h3 className='text-blue-200'>Data Print</h3>
         </div>
         <BrowserRouter>
           <main className="flex flex-1 overflow-hidden">
@@ -36,8 +36,8 @@ function App() {
               <SidebarItem to="my-info" onClick={() => setActivePage("my-info")} active={activePage === "my-info"} icon={<Info size={20} />} text="Meus Dados" />
               <SidebarItem to="nota" icon={<Info size={20} />} text="Teste" />
             </Sidebar>
-            <div className='flex-1 overflow-y-auto p-5 m-2'>
-              <div className="bg-white shadow-md w-full h-full">
+            <div className='flex-1 overflow-y-auto p-5'>
+              <div className="bg-white shadow-md rounded-sm w-full p-10">
                 <Routes>
                   <Route path='/' element={<AddUser />} />
                   <Route path='/add-user' element={<AddUser />} />

@@ -1,7 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import ButtonDelete from "../components/ButtonDelete";
-import ButtonNota from "../components/ButtonNota";
-import ButtonUpdate from "../components/ButtonUpdate";
+import { ButtonDelete, ButtonNota, ButtonUpdate, ButtonView } from "../components/Button";
 import Title from "../components/Title"
 import { useState, useEffect } from "react";
 
@@ -38,13 +36,10 @@ const ClientList = () => {
 
     return (
         <>
-            <Title title="Lista de Clientes" />
+            <Title title="Lista de Clientes" subtitle="Visualize e gerencie os clientes cadastrados." />
 
-            <div className="max-w-7xl mx-auto">
-                <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-800">Lista de Clientes</h1>
-                    <p className="text-gray-500 mt-1">Visualize e gerencie os clientes cadastrados.</p>
-                </div>
+            <div className="max-w-7xl mx-auto p-8">
+
                 <div className="bg-white rounded-lg shadow-md overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left text-gray-600">
@@ -68,6 +63,7 @@ const ClientList = () => {
                                         <td className="px-6 py-4">{c.city}</td>
                                         <td className="px-6 py-4">
                                             <div className="flex justify-center items-center gap-4">
+                                                <ButtonView textMain="Ver dados do cliente" />
                                                 <ButtonNota textMain="Criar Nota" onClick={() => navigate(`/modelo/${c.clientId}`)} />
                                                 <ButtonDelete textMain="Excluir CLiente" onClick={
                                                     async () => {

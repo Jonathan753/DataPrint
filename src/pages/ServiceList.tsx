@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import ButtonDelete from "../components/ButtonDelete";
-import ButtonUpdate from "../components/ButtonUpdate";
+import {ButtonDelete, ButtonUpdate} from "../components/Button";
 import Title from "../components/Title"
 
 type Service = {
@@ -22,11 +21,7 @@ const ServiceList = () => {
     return (
         <>
             <Title title="Lista de Servicos" />
-            <div className="max-w-7xl mx-auto">
-                <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-800">Lista de Clientes</h1>
-                    <p className="text-gray-500 mt-1">Visualize e gerencie os serviços cadastrados.</p>
-                </div>
+            <div className="max-w-7xl mx-auto p-8">
                 <div className="bg-white rounded-lg shadow-md overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left text-gray-600">

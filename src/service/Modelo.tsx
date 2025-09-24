@@ -4,7 +4,7 @@ import logo from "../assets/logo_newDataPrint.svg"
 import SearchService from "../components/SearchService";
 import Input from "../components/Input";
 import { gerarQrCodePix } from "./pix";
-import ButtonPrinter from "../components/ButtonPrinter";
+import {ButtonPrinter} from "../components/Button";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
