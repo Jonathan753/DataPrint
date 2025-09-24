@@ -1,5 +1,7 @@
+// Input.tsx
+
 import type { InputHTMLAttributes } from "react";
-import InputMask, { type Props as InputMaskProps } from "react-input-mask";
+import { IMaskInput } from "react-imask";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     label: string;
@@ -7,10 +9,26 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     mask?: string;
 }
 
+const lettersUfMask = {
+    // mask: /^[a-zA-Z\s]*$/, // RegExp que aceita apenas letras e espaços
+    mask: 'aa', // RegExp que aceita apenas letras e espaços
+    prepare: (str: string) => str.toUpperCase(), // Função que converte para maiúsculas
+};
+
+// NOVO: Definição da máscara dinâmica para CPF/CNPJ
+const cpfCnpjMask = [
+    {
+        mask: '000.000.000-00',
+        maxLength: 11,
+    },
+    {
+        mask: '00.000.000/0000-00',
+    }
+];
+
 const Input = ({ label, id, gridClass = "", mask, ...props }: InputProps) => {
 
-    // As propriedades do input que serão compartilhadas
-    const inputProps = {
+    const commonProps = {
         id: id,
         className: `w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm 
                     focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500
@@ -18,22 +36,36 @@ const Input = ({ label, id, gridClass = "", mask, ...props }: InputProps) => {
         ...props
     };
 
+    // MODIFICADO: Lógica para escolher a máscara correta
+    const maskConfig = mask === 'cpf-cnpj'
+        ? {
+            mask: cpfCnpjMask,
+            dispatch: (appended: string, dynamicMasked: any) => {
+                const rawValue = (dynamicMasked.value + appended).replace(/\D/g, "");
+                if (rawValue.length <= 11) {
+                    return dynamicMasked.compiledMasks[0]; // Retorna a máscara de CPF
+                }
+                return dynamicMasked.compiledMasks[1]; // Retorna a máscara de CNPJ
+            }
+        }
+        : mask === "letters-uf" ? lettersUfMask
+            : mask; // Se não for 'cpf-cnpj', usa a string da máscara como antes
+
+
     return (
         <div className={gridClass}>
             <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">
                 {label}
             </label>
-            
-            {/* 3. ADICIONADO: Lógica condicional */}
+
             {mask ? (
-                // Se uma máscara for fornecida, renderiza o InputMask
-                <InputMask {...(inputProps as InputMaskProps)} mask={mask} >
-                  {/* A biblioteca pede uma função como filho para passar as props ao input real */}
-                  {(props: any) => <input {...props} />}
-                </InputMask>
+                <IMaskInput
+                    {...commonProps}
+                    // MODIFICADO: Passa a configuração da máscara (pode ser a string ou o objeto dinâmico)
+                    {...(typeof maskConfig === 'string' ? { mask: maskConfig } : maskConfig)}
+                />
             ) : (
-                // Se não houver máscara, renderiza um input normal (comportamento original)
-                <input {...inputProps} />
+                <input {...commonProps} />
             )}
         </div>
     );
