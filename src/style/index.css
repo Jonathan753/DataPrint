@@ -7,33 +7,7 @@
 }
 
 .title-bar {
-    /* height: 28px; */
     -webkit-app-region: drag;
-    top: 0;
-    width: 100%;
-}
-
-.title {
-    -webkit-app-region: no-drag;
-    /* Impede que o texto seja arrastável */
-}
-
-.window-controls {
-    -webkit-app-region: no-drag;
-    /* Impede que os botões sejam arrastáveis */
-}
-
-.window-controls button {
-    background: none;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    font-size: 16px;
-    padding: 0 5px;
-}
-
-.window-controls button:hover {
-    background-color: #555;
 }
 
 @media print {
@@ -42,10 +16,3 @@
     print-color-adjust: exact;
   }
 }
-
-/* .line {
-  background: black;
-  height: 1px;
-  width: 100%;
-  transform: scaleY(0.5);
-} */

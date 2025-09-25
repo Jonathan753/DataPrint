@@ -27,7 +27,9 @@ const MyInfo = () => {
 
     return (
         <>
-            <Title title="Meus Dados" />
+            <Title title="Meus Dados" subtitle="Insira os dados da sua empresa." />
+            <div className="p-8">
+
             <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.name} label="Nome" id="nome" name="name" type="text" placeholder="João da Silva" />
@@ -39,9 +41,10 @@ const MyInfo = () => {
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.uf} label="UF" id="uf" name="uf" type="text" placeholder="PE" />
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cep} label="CEP" id="cep" name="cep" type="text" placeholder="50899-250" />
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cnpj} label="CPF/CNPJ" id="cnpj" name="cnpj" type="text" placeholder="00.000.000/0001-00" />
-                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.phone} label="Telefone" id="telefone" name="phone" type="tel" placeholder="(11) 2345-6789" />
-                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cell} label="Celular" id="celular" name="cell" type="tel" placeholder="(11) 98765-4321" />
-                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cell} label="Chave PIX" id="celular" name="cell" type="tel" placeholder="(11) 98765-4321" />
+                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.phone} label="Telefone" id="telefone" name="phone" type="text" placeholder="(11) 2345-6789" />
+                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cell} label="Celular" id="celular" name="cell" type="text" placeholder="(11) 98765-4321" />
+                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cell} label="Chave PIX" id="celular" name="cell" type="text" placeholder="(11) 98765-4321" />
+                    <Input gridClass="md:col-span-1"   label="Logo" id="celular" name="cell" type="file"  />
                 </div>
                 <div className="mt-8 flex justify-end gap-4">
                     <button type="button" className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-400">
@@ -50,6 +53,7 @@ const MyInfo = () => {
                     <ButtonSave />
                 </div>
             </form>
+            </div>
         </>
     )
 }
