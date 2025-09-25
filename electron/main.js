@@ -207,15 +207,35 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 1000,
     height: 800,
+    frame: false,
+    // titleBarStyle: 'hiddenInset',
     titleBarStyle: 'hidden',
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
       preload: path.join(__dirname, 'preload.js'),
     },
-    ...(process.platform !== 'darwin' ? { titleBarOverlay: true } : {})
+    // titleBarStyle: 'customButtonsOnHover',
+    // ...(process.platform !== 'darwin' ? { titleBarOverlay: true } : {})
+
+
   });
 
+  ipcMain.on('minimize-app', () => {
+    win.minimize();
+  });
+
+  ipcMain.on('maximize-app', () => {
+    if (win.isMaximized()) {
+      win.unmaximize();
+    } else {
+      win.maximize();
+    }
+  });
+
+  ipcMain.on('close-app', () => {
+    win.close();
+  });
 
 
   if (isDev) {
@@ -225,14 +245,15 @@ function createWindow() {
     // IMPORTANTÍSSIMO: com Vite, use base './' (ver passo 4)
     win.loadFile(path.join(__dirname, '../dist/index.html'));
   }
+
+  // exemplo de IPC (só pra provar que o preload funciona)
+  ipcMain.handle('ping', () => 'pong');
+
 }
+  app.whenReady().then(createWindow);
+  app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit(); });
+  app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });
 
-// exemplo de IPC (só pra provar que o preload funciona)
-ipcMain.handle('ping', () => 'pong');
-
-app.whenReady().then(createWindow);
-app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit(); });
-app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });
 
 //TitleBar
 // ipcMain.on('minimize-app', () => {

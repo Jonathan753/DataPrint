@@ -4,7 +4,7 @@ import logo from "../assets/logo_newDataPrint.svg"
 import SearchService from "../components/SearchService";
 import Input from "../components/Input";
 import { gerarQrCodePix } from "./pix";
-import {ButtonPrinter} from "../components/Button";
+import { ButtonPrinter } from "../components/Button";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
@@ -82,7 +82,7 @@ const Modelo = () => {
     async function handleDownloadPDF() {
         if (!notaRef.current) return;
 
-        const canvas = await html2canvas(notaRef.current, {scale: 2});
+        const canvas = await html2canvas(notaRef.current, { scale: 2 });
         const imgData = canvas.toDataURL("image/png");
         const pdf = new jsPDF("p", "mm", "a4");
 
@@ -96,20 +96,20 @@ const Modelo = () => {
     }
 
     // Imprimir direto
-  async function handlePrint() {
-    if (!notaRef.current) return;
+    async function handlePrint() {
+        if (!notaRef.current) return;
 
-    const canvas = await html2canvas(notaRef.current, { scale: 2 });
-    const imgData = canvas.toDataURL("image/png");
+        const canvas = await html2canvas(notaRef.current, { scale: 2 });
+        const imgData = canvas.toDataURL("image/png");
 
-    // Abre em nova aba para o navegador imprimir
-    const win = window.open("");
-    if (win) {
-      win.document.write(`<img src="${imgData}" style="width:100%">`);
-      win.document.close();
-      win.print();
+        // Abre em nova aba para o navegador imprimir
+        const win = window.open("");
+        if (win) {
+            win.document.write(`<img src="${imgData}" style="width:100%">`);
+            win.document.close();
+            win.print();
+        }
     }
-  }
     /////////////
     function addService(service: Service) {
         setServices((prev) => [...prev, service]);

@@ -70,7 +70,7 @@ const AddUser = () => {
                         <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cell} label="Celular" id="celular" name="cell" type="tel" placeholder="(11) 98765-4321" />
                     </div>
                     <div className="mt-8 flex justify-end gap-4">
-                        {/* <ButtonReset /> */}
+                        <ButtonReset />
                         <ButtonSave />
                     </div>
                 </form>

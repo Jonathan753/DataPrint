@@ -37,9 +37,7 @@ const ClientList = () => {
     return (
         <>
             <Title title="Lista de Clientes" subtitle="Visualize e gerencie os clientes cadastrados." />
-
             <div className="max-w-7xl mx-auto p-8">
-
                 <div className="bg-white rounded-lg shadow-md overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left text-gray-600">

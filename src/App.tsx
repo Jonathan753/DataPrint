@@ -12,6 +12,7 @@ import MyInfo from './pages/MyInfo';
 import TemplateNota from './service/TemplateNota';
 import Modelo from './service/Modelo';
 import { useState } from 'react';
+import TitleBar from './layout/Titlebar';
 
 type Page = "add-user" | "add-service" | "client-list" | "service-list" | "nota-fast" | "my-info";
 
@@ -21,9 +22,7 @@ function App() {
   return (
     <>
       <div className="flex flex-col h-dvh">
-        <div className='title-bar h-7 bg-indigo-950 text-white flex justify-center items-center'>
-          <h3 className='text-blue-200'>Data Print</h3>
-        </div>
+        <TitleBar/>
         <BrowserRouter>
           <main className="flex flex-1 overflow-hidden">
             <Sidebar>
