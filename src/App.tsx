@@ -15,6 +15,8 @@ import { useState } from 'react';
 import TitleBar from './layout/Titlebar';
 import EditUser from './pages/EditUser';
 import EditService from './pages/EditService';
+import Home from './pages/Home';
+import ViewUser from './pages/ViewUser';
 
 type Page = "add-user" | "add-service" | "client-list" | "service-list" | "nota-fast" | "my-info";
 
@@ -40,7 +42,7 @@ function App() {
             <div className='flex-1 overflow-y-auto p-5'>
               <div className="bg-white shadow-md rounded-sm w-full p-10">
                 <Routes>
-                  <Route path='/' element={<AddUser />} />
+                  <Route path='/' element={<Home />} />
                   <Route path='/add-user' element={<AddUser />} />
                   <Route path='/client-list' element={<ClientList />} />
                   <Route path='/add-service' element={<AddService />} />
@@ -51,6 +53,7 @@ function App() {
                   <Route path='/modelo/:id' element={<Modelo />} />
                   <Route path='/client/edit/:id' element={<EditUser />} />
                   <Route path='/service/edit/:id' element={<EditService />} />
+                  <Route path='/client/view/:id' element={<ViewUser />} />
                 </Routes>
               </div>
             </div>
