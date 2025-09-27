@@ -13,6 +13,8 @@ import TemplateNota from './service/TemplateNota';
 import Modelo from './service/Modelo';
 import { useState } from 'react';
 import TitleBar from './layout/Titlebar';
+import EditUser from './pages/EditUser';
+import EditService from './pages/EditService';
 
 type Page = "add-user" | "add-service" | "client-list" | "service-list" | "nota-fast" | "my-info";
 
@@ -47,6 +49,8 @@ function App() {
                   <Route path='/my-info' element={<MyInfo />} />
                   <Route path='/nota' element={<TemplateNota />} />
                   <Route path='/modelo/:id' element={<Modelo />} />
+                  <Route path='/client/edit/:id' element={<EditUser />} />
+                  <Route path='/service/edit/:id' element={<EditService />} />
                 </Routes>
               </div>
             </div>

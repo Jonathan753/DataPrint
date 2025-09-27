@@ -17,10 +17,10 @@ const ButtonSave = () => {
 }
 export { ButtonSave };
 
-const ButtonReset = () => {
+const ButtonReset = ({ onClick }: Props) => {
     return (
         <>
-            <button type="reset" className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-400">
+            <button type="reset" onClick={onClick} className="px-6 flex gap-2 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-400">
                 <RotateCcw size={20} /> Resetar Campos
             </button>
         </>

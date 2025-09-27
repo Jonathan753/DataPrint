@@ -1,6 +1,7 @@
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import {ButtonDelete, ButtonUpdate} from "../components/Button";
-import Title from "../components/Title"
+import { ButtonDelete, ButtonNota, ButtonUpdate, ButtonView } from "../components/Button";
+import Title from "../components/Title";
 
 type Service = {
     serviceId: number,
@@ -9,14 +10,17 @@ type Service = {
 }
 
 const ServiceList = () => {
+    const { id } = useParams();
 
     const [form, setForm] = useState<Service[]>([]);
+    const navigate = useNavigate();
+
     useEffect(() => {
         (async () => {
             const data = await (window as any).services.all();
             setForm(data);
         })();
-    }, []);
+    }, [id]);
 
     return (
         <>
@@ -48,13 +52,15 @@ const ServiceList = () => {
                                         }</td>
                                         <td className="px-6 py-4">
                                             <div className="flex justify-center items-center gap-4">
+                                                <ButtonView textMain="Ver dados do cliente" />
+
                                                 <ButtonDelete textMain="Excluir CLiente" onClick={
                                                     async () => {
                                                         await (window as any).services.delete(service.serviceId);
                                                         setForm(form.filter(ser => ser.serviceId !== service.serviceId));
                                                     }
                                                 } />
-                                                <ButtonUpdate textMain="Editar Cliente" />
+                                                <ButtonUpdate textMain="Editar Serviço" onClick={() => navigate(`/service/edit/${service.serviceId}`)}/>
                                             </div>
                                         </td>
                                     </tr>

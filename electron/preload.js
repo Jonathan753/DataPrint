@@ -18,7 +18,7 @@ contextBridge.exposeInMainWorld("clients", {
     all: () => ipcRenderer.invoke("clients:all"),
     getById: (id) => ipcRenderer.invoke("clients:getById", id),
     delete: (id) => ipcRenderer.invoke("clients:delete", id),
-    update: (client) => ipcRenderer.invoke("clients:delete", client)
+    update: (client) => ipcRenderer.invoke("clients:update", client)
 });
 
 contextBridge.exposeInMainWorld("myInfo", {
@@ -28,6 +28,7 @@ contextBridge.exposeInMainWorld("myInfo", {
 
 contextBridge.exposeInMainWorld("services", {
     add: (data) => ipcRenderer.invoke("services:add", data),
+    getById: (id) => ipcRenderer.invoke("services:getById", id),
     all: () => ipcRenderer.invoke("services:all"),
     search: (term) => ipcRenderer.invoke("services:search", term),
     delete: (id) => ipcRenderer.invoke("services:delete", id),

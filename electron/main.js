@@ -46,10 +46,10 @@ ipcMain.handle("clients:delete", (e, id) => {
   return { success: true }
 });
 
-ipcMain.handle("clients:update", (e, client) => {
+ipcMain.handle("clients:update", async (e, client) => {
   const stmt = db.prepare(`
     UPDATE clients SET cnpj_cpf = ?, name = ?, company = ?, email = ?, adress = ?, number = ?, neighborhood = ?,
-      city = ?, uf = ?, cep = ?, complement = ?, phone = ?, cell = ?
+      city = ?, uf = ?, cep = ?, complement = ?, phone = ?, cell = ? WHERE clientId = ?
   `);
 
   stmt.run(
@@ -65,7 +65,8 @@ ipcMain.handle("clients:update", (e, client) => {
     client.cep,
     client.complement,
     client.phone,
-    client.cell
+    client.cell,
+    client.clientId
   );
 
   return { success: true };
@@ -165,16 +166,22 @@ ipcMain.handle("services:search", (e, term) => {
 
 ipcMain.handle("services:update", (e, data) => {
   const stmt = db.prepare(`
-    UPDATE services SET service = ?,value = ?
+    UPDATE services SET service = ?,value = ? WHERE serviceId = ?
   `);
 
   stmt.run(
     data.service,
     data.value,
+    data.serviceId,
   );
 
 
   return { success: true };
+});
+
+ipcMain.handle("services:getById", (e, id) => {
+  const stmt = db.prepare("SELECT * FROM services WHERE serviceId = ?");
+  return stmt.get(id);
 });
 
 /////////////////////////////////////

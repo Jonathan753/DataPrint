@@ -69,19 +69,7 @@ const ClientList = () => {
                                                         setClients(clients.filter(cl => cl.clientId !== c.clientId));
                                                     }
                                                 } />
-                                                <ButtonUpdate textMain="Editar Cliente"
-                                                    onClick={async () => {
-                                                        const novoNome = prompt("Digite o novo nome:", c.name);
-                                                        if (novoNome) {
-                                                            await (window as any).clients.update({
-                                                                ...c,
-                                                                name: novoNome,
-                                                            });
-                                                            setClients(clients.map(cl =>
-                                                                cl.clientId === c.clientId ? { ...cl, name: novoNome } : cl
-                                                            ));
-                                                        }
-                                                    }} />
+                                                <ButtonUpdate textMain="Editar Cliente" onClick={() => navigate(`/client/edit/${c.clientId}`)} />
                                             </div>
                                         </td>
                                     </tr>
