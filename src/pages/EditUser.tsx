@@ -67,12 +67,12 @@ const EditUser = () => {
                         <Input gridClass="md:col-span-1" onChange={handleChange} value={form.number} label="Nº" id="numero" name="number" type="text" placeholder="122" />
                         <Input gridClass="md:col-span-3" onChange={handleChange} value={form.neighborhood} label="Bairro" id="bairro" name="neighborhood" type="text" placeholder="Centro" />
                         <Input gridClass="md:col-span-1" onChange={handleChange} value={form.city} label="Cidade" id="cidade" name="city" type="text" placeholder="São Paulo" />
-                        <Input gridClass="md:col-span-1" onChange={handleChange} value={form.uf} label="UF" id="uf" name="uf" type="text" placeholder="PE" />
-                        <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cep} label="CEP" id="cep" name="cep" type="text" placeholder="50870-23" />
-                        <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cnpj_cpf} label="CPF/CNPJ" id="cnpj_cpf" name="cnpj_cpf" type="text" placeholder="000.000.000-00 ou 00.000.000/0001-00" />
+                        <Input gridClass="md:col-span-1" onChange={handleChange} value={form.uf} mask="letters-uf" label="UF" id="uf" name="uf" type="text" placeholder="PE" />
+                        <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cep} mask="00000-000" label="CEP" id="cep" name="cep" type="text" placeholder="50870-23" />
+                        <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cnpj_cpf} mask="cpf-cnpj" label="CPF/CNPJ" id="cnpj_cpf" name="cnpj_cpf" type="text" placeholder="000.000.000-00 ou 00.000.000/0001-00" />
                         <Input gridClass="md:col-span-2" onChange={handleChange} value={form.complement} label="Complemento" id="complement" name="complement" type="text" placeholder="Apto 42" />
-                        <Input gridClass="md:col-span-1" onChange={handleChange} value={form.phone} label="Telefone" id="telefone" name="phone" type="tel" placeholder="(11) 2345-6789" />
-                        <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cell} label="Celular" id="celular" name="cell" type="tel" placeholder="(11) 98765-4321" />
+                        <Input gridClass="md:col-span-1" onChange={handleChange} value={form.phone} mask="(00) 00000-0000" label="Telefone" id="telefone" name="phone" type="tel" placeholder="(11) 2345-6789" />
+                        <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cell} mask="(00) 00000-0000" label="Celular" id="celular" name="cell" type="tel" placeholder="(11) 98765-4321" />
                     </div>
                     <div className="mt-8 flex justify-end gap-4">
                         <ButtonReset />

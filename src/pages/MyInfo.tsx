@@ -38,13 +38,13 @@ const MyInfo = () => {
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.number} label="Nº" id="numero" name="number" type="text" placeholder="122" />
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.salesperson} label="Vendedor" id="vendedor" name="salesperson" type="text" placeholder="Maria" />
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.city} label="Cidade" id="cidade" name="city" type="text" placeholder="São Paulo" />
-                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.uf} label="UF" id="uf" name="uf" type="text" placeholder="PE" />
-                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cep} label="CEP" id="cep" name="cep" type="text" placeholder="50899-250" />
-                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cnpj} label="CPF/CNPJ" id="cnpj" name="cnpj" type="text" placeholder="00.000.000/0001-00" />
-                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.phone} label="Telefone" id="telefone" name="phone" type="text" placeholder="(11) 2345-6789" />
-                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cell} label="Celular" id="celular" name="cell" type="text" placeholder="(11) 98765-4321" />
+                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.uf} mask="letters-uf" label="UF" id="uf" name="uf" type="text" placeholder="PE" />
+                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cep} mask="00000-000" label="CEP" id="cep" name="cep" type="text" placeholder="50899-250" />
+                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cnpj} mask="cpf-cnpj" label="CPF/CNPJ" id="cnpj" name="cnpj" type="text" placeholder="00.000.000/0001-00" />
+                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.phone} mask="(00) 00000-0000" label="Telefone" id="telefone" name="phone" type="text" placeholder="(11) 2345-6789" />
+                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cell} mask="(00) 00000-0000" label="Celular" id="celular" name="cell" type="text" placeholder="(11) 98765-4321" />
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.pix} label="Chave PIX" id="pix" name="pix" type="text" placeholder="key pix" />
-                    <Input gridClass="md:col-span-1"   label="Logo" id="celular" name="cell" type="file"  />
+                    <Input gridClass="md:col-span-1" label="Logo" id="celular" name="cell" type="file"  />
                 </div>
                 <div className="mt-8 flex justify-end gap-4">
                     <button type="button" className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-400">

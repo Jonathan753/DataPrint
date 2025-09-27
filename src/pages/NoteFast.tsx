@@ -10,18 +10,19 @@ const NoteFast = () => {
             <div className="p-8">
                 <form>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                        <Input gridClass="md:col-span-1" label="Nome" id="nome" name="nome" type="text" placeholder="João da Silva" />
-                        <Input gridClass="md:col-span-1" label="Razão Social" id="razao" name="razao" type="text" placeholder="Silva Comércio LTDA" />
-                        <Input gridClass="md:col-span-2" label="Email" id="email" name="email" type="email" placeholder="contato@silvacomercio.com" />
-                        <Input gridClass="md:col-span-2" label="Endereço" id="endereco" name="endereco" type="text" placeholder="Rua das Flores, 123" />
-                        <Input gridClass="md:col-span-1" label="N" id="numero" name="numero" type="text" placeholder="122" />
-                        <Input gridClass="md:col-span-1" label="Bairro" id="bairro" name="bairro" type="text" placeholder="Centro" />
-                        <Input gridClass="md:col-span-1" label="Cidade" id="cidade" name="cidade" type="text" placeholder="São Paulo" />
-                        <Input gridClass="md:col-span-1" label="UF" id="uf" name="uf" type="text" placeholder="PE" />
-                        <Input gridClass="md:col-span-1" label="CPF/CNPJ" id="cpf_cnpj" name="cpf_cnpj" type="text" placeholder="00.000.000/0001-00" />
-                        <Input gridClass="md:col-span-1" label="Complemento" id="complemento" name="complemento" type="text" placeholder="Apto 42" />
-                        <Input gridClass="md:col-span-1" label="Telefone" id="telefone" name="telefone" type="tel" placeholder="(11) 2345-6789" />
-                        <Input gridClass="md:col-span-1" label="Celular" id="celular" name="celular" type="tel" placeholder="(11) 98765-4321" />
+                        <Input gridClass="md:col-span-2" label="Nome" id="nome" name="name" type="text" placeholder="João da Silva" />
+                        <Input gridClass="md:col-span-2" label="Razão Social" id="company" name="company" type="text" placeholder="Silva Comércio LTDA" />
+                        <Input gridClass="md:col-span-4" label="Email" id="email" name="email" type="email" placeholder="contato@silvacomercio.com" />
+                        <Input gridClass="md:col-span-4" label="Endereço" id="endereco" name="adress" type="text" placeholder="Rua das Flores, 123" />
+                        <Input gridClass="md:col-span-1" label="Nº" id="numero" name="number" type="text" placeholder="122" />
+                        <Input gridClass="md:col-span-3" label="Bairro" id="bairro" name="neighborhood" type="text" placeholder="Centro" />
+                        <Input gridClass="md:col-span-1" label="Cidade" id="cidade" name="city" type="text" placeholder="São Paulo" />
+                        <Input gridClass="md:col-span-1" mask="letters-uf" label="UF" id="uf" name="uf" type="text" placeholder="PE" />
+                        <Input gridClass="md:col-span-1" mask="00000-000" label="CEP" id="cep" name="cep" type="text" placeholder="50870-23" />
+                        <Input gridClass="md:col-span-1" mask="cpf-cnpj" label="CPF/CNPJ" id="cnpj_cpf" name="cnpj_cpf" type="text" placeholder="000.000.000-00 ou 00.000.000/0001-00" />
+                        <Input gridClass="md:col-span-2" label="Complemento" id="complement" name="complement" type="text" placeholder="Apto 42" />
+                        <Input gridClass="md:col-span-1" mask="(00) 00000-0000" label="Telefone" id="telefone" name="phone" type="tel" placeholder="(11) 2345-6789" />
+                        <Input gridClass="md:col-span-1" mask="(00) 00000-0000" label="Celular" id="celular" name="cell" type="tel" placeholder="(11) 98765-4321" />
                     </div>
                     <div className="mt-8 flex justify-end gap-4">
                         <ButtonReset />

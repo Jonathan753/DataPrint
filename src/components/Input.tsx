@@ -1,12 +1,10 @@
-// Input.tsx
-
 import type { InputHTMLAttributes } from "react";
-import { IMaskInput } from "react-imask";
+import { IMaskInput, type IMaskInputProps } from "react-imask";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     label: string;
     gridClass?: string;
-    mask?: string;
+    mask?: any
 }
 
 const lettersUfMask = {
