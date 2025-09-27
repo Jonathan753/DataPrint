@@ -85,7 +85,7 @@ ipcMain.handle("myInfo:save", (e, data) => {
     const stmt = db.prepare(`
       UPDATE myInfo SET
         cnpj = ?, name = ?,salesperson =?, email = ?, adress = ?,
-        number=?, cep = ?, city = ?, uf = ?, phone = ?, cell =?
+        number=?, cep = ?, city = ?, uf = ?, phone = ?, cell =?, pix =?
       WHERE myInfoId = 1
     `);
 
@@ -100,15 +100,16 @@ ipcMain.handle("myInfo:save", (e, data) => {
       data.city,
       data.uf,
       data.phone,
-      data.cell
+      data.cell,
+      data.pix
     );
   } else {
     const stmt = db.prepare(`
       INSERT INTO myInfo (
         myInfoId, cnpj , name ,salesperson, email , adress,
-        number, cep, city, uf, phone, cell
+        number, cep, city, uf, phone, cell, pix
       ) VALUES (
-        1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+        1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
       )
     `);
     stmt.run(
@@ -122,7 +123,8 @@ ipcMain.handle("myInfo:save", (e, data) => {
       data.city,
       data.uf,
       data.phone,
-      data.cell
+      data.cell,
+      data.pix
     );
   }
 

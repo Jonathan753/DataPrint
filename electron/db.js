@@ -42,7 +42,8 @@ db.exec(`
     city VARCHAR(50),
     uf VARCHAR(2),
     phone VARCHAR(20),
-    cell VARCHAR(20)
+    cell VARCHAR(20),
+    pix VARCHAR(50)
   );
 
   CREATE TABLE IF NOT EXISTS otc (

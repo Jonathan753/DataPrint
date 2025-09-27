@@ -43,7 +43,7 @@ const MyInfo = () => {
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cnpj} label="CPF/CNPJ" id="cnpj" name="cnpj" type="text" placeholder="00.000.000/0001-00" />
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.phone} label="Telefone" id="telefone" name="phone" type="text" placeholder="(11) 2345-6789" />
                     <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cell} label="Celular" id="celular" name="cell" type="text" placeholder="(11) 98765-4321" />
-                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cell} label="Chave PIX" id="celular" name="cell" type="text" placeholder="(11) 98765-4321" />
+                    <Input gridClass="md:col-span-1" onChange={handleChange} value={form.pix} label="Chave PIX" id="pix" name="pix" type="text" placeholder="key pix" />
                     <Input gridClass="md:col-span-1"   label="Logo" id="celular" name="cell" type="file"  />
                 </div>
                 <div className="mt-8 flex justify-end gap-4">

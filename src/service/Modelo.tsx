@@ -57,16 +57,17 @@ const Modelo = () => {
     let hours = new Date().getHours();
     let minute = String(new Date().getMinutes()).padStart(2, '0');
 
+    
     useEffect(() => {
         async function makeQr() {
             if (result > 0) {
-                const dataUrl = await gerarQrCodePix(result);
+                const dataUrl = await gerarQrCodePix(result, empresa.pix, empresa.name, empresa.city);
                 setQrCode(dataUrl);
             }
         }
         makeQr();
     }, [result]);
-
+ 
     useEffect(() => {
         (async () => {
             const c = await (window as any).clients.getById(id);
