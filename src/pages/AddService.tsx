@@ -24,7 +24,7 @@ const AddService = () => {
         e.preventDefault();
         await (window as any).services.add(form);
         setForm({ service: "", value: "" });
-        alert("Serviço cadastrado com sucesso");
+        // alert("Serviço cadastrado com sucesso");
     }
 
     return (
@@ -36,7 +36,7 @@ const AddService = () => {
                     <div className="grid grid-cols-1 md:grid-cols-5 gap-x-8 gap-y-6">
                         <Input
                             onChange={handleChange}
-                            value={form.service}
+                            value={form.service??""}
                             gridClass="md:col-span-5"
                             label="Serviço/Produto"
                             id="service"
@@ -47,7 +47,7 @@ const AddService = () => {
 
                         <Input
                             onChange={handleChange}
-                            value={form.value}
+                            value={form.value??""}
                             gridClass="md:col-span-1"
                             label="Valor (R$)"
                             id="value"
@@ -59,7 +59,12 @@ const AddService = () => {
                     </div>
 
                     <div className="mt-8 flex justify-end gap-4">
-                        <ButtonReset />
+                        <ButtonReset onClick={
+                            () => setForm({
+                                service: "",
+                                value: "",
+                            })
+                        } />
                         <ButtonSave />
                     </div>
                 </form>
