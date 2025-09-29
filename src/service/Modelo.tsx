@@ -52,12 +52,19 @@ const Modelo = () => {
 
     const totalBruto = services.reduce((acc, s) => acc + (s.value * s.qtd), 0);
 
+    // let result = (totalBruto) - (totalBruto * (desconto / 10000)) + (totalBruto * (acressimo / 10000))
+
+    // const descontoPercent = desconto / 100;   // exemplo: 150 → 1,5%
+    // const acressimoPercent = acressimo / 100;
+
     let result = (totalBruto) - (totalBruto * (desconto / 10000)) + (totalBruto * (acressimo / 10000))
+    // const totalLiquido = totalBruto - (totalBruto * descontoPercent) + (totalBruto * acressimoPercent);
+
     let today = new Date().toLocaleDateString('pt-BR');
     let hours = new Date().getHours();
     let minute = String(new Date().getMinutes()).padStart(2, '0');
 
-    
+
     useEffect(() => {
         async function makeQr() {
             if (result > 0) {
@@ -67,7 +74,7 @@ const Modelo = () => {
         }
         makeQr();
     }, [result]);
- 
+
     useEffect(() => {
         (async () => {
             const c = await (window as any).clients.getById(id);
@@ -118,12 +125,15 @@ const Modelo = () => {
     const handleChangeObs = (e: any) => {
         setObs(e.target.value)
     }
-    const handleChangeAcressimo = (e: any) => {
-        setAcressimo(e.target.value);
-    }
-    const handleChangeDesconto = (e: any) => {
-        setDesconto(e.target.value);
-    }
+    const handleChangeAcressimo = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const numeric = e.target.value.replace(/\D/g, ""); // só números
+        setAcressimo(numeric ? parseInt(numeric, 10) : 0);
+    };
+
+    const handleChangeDesconto = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const numeric = e.target.value.replace(/\D/g, "");
+        setDesconto(numeric ? parseInt(numeric, 10) : 0);
+    };
 
 
 
@@ -151,8 +161,22 @@ const Modelo = () => {
 
                     <div className="grid grid-cols-4 gap-2">
                         <Input gridClass="md:col-span-4" onChange={handleChangeObs} value={obs} label="OBS" id="obs" name="obs" type="text" placeholder="Uma Observação" />
-                        <Input gridClass="md:col-span-1" onChange={handleChangeAcressimo} value={acressimo} label="Acréssimo" id="acressimo" name="acressimo" type="text" placeholder="20%" />
-                        <Input gridClass="md:col-span-1" onChange={handleChangeDesconto} value={desconto} label="Desconto" id="desconto" name="desconto" type="text" placeholder="10%" />
+                        <Input gridClass="md:col-span-1" onChange={handleChangeAcressimo} value={
+                            acressimo
+                                ? (acressimo / 100).toLocaleString("pt-BR", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                })
+                                : ""
+                        } label="Acréssimo" id="acressimo" name="acressimo" type="text" placeholder="20%" />
+                        <Input gridClass="md:col-span-1" onChange={handleChangeDesconto} value={
+                            desconto
+                                ? (desconto / 100).toLocaleString("pt-BR", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                })
+                                : ""
+                        } label="Desconto" id="desconto" name="desconto" type="text" placeholder="10%" />
                     </div>
                 </div>
 

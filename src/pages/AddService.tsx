@@ -2,30 +2,40 @@ import { useState } from "react";
 import Input from "../components/Input";
 import Title from "../components/Title";
 import { ButtonReset, ButtonSave } from "../components/Button";
-import {Modal} from "../components/Modal";
+import { Modal } from "../components/Modal";
 
 type Services = {
     service: string;
-    value: string;
+    value: number;
 }
 
 const AddService = () => {
 
     const [form, setForm] = useState<Services>({
         service: "",
-        value: "",
+        value: 0,
     });
     const [modalOpen, setModalOpen] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setForm((prev) => ({ ...prev, [name]: value }));
+
+        if (name === "value") {
+            // tira vírgula, ponto etc.
+            const numeric = value.replace(/\D/g, ""); // só números
+            setForm((prev) => ({
+                ...prev,
+                value: numeric ? parseInt(numeric, 10) : 0, // guarda em centavos
+            }));
+        } else {
+            setForm((prev) => ({ ...prev, [name]: value }));
+        }
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         await (window as any).services.add(form);
-        setForm({ service: "", value: "" });
+        setForm({ service: "", value: 0 });
         setModalOpen(true); // abre modal em vez de alert
     }
 
@@ -49,7 +59,14 @@ const AddService = () => {
 
                         <Input
                             onChange={handleChange}
-                            value={form.value ?? ""}
+                            value={
+                                form.value
+                                    ? (form.value / 100).toLocaleString("pt-BR", {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    })
+                                    : ""
+                            }
                             gridClass="md:col-span-1"
                             label="Valor (R$)"
                             id="value"
@@ -64,7 +81,7 @@ const AddService = () => {
                         <ButtonReset onClick={
                             () => setForm({
                                 service: "",
-                                value: "",
+                                value: 0,
                             })
                         } />
                         <ButtonSave />
