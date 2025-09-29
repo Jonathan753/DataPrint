@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ButtonDelete, ButtonNota, ButtonUpdate, ButtonView } from "../components/Button";
 import Title from "../components/Title"
 import { useState, useEffect } from "react";
+import { ModalDelete } from "../components/Modal";
 
 type Clients = {
     clientId: number;
@@ -19,11 +20,15 @@ type Clients = {
     phone: string;
     cell: string
 }
+
+let getId = 0;
+
 const ClientList = () => {
 
     const { id } = useParams();
 
     const [clients, setClients] = useState<Clients[]>([]);
+    const [modalOpen, setModalOpen] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -61,12 +66,12 @@ const ClientList = () => {
                                         <td className="px-6 py-4">{c.city}</td>
                                         <td className="px-6 py-4">
                                             <div className="flex justify-center items-center gap-4">
-                                                <ButtonView textMain="Ver dados do cliente" onClick={() => navigate(`/client/view/${c.clientId}`)}/>
+                                                <ButtonView textMain="Ver dados do cliente" onClick={() => navigate(`/client/view/${c.clientId}`)} />
                                                 <ButtonNota textMain="Criar Nota" onClick={() => navigate(`/modelo/${c.clientId}`)} />
                                                 <ButtonDelete textMain="Excluir CLiente" onClick={
-                                                    async () => {
-                                                        await (window as any).clients.delete(c.clientId);
-                                                        setClients(clients.filter(cl => cl.clientId !== c.clientId));
+                                                    () => {
+                                                        setModalOpen(true)
+                                                        getId = c.clientId
                                                     }
                                                 } />
                                                 <ButtonUpdate textMain="Editar Cliente" onClick={() => navigate(`/client/edit/${c.clientId}`)} />
@@ -78,6 +83,18 @@ const ClientList = () => {
                         </table>
                     </div>
                 </div>
+                <ModalDelete
+                    isOpen={modalOpen}
+                    onClose={() => setModalOpen(false)}
+                    onDelete={
+                        async () => {
+                            await (window as any).clients.delete(getId);
+                            setClients(clients.filter(cl => cl.clientId !== getId));
+                        }
+                    }
+                    title="Tem certeza que quer excluir o cliente?"
+                    message="Essa ação será irreversível!"
+                />
             </div>
         </>
     )

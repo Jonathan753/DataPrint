@@ -1,7 +1,8 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { ButtonDelete, ButtonNota, ButtonUpdate, ButtonView } from "../components/Button";
+import { ButtonDelete, ButtonUpdate, ButtonView } from "../components/Button";
 import Title from "../components/Title";
+import { ModalDelete } from "../components/Modal";
 
 type Service = {
     serviceId: number,
@@ -9,10 +10,12 @@ type Service = {
     value: number;
 }
 
+let getId = 0;
+
 const ServiceList = () => {
     const { id } = useParams();
-
     const [form, setForm] = useState<Service[]>([]);
+    const [modalOpen, setModalOpen] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -55,12 +58,13 @@ const ServiceList = () => {
                                                 <ButtonView textMain="Ver dados do cliente" />
 
                                                 <ButtonDelete textMain="Excluir CLiente" onClick={
-                                                    async () => {
-                                                        await (window as any).services.delete(service.serviceId);
-                                                        setForm(form.filter(ser => ser.serviceId !== service.serviceId));
+                                                    () => {
+                                                        setModalOpen(true);
+                                                        getId = service.serviceId;
                                                     }
+
                                                 } />
-                                                <ButtonUpdate textMain="Editar Serviço" onClick={() => navigate(`/service/edit/${service.serviceId}`)}/>
+                                                <ButtonUpdate textMain="Editar Serviço" onClick={() => navigate(`/service/edit/${service.serviceId}`)} />
                                             </div>
                                         </td>
                                     </tr>
@@ -69,6 +73,18 @@ const ServiceList = () => {
                         </table>
                     </div>
                 </div>
+                <ModalDelete
+                    isOpen={modalOpen}
+                    onClose={() => setModalOpen(false)}
+                    onDelete={
+                        async () => {
+                            await (window as any).services.delete(getId);
+                            setForm(form.filter(ser => ser.serviceId !== getId));
+                        }
+                    }
+                    title="Tem certeza que quer excluir esse serviço?"
+                    message="Essa ação será irreversível!"
+                />
             </div>
         </>
     )

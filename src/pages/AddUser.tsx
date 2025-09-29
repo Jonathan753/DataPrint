@@ -2,6 +2,7 @@ import { useState } from "react";
 import Input from "../components/Input";
 import Title from "../components/Title";
 import { ButtonReset, ButtonSave } from "../components/Button";
+import {Modal} from "../components/Modal";
 
 type Clients = {
     cnpj_cpf: string;
@@ -36,6 +37,7 @@ const AddUser = () => {
         phone: "",
         cell: "",
     });
+    const [modalOpen, setModalOpen] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -46,7 +48,7 @@ const AddUser = () => {
         e.preventDefault();
         await (window as any).clients.add(form);
         setForm({ ...form, cnpj_cpf: "", name: "", company: "", email: "", adress: "", number: "", neighborhood: "", city: "", uf: "", cep: "", complement: "", phone: "", cell: "" });
-        // alert("client cadastrado com sucesso");
+        setModalOpen(true); 
     }
 
     return (
@@ -90,6 +92,13 @@ const AddUser = () => {
                         <ButtonSave />
                     </div>
                 </form>
+                {/* Modal */}
+                <Modal
+                    isOpen={modalOpen}
+                    onClose={() => setModalOpen(false)}
+                    title="Cliente cadastrado"
+                    message="O cliente foi adicionado com sucesso!"
+                />
             </div>
         </>
     )
