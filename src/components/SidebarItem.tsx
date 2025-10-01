@@ -21,8 +21,8 @@ const SidebarItem = ({ icon, text, active, alert, to, onClick }: SidebarItemProp
               font-medium rounded-md cursor-pointer
               transition-colors group
               ${active
-            ? "bg-blue-200 text-indigo-950"
-            : "hover:bg-blue-100 hover:text-indigo-950 text-indigo-200"
+            ? "bg-zinc-500 text-white"
+            : "hover:bg-zinc-600 text-white"
           }
               `}
       >
@@ -46,7 +46,7 @@ const SidebarItem = ({ icon, text, active, alert, to, onClick }: SidebarItemProp
           <div
             className={`
           absolute left-full rounded-md px-2 py-1 ml-6
-          bg-blue-200 text-indigo-950 text-sm
+          bg-zinc-900 text-white text-sm
           invisible opacity-20 -translate-x-3 transition-all
           group-hover:visible group-hover:opacity-100 group-hover:translate-x-0
       `}

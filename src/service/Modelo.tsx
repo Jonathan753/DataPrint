@@ -7,6 +7,7 @@ import { gerarQrCodePix } from "./pix";
 import { ButtonPrinter } from "../components/Button";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import Title from "../components/Title";
 
 type Clients = {
     clientId: number;
@@ -137,13 +138,15 @@ const Modelo = () => {
 
 
 
-
+let subtitle = cliente?.name??""
 
     return (
         <>
-            <div className="bg-white" style={{ minWidth: "210mm" }}>
+
+        <Title title="Criaçao da nota" subtitle={"Nota de " + subtitle}/>
+            <div  style={{ minWidth: "210mm" }}>
                 <div className="p-4">
-                    <label htmlFor="">Adição de Serviços</label>
+                    <label className="block text-sm font-medium text-white mb-1" htmlFor="">Adição de Serviços</label>
                     <SearchService onAdd={addService} />
                     <h3>Produtos na Nota</h3>
                     <ul className="mb-4">
@@ -180,8 +183,8 @@ const Modelo = () => {
                     </div>
                 </div>
 
-                <div className="template border-black border-1 p-2 mt-4">
-                    <div ref={notaRef} id="nota" className="p-5">
+                <div className="template border bg-zinc-700 border-black border-1 p-2 mt-4">
+                    <div ref={notaRef} id="nota" className=" bg-white block mx-auto min-w-max max-w-screen-lg p-5">
                         <div className="grid grid-cols-2 gap-2">
                             <img className="" src={logo} alt="" />
                             <div className="grid grid-rows-5">

@@ -28,9 +28,9 @@ const Input = ({ label, id, gridClass = "", mask, ...props }: InputProps) => {
 
     const commonProps = {
         id: id,
-        className: `w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm 
-                    focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500
-                    transition duration-150 ease-in-out`,
+        className: `w-full px-3 py-2 border border-gray-400 text-white rounded-full shadow-sm 
+                    focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-indigo-500
+                    transition duration-150 ease-in-out bg-zinc-600 placeholder:text-gray-500`,
         ...props
     };
 
@@ -52,7 +52,7 @@ const Input = ({ label, id, gridClass = "", mask, ...props }: InputProps) => {
 
     return (
         <div className={gridClass}>
-            <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor={id} className="block text-sm font-medium text-white mb-1">
                 {label}
             </label>
 

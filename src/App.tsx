@@ -26,7 +26,7 @@ function App() {
   return (
     <>
       <div className="flex flex-col h-dvh">
-        <TitleBar/>
+        <TitleBar />
         <BrowserRouter>
           <main className="flex flex-1 overflow-hidden">
             <Sidebar>
@@ -39,23 +39,21 @@ function App() {
               <SidebarItem to="my-info" onClick={() => setActivePage("my-info")} active={activePage === "my-info"} icon={<Info size={20} />} text="Meus Dados" />
               <SidebarItem to="nota" icon={<Info size={20} />} text="Teste" />
             </Sidebar>
-            <div className='flex-1 overflow-y-auto p-5'>
-              <div className="bg-white shadow-md rounded-sm w-full p-10">
-                <Routes>
-                  <Route path='/' element={<Home />} />
-                  <Route path='/add-user' element={<AddUser />} />
-                  <Route path='/client-list' element={<ClientList />} />
-                  <Route path='/add-service' element={<AddService />} />
-                  <Route path='/nota-fast' element={<NoteFast />} />
-                  <Route path='/service-list' element={<ServiceList />} />
-                  <Route path='/my-info' element={<MyInfo />} />
-                  <Route path='/nota' element={<TemplateNota />} />
-                  <Route path='/modelo/:id' element={<Modelo />} />
-                  <Route path='/client/edit/:id' element={<EditUser />} />
-                  <Route path='/service/edit/:id' element={<EditService />} />
-                  <Route path='/client/view/:id' element={<ViewUser />} />
-                </Routes>
-              </div>
+            <div className='flex-1 overflow-y-auto p-10 border border-zinc-700'>
+              <Routes>
+                <Route path='/' element={<Home />} />
+                <Route path='/add-user' element={<AddUser />} />
+                <Route path='/client-list' element={<ClientList />} />
+                <Route path='/add-service' element={<AddService />} />
+                <Route path='/nota-fast' element={<NoteFast />} />
+                <Route path='/service-list' element={<ServiceList />} />
+                <Route path='/my-info' element={<MyInfo />} />
+                <Route path='/nota' element={<TemplateNota />} />
+                <Route path='/modelo/:id' element={<Modelo />} />
+                <Route path='/client/edit/:id' element={<EditUser />} />
+                <Route path='/service/edit/:id' element={<EditService />} />
+                <Route path='/client/view/:id' element={<ViewUser />} />
+              </Routes>
             </div>
           </main>
         </BrowserRouter>

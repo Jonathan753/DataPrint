@@ -15,7 +15,7 @@ const Sidebar = ({ children }: SidebarProps) => {
 
    return (
       <aside className="h-auto">
-         <nav className="h-full flex flex-col bg-indigo-950 shadow-sm"> 
+         <nav className="h-full flex flex-col bg-zinc-900 shadow-sm"> 
             <div className="p-4 pb-2 flex justify-between items-center">
                <img
                   src={logo}

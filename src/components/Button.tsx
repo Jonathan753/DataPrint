@@ -9,7 +9,7 @@ interface Props {
 const ButtonSave = () => {
     return (
         <>
-            <button type="submit" className="px-6 py-2 flex gap-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <button type="submit" className="px-6 py-2 flex gap-2 bg-green-700 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                 <Save size={20} /> Salvar
             </button>
         </>
@@ -20,7 +20,7 @@ export { ButtonSave };
 const ButtonReset = ({ onClick }: Props) => {
     return (
         <>
-            <button type="reset" onClick={onClick} className="px-6 flex gap-2 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-400">
+            <button type="reset" onClick={onClick} className="px-6 flex gap-2 py-2 border border-gray-200 rounded-md text-gray-200 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400">
                 <RotateCcw size={20} /> Resetar Campos
             </button>
         </>
