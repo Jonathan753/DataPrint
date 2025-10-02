@@ -50,14 +50,20 @@ db.exec(`
   otcId INTEGER PRIMARY KEY AUTOINCREMENT,
   clientId INTEGER,
   date TEXT,
+  totalBruto INTEGER NOT NULL,
+  desconto INTEGER DEFAULT 0,
+  acrescimo INTEGER DEFAULT 0,
+  totalLiquido INTEGER NOT NULL,
   FOREIGN KEY (clientId) REFERENCES clients(clientId)
   );
 
   CREATE TABLE IF NOT EXISTS oct_services (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  octId INTEGER,
-  serviceId INTEGER,
-  valueTotal INTEGER,
+  octId INTEGER NOT NULL,
+  serviceId INTEGER NOT NULL,
+  qtd INTEGER NOT NULL DEFAULT 1,
+  valueUnitario INTEGER NOT NULL
+  valueTotal INTEGER NOT NULL,
   FOREIGN KEY (octId) REFERENCES oct(octId),
   FOREIGN KEY (serviceId) REFERENCES services(serviceId)
 );

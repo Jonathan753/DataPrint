@@ -33,6 +33,22 @@ type Service = {
     value: number;
 }
 
+// type Enterprise = {
+//     cnpj: string;
+//     name: string;
+//     email: string;
+//     adress: string;
+//     number: string;
+//     neighborhood: string;
+//     city: string;
+//     uf: string;
+//     cep: string;
+//     complement: string;
+//     phone: string;
+//     cell: string
+//     salesperson: string;
+// }
+
 // type Nota = {
 //     cliente: Clients;
 //     servicos: Service[];
@@ -46,9 +62,9 @@ const Modelo = () => {
     const [cliente, setCliente] = useState<Clients | null>(null);
     const [obs, setObs] = useState('');
     const [services, setServices] = useState<Service[]>([]);
-    const [empresa, setEmpresa] = useState<any>(null);
+    const [empresa, setEmpresa] = useState<any>();
     const [qrCode, setQrCode] = useState<string | null>(null);
-    const [acressimo, setAcressimo] = useState(0);
+    const [acrescimo, setAcrescimo] = useState(0);
     const [desconto, setDesconto] = useState(0);
 
     const totalBruto = services.reduce((acc, s) => acc + (s.value * s.qtd), 0);
@@ -58,9 +74,9 @@ const Modelo = () => {
     // const descontoPercent = desconto / 100;   // exemplo: 150 → 1,5%
     // const acressimoPercent = acressimo / 100;
 
-    let result = (totalBruto) - (totalBruto * (desconto / 10000)) + (totalBruto * (acressimo / 10000))
+    let result = (totalBruto) - (totalBruto * (desconto / 10000)) + (totalBruto * (acrescimo / 10000))
     // const totalLiquido = totalBruto - (totalBruto * descontoPercent) + (totalBruto * acressimoPercent);
-
+    let totalLiquido = (totalBruto / 100) - (((totalBruto / 100) * desconto / 100) / 100) + (((totalBruto / 100) * acrescimo / 100) / 100)
     let today = new Date().toLocaleDateString('pt-BR');
     let hours = new Date().getHours();
     let minute = String(new Date().getMinutes()).padStart(2, '0');
@@ -96,12 +112,15 @@ const Modelo = () => {
         const pdf = new jsPDF("p", "mm", "a4");
 
         const pageWidth = pdf.internal.pageSize.getWidth();
-        const pageHeight = pdf.internal.pageSize.getHeight();
+        // const pageHeight = pdf.internal.pageSize.getHeight();
         const imgProps = pdf.getImageProperties(imgData);
         const imgHeight = (imgProps.height * pageWidth) / imgProps.width;
 
         pdf.addImage(imgData, "PNG", 0, 0, pageWidth, imgHeight);
         pdf.save("nota.pdf");
+
+        await (window as any).notas.add(oct);
+
     }
 
     // Imprimir direto
@@ -123,12 +142,12 @@ const Modelo = () => {
     function addService(service: Service) {
         setServices((prev) => [...prev, service]);
     }
-    const handleChangeObs = (e: any) => {
+    const handleChangeObs = (e: React.ChangeEvent<HTMLInputElement>) => {
         setObs(e.target.value)
     }
     const handleChangeAcressimo = (e: React.ChangeEvent<HTMLInputElement>) => {
         const numeric = e.target.value.replace(/\D/g, ""); // só números
-        setAcressimo(numeric ? parseInt(numeric, 10) : 0);
+        setAcrescimo(numeric ? parseInt(numeric, 10) : 0);
     };
 
     const handleChangeDesconto = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -136,15 +155,34 @@ const Modelo = () => {
         setDesconto(numeric ? parseInt(numeric, 10) : 0);
     };
 
+    const oct = {
+        clientId: cliente?.clientId,
+        dataEmissao: new Date().toISOString(),
+        totalBruto,
+        desconto,
+        acrescimo,
+        totalLiquido,
+        services: services.map(s => ({
+            serviceId: s.serviceId,
+            qtd: s.qtd,
+            valorUnitario: s.value,
+            valorTotal: s.qtd * s.value
+        }))
+    };
 
 
-let subtitle = cliente?.name??""
 
+    let subtitle = cliente?.name ?? ""
+
+
+    const CalculationTotalNet = () => {
+
+    }
     return (
         <>
 
-        <Title title="Criaçao da nota" subtitle={"Nota de " + subtitle}/>
-            <div  style={{ minWidth: "210mm" }}>
+            <Title title="Criaçao da nota" subtitle={"Nota de " + subtitle} />
+            <div style={{ minWidth: "210mm" }}>
                 <div className="p-4">
                     <label className="block text-sm font-medium text-white mb-1" htmlFor="">Adição de Serviços</label>
                     <SearchService onAdd={addService} />
@@ -165,8 +203,8 @@ let subtitle = cliente?.name??""
                     <div className="grid grid-cols-4 gap-2">
                         <Input gridClass="md:col-span-4" onChange={handleChangeObs} value={obs} label="OBS" id="obs" name="obs" type="text" placeholder="Uma Observação" />
                         <Input gridClass="md:col-span-1" onChange={handleChangeAcressimo} value={
-                            acressimo
-                                ? (acressimo / 100).toLocaleString("pt-BR", {
+                            acrescimo
+                                ? (acrescimo / 100).toLocaleString("pt-BR", {
                                     minimumFractionDigits: 2,
                                     maximumFractionDigits: 2,
                                 })
@@ -287,13 +325,13 @@ let subtitle = cliente?.name??""
                                     new Intl.NumberFormat("pt-BR").format(desconto / 100)
                                 } %</h2>
                                 <h2>Acrésssimo: {
-                                    new Intl.NumberFormat("pt-BR").format(acressimo / 100)
+                                    new Intl.NumberFormat("pt-BR").format(acrescimo / 100)
                                 } %</h2>
                                 <h1 className="text-3xl">Total Liq: {
                                     new Intl.NumberFormat("pt-BR", {
                                         style: "currency",
                                         currency: "BRL",
-                                    }).format((totalBruto / 100) - (((totalBruto / 100) * desconto / 100) / 100) + (((totalBruto / 100) * acressimo / 100) / 100))
+                                    }).format(totalLiquido)
                                 }</h1>
                             </div>
                             <div>

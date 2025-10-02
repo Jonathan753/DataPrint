@@ -185,6 +185,47 @@ ipcMain.handle("services:getById", (e, id) => {
   const stmt = db.prepare("SELECT * FROM services WHERE serviceId = ?");
   return stmt.get(id);
 });
+/////////////////////////////// NOTA //////////
+ipcMain.handle("oct:add", async (e, data) => {
+  try {
+    const insertOct = db.prepare(`
+      INSERT INTO oct (clientId, date, totalBruto, desconto, acrescimo, totalLiquido)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `);
+
+    const result = insertOct.run(
+      data.clientId,
+      data.dataEmissao,
+      data.totalBruto,
+      data.desconto,
+      data.acrescimo,
+      data.totalLiquido
+    );
+
+    const octId = result.lastInsertRowid;
+
+    const insertItem = db.prepare(`
+      INSERT INTO oct_services (octId, serviceId, qtd, valueUnitario, valueTotal)
+      VALUES (?, ?, ?, ?, ?)
+    `);
+
+    for (const item of oct.services) {
+      insertItem.run(
+        octId,
+        item.serviceId,
+        item.qtd,
+        item.valorUnitario,
+        item.valorTotal
+      );
+    }
+
+    return { success: true, octId };
+  } catch (err) {
+    console.error("Erro ao salvar nota:", err);
+    return { success: false, error: err.message };
+  }
+});
+
 
 /////////////////////////////////////
 // // Geração de PDF
