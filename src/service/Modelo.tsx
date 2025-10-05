@@ -66,6 +66,7 @@ const Modelo = () => {
     const [qrCode, setQrCode] = useState<string | null>(null);
     const [acrescimo, setAcrescimo] = useState(0);
     const [desconto, setDesconto] = useState(0);
+    const [order, setOrder] = useState(0);
 
     const totalBruto = services.reduce((acc, s) => acc + (s.value * s.qtd), 0);
 
@@ -96,10 +97,19 @@ const Modelo = () => {
         (async () => {
             const c = await (window as any).clients.getById(id);
             const e = await (window as any).myInfo.get();
+            const o = await (window as any).receipt.getMaxNumber();
             setCliente(c);
             setEmpresa(e);
+            setOrder(o);
         })();
     }, [id]);
+
+    // useEffect(() => {
+    //     (async () => {
+
+    //     })();
+    // }, []);
+
     if (!empresa) return <p>Necessita dos dados da empresa</p>;
 
     /////////////////
@@ -119,7 +129,7 @@ const Modelo = () => {
         pdf.addImage(imgData, "PNG", 0, 0, pageWidth, imgHeight);
         pdf.save("nota.pdf");
 
-        await (window as any).notas.add(oct);
+        await (window as any).receipt.add(receipt);
 
     }
 
@@ -155,7 +165,7 @@ const Modelo = () => {
         setDesconto(numeric ? parseInt(numeric, 10) : 0);
     };
 
-    const oct = {
+    const receipt = {
         clientId: cliente?.clientId,
         dataEmissao: new Date().toISOString(),
         totalBruto,
@@ -165,8 +175,8 @@ const Modelo = () => {
         services: services.map(s => ({
             serviceId: s.serviceId,
             qtd: s.qtd,
-            valorUnitario: s.value,
-            valorTotal: s.qtd * s.value
+            valueUnitario: s.value,
+            valueTotal: s.qtd * s.value
         }))
     };
 
@@ -175,9 +185,9 @@ const Modelo = () => {
     let subtitle = cliente?.name ?? ""
 
 
-    const CalculationTotalNet = () => {
+    // const CalculationTotalNet = () => {
 
-    }
+    // }
     return (
         <>
 
@@ -222,10 +232,10 @@ const Modelo = () => {
                 </div>
 
                 <div className="template border bg-zinc-700 border-black border-1 p-2 mt-4">
-                    <div ref={notaRef} id="nota" className=" bg-white block mx-auto min-w-max max-w-screen-lg p-5">
-                        <div className="grid grid-cols-2 gap-2">
-                            <img className="" src={logo} alt="" />
-                            <div className="grid grid-rows-5">
+                    <div ref={notaRef} id="nota" style={{ width: '210mm', minHeight: '297mm' }} className="bg-white mx-auto p-8 shadow-lg">
+                        <div className="grid grid-cols-3 gap-2">
+                            <img className="my-auto" src={logo} alt="" />
+                            <div className="grid grid-rows-5 col-span-2 p-2 px-4">
                                 <p>Endereço: {empresa.adress}</p>
                                 <div className="grid grid-cols-3 gap-1">
                                     <p>Cidade: {empresa.city}</p>
@@ -243,7 +253,7 @@ const Modelo = () => {
                         <hr className="border-black border-collapse mt-2" />
                         <div className="grid grid-cols-4">
                             <p>Vendedor: {empresa.salesperson}</p>
-                            <p>Pedido: {cliente?.uf}</p>
+                            <p>Pedido: {order + 1}</p>
                             <p>Emissão: {today}</p>
                             <p>Hora: {hours}:{minute}</p>
                         </div>

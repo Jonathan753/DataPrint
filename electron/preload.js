@@ -21,6 +21,11 @@ contextBridge.exposeInMainWorld("clients", {
     update: (client) => ipcRenderer.invoke("clients:update", client)
 });
 
+contextBridge.exposeInMainWorld("receipt", {
+    add: (data) => ipcRenderer.invoke("receipt:add", data),
+    getMaxNumber: () => ipcRenderer.invoke("receipt:getMaxNumber"),
+});
+
 contextBridge.exposeInMainWorld("myInfo", {
     get: () => ipcRenderer.invoke("myInfo:get"),
     save: (data) => ipcRenderer.invoke("myInfo:save", data),

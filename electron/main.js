@@ -186,45 +186,52 @@ ipcMain.handle("services:getById", (e, id) => {
   return stmt.get(id);
 });
 /////////////////////////////// NOTA //////////
-ipcMain.handle("oct:add", async (e, data) => {
-  try {
-    const insertOct = db.prepare(`
-      INSERT INTO oct (clientId, date, totalBruto, desconto, acrescimo, totalLiquido)
+ipcMain.handle("receipt:add", async (e, data) => {
+
+  const insertReceipt = db.prepare(`
+      INSERT INTO receipts (clientId, date, totalBruto, desconto, acrescimo, totalLiquido)
       VALUES (?, ?, ?, ?, ?, ?)
     `);
 
-    const result = insertOct.run(
-      data.clientId,
-      data.dataEmissao,
-      data.totalBruto,
-      data.desconto,
-      data.acrescimo,
-      data.totalLiquido
-    );
+  const result = insertReceipt.run(
+    data.clientId,
+    data.dataEmissao,
+    data.totalBruto,
+    data.desconto,
+    data.acrescimo,
+    data.totalLiquido
+  );
 
-    const octId = result.lastInsertRowid;
+  const receiptId = result.lastInsertRowid;
 
-    const insertItem = db.prepare(`
-      INSERT INTO oct_services (octId, serviceId, qtd, valueUnitario, valueTotal)
+  const insertItem = db.prepare(`
+      INSERT INTO receipt_services (receiptId, serviceId, qtd, valueUnitario, valueTotal)
       VALUES (?, ?, ?, ?, ?)
     `);
 
-    for (const item of oct.services) {
-      insertItem.run(
-        octId,
-        item.serviceId,
-        item.qtd,
-        item.valorUnitario,
-        item.valorTotal
-      );
-    }
-
-    return { success: true, octId };
-  } catch (err) {
-    console.error("Erro ao salvar nota:", err);
-    return { success: false, error: err.message };
+  for (const item of data.services) {
+    insertItem.run(
+      receiptId,
+      item.serviceId,
+      item.qtd,
+      item.valueUnitario,
+      item.valueTotal
+    );
   }
+
+  return { success: true, receiptId };
+  // } catch (err) {
+  //   console.error("Erro ao salvar nota:", err);
+  //   return { success: false, error: err.message };
+  // }
 });
+
+ipcMain.handle("receipt:getMaxNumber", () => {
+  const stmt = db.prepare("SELECT MAX(receiptId) as maxId FROM receipts");
+  const result = stmt.get(); // executa a query e traz o resultado
+  return result?.maxId || 0; // se for null, retorna 0
+});
+
 
 
 /////////////////////////////////////
@@ -300,9 +307,9 @@ function createWindow() {
   ipcMain.handle('ping', () => 'pong');
 
 }
-  app.whenReady().then(createWindow);
-  app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit(); });
-  app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });
+app.whenReady().then(createWindow);
+app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit(); });
+app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });
 
 
 //TitleBar

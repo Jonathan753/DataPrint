@@ -46,8 +46,8 @@ db.exec(`
     pix VARCHAR(50)
   );
 
-  CREATE TABLE IF NOT EXISTS otc (
-  otcId INTEGER PRIMARY KEY AUTOINCREMENT,
+  CREATE TABLE IF NOT EXISTS receipts (
+  receiptId INTEGER PRIMARY KEY AUTOINCREMENT,
   clientId INTEGER,
   date TEXT,
   totalBruto INTEGER NOT NULL,
@@ -57,14 +57,14 @@ db.exec(`
   FOREIGN KEY (clientId) REFERENCES clients(clientId)
   );
 
-  CREATE TABLE IF NOT EXISTS oct_services (
+  CREATE TABLE IF NOT EXISTS receipt_services (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  octId INTEGER NOT NULL,
+  receiptId INTEGER NOT NULL,
   serviceId INTEGER NOT NULL,
   qtd INTEGER NOT NULL DEFAULT 1,
-  valueUnitario INTEGER NOT NULL
+  valueUnitario INTEGER NOT NULL,
   valueTotal INTEGER NOT NULL,
-  FOREIGN KEY (octId) REFERENCES oct(octId),
+  FOREIGN KEY (receiptId) REFERENCES receipts(receiptId),
   FOREIGN KEY (serviceId) REFERENCES services(serviceId)
 );
 `);
