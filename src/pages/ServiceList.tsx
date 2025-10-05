@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { ButtonDelete, ButtonUpdate, ButtonView } from "../components/Button";
+import { ButtonDelete, ButtonUpdate} from "../components/Button";
 import Title from "../components/Title";
 import { ModalDelete } from "../components/Modal";
 
@@ -55,7 +55,6 @@ const ServiceList = () => {
                                         }</td>
                                         <td className="px-6 py-4">
                                             <div className="flex justify-center items-center gap-4">
-                                                <ButtonView textMain="Ver dados do cliente" />
 
                                                 <ButtonDelete textMain="Excluir CLiente" onClick={
                                                     () => {

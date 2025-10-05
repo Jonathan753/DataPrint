@@ -1,5 +1,5 @@
 import Title from "../components/Title";
-import { ButtonReset, ButtonSave } from "../components/Button";
+import { ButtonNext, ButtonReset} from "../components/Button";
 import Input from "../components/Input";
 
 
@@ -26,7 +26,7 @@ const NoteFast = () => {
                     </div>
                     <div className="mt-8 flex justify-end gap-4">
                         <ButtonReset />
-                        <ButtonSave />
+                        <ButtonNext />
                     </div>
                 </form>
             </div>

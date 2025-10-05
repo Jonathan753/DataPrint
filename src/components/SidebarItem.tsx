@@ -29,7 +29,7 @@ const SidebarItem = ({ icon, text, active, alert, to, onClick }: SidebarItemProp
 
         {icon}
         <span
-          className={`overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"
+          className={`overflow-hidden transition-all w-52 ml-3 ${expanded ? "w-52 ml-3" : "hidden"
             }`}
         >
           {text}

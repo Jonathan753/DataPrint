@@ -1,4 +1,4 @@
-import { Eye, File, Pencil, Printer, RotateCcw, Save, Trash2 } from "lucide-react";
+import { ArrowRight, Eye, File, Pencil, Printer, RotateCcw, Save, Trash2 } from "lucide-react";
 
 interface Props {
     onClick?: () => void
@@ -10,18 +10,39 @@ const ButtonSave = () => {
     return (
         <>
             <button type="submit" className="px-6 py-2 flex gap-2 bg-green-700 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                <Save size={20} /> Salvar
+                <div className="content-center">
+                    <Save size={20} />
+                </div>
+                Salvar
             </button>
         </>
     )
 }
 export { ButtonSave };
 
+const ButtonNext = () => {
+    return (
+        <>
+            <button type="submit" className="px-6 py-2 flex gap-2 bg-green-700 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                <div className="content-center">
+                    <ArrowRight size={20} />
+                </div>
+                Continuar
+            </button>
+        </>
+    )
+}
+export { ButtonNext };
+
 const ButtonReset = ({ onClick }: Props) => {
     return (
         <>
             <button type="reset" onClick={onClick} className="px-6 flex gap-2 py-2 border border-gray-200 rounded-md text-gray-200 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400">
-                <RotateCcw size={20} /> Resetar Campos
+                <div className="content-center">
+
+                    <RotateCcw size={20} />
+                </div>
+                Resetar Campos
             </button>
         </>
     )
@@ -33,7 +54,11 @@ const ButtonPrinter = ({ onClick }: Props) => {
     return (
         <>
             <button onClick={onClick} type="button" className="px-6 py-2 flex gap-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <Printer size={20} /> Salvar
+                <div className="content-center">
+
+                    <Printer size={20} />
+                </div>
+                Salvar
             </button>
         </>
     )
