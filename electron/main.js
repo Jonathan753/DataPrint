@@ -226,6 +226,11 @@ ipcMain.handle("receipt:add", async (e, data) => {
   // }
 });
 
+ipcMain.handle("receipt:all", () => {
+  const stmt = db.prepare("SELECT * FROM receipts");
+  return stmt.all();
+});
+
 ipcMain.handle("receipt:getMaxNumber", () => {
   const stmt = db.prepare("SELECT MAX(receiptId) as maxId FROM receipts");
   const result = stmt.get(); // executa a query e traz o resultado

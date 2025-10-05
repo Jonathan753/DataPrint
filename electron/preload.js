@@ -24,6 +24,7 @@ contextBridge.exposeInMainWorld("clients", {
 contextBridge.exposeInMainWorld("receipt", {
     add: (data) => ipcRenderer.invoke("receipt:add", data),
     getMaxNumber: () => ipcRenderer.invoke("receipt:getMaxNumber"),
+    all: () => ipcRenderer.invoke("receipt:all"),
 });
 
 contextBridge.exposeInMainWorld("myInfo", {
