@@ -18,6 +18,7 @@ import Receipts from './pages/Receipts';
 import EditService from './pages/EditService';
 import Home from './pages/Home';
 import ViewUser from './pages/ViewUser';
+import TemplateFast from './service/TemplateFast';
 
 type Page = "add-user" | "add-service" | "client-list" | "service-list" | "nota-fast" | "my-info" | "/" | "receipts";
 
@@ -52,7 +53,7 @@ function App() {
                 <Route path='/service-list' element={<ServiceList />} />
                 <Route path='/my-info' element={<MyInfo />} />
                 <Route path='/receipts' element={<Receipts />} />
-                {/* <Route path='/nota' element={<TemplateNota />} /> */}
+                <Route path='/nota-fast/template' element={<TemplateFast />} />
                 <Route path='/modelo/:id' element={<Modelo />} />
                 <Route path='/client/edit/:id' element={<EditUser />} />
                 <Route path='/service/edit/:id' element={<EditService />} />

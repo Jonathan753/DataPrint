@@ -47,6 +47,7 @@ const ServiceList = () => {
                                             {service.serviceId}
                                         </td>
                                         <td>{service.service}</td>
+                                        <td>{service.value}</td>
                                         <td>{
                                             new Intl.NumberFormat("ptt-BR", {
                                                 style: "currency",
