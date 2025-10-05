@@ -237,10 +237,10 @@ const Modelo = () => {
                             <img className="my-auto" src={logo} alt="" />
                             <div className="grid grid-rows-5 col-span-2 p-2 px-4">
                                 <p>Endereço: {empresa.adress}</p>
-                                <div className="grid grid-cols-3 gap-1">
+                                <div className="grid grid-cols-3">
                                     <p>Cidade: {empresa.city}</p>
                                     <p>UF: {empresa.uf}</p>
-                                    <p>CEP: {empresa.neighborhood}</p>
+                                    <p>CEP: {empresa.cep}</p>
                                 </div>
                                 <div className="grid grid-cols-2">
                                     <p>Telefone: {empresa.phone}</p>
@@ -282,7 +282,9 @@ const Modelo = () => {
                             <p>UF: {cliente?.uf}</p>
                             <p>CEP: {cliente?.cep}</p>
                         </div>
-                        <p>Obs.: {obs}</p>
+                        <div className="w-full">
+                            <p className="break-words">Obs.: {obs}</p>
+                        </div>
                         <hr className="border-black border-collapse mt-2" />
                         <table className="w-full">
                             <thead>
