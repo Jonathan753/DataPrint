@@ -17,7 +17,7 @@ const SearchService = ({ onAdd }: { onAdd: (p: SelectService) => void }) => {
         const value = e.target.value;
         setTermo(value);
 
-        if (value.length > 1) {
+        if (value.length > 0) {
             const res = await (window as any).services.search(value);
             setServices(res);
         } else {
