@@ -227,7 +227,19 @@ ipcMain.handle("receipt:add", async (e, data) => {
 });
 
 ipcMain.handle("receipt:all", () => {
-  const stmt = db.prepare("SELECT * FROM receipts");
+
+  const stmt = db.prepare(`
+    SELECT 
+      n.receiptId,
+      n.clientId,
+      c.name AS clientName,
+      n.totalLiquido,
+      n.date AS date
+    FROM receipts n
+    JOIN clients c ON c.clientId = n.clientId
+    ORDER BY n.receiptId DESC
+  `);
+
   return stmt.all();
 });
 

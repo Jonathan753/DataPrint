@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import Title from "../components/Title";
+import { ButtonView } from "../components/Button";
 
 type Receipt = {
     receiptId: number,
     clientId: number,
+    clientName: string,
     date: string,
-    totalBruto: number,
-    desconto: number,
-    acrescimo: number,
     totalLiquido: number,
 }
 
@@ -37,6 +36,7 @@ const Receipt = () => {
                                     <th scope="col" className="px-6 py-3">Código</th>
                                     <th scope="col" className="px-6 py-3">Cliente</th>
                                     <th scope="col" className="px-6 py-3">Valor Total</th>
+                                    <th scope="col" className="px-6 py-3">Data</th>
                                     <th scope="col" className="px-6 py-3 text-center">Ações</th>
                                 </tr>
                             </thead>
@@ -46,20 +46,24 @@ const Receipt = () => {
                                         <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                             {r.receiptId}
                                         </td>
-                                        <td className="px-6 py-4">{r.clientId}</td>
-                                        <td className="px-6 py-4">{r.totalBruto}</td>
+                                        <td className="px-6 py-4">{r.clientName}</td>
+                                        <td className="px-6 py-4">{
+                                            new Intl.NumberFormat("pt-BR", {
+                                                style: "currency",
+                                                currency: "BRL",
+                                            }).format(r.totalLiquido)
+
+                                        }</td>
                                         <td className="px-6 py-4">{r.date}</td>
                                         <td className="px-6 py-4">
                                             <div className="flex justify-center items-center gap-4">
-                                                {/* <ButtonView textMain="Ver dados do cliente" onClick={() => navigate(`/client/view/${c.clientId}`)} />
-                                                <ButtonNota textMain="Criar Nota" onClick={() => navigate(`/modelo/${c.clientId}`)} />
-                                                <ButtonDelete textMain="Excluir CLiente" onClick={
+                                                <ButtonView textMain="Informações da Nota" onClick={() => "oi"} />
+                                                {/* <ButtonDelete textMain="Excluir CLiente" onClick={
                                                     () => {
                                                         setModalOpen(true)
                                                         getId = c.clientId
                                                     }
-                                                } />
-                                                <ButtonUpdate textMain="Editar Cliente" onClick={() => navigate(`/client/edit/${c.clientId}`)} /> */}
+                                                } /> */}
                                             </div>
                                         </td>
                                     </tr>

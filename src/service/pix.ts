@@ -10,11 +10,17 @@ export function gerarPixPayload(valor: number, key: string, name: string, city:s
         transactionId: name,
     };
 
+    console.log(key)
+    console.log(name)
+    console.log(data.amount)
+    console.log(city)
+
     return payload(data);
 }
 
 export async function gerarQrCodePix(valor: number, key: string, name: string, city:string) {
     const pixPayload = gerarPixPayload(valor, key, name, city);
+    console.log(pixPayload)
     const dataUrl = await QRCode.toDataURL(pixPayload, { width: 200 });
     return dataUrl;
 }

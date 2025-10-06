@@ -33,21 +33,22 @@ type Service = {
     value: number;
 }
 
-// type Enterprise = {
-//     cnpj: string;
-//     name: string;
-//     email: string;
-//     adress: string;
-//     number: string;
-//     neighborhood: string;
-//     city: string;
-//     uf: string;
-//     cep: string;
-//     complement: string;
-//     phone: string;
-//     cell: string
-//     salesperson: string;
-// }
+type Enterprise = {
+    cnpj: string;
+    name: string;
+    email: string;
+    adress: string;
+    number: string;
+    neighborhood: string;
+    city: string;
+    uf: string;
+    cep: string;
+    complement: string;
+    phone: string;
+    cell: string
+    salesperson: string;
+    pix: string;
+}
 
 // type Nota = {
 //     cliente: Clients;
@@ -62,7 +63,7 @@ const Modelo = () => {
     const [cliente, setCliente] = useState<Clients | null>(null);
     const [obs, setObs] = useState('');
     const [services, setServices] = useState<Service[]>([]);
-    const [empresa, setEmpresa] = useState<any>();
+    const [empresa, setEmpresa] = useState<Enterprise | null>(null);
     const [qrCode, setQrCode] = useState<string | null>(null);
     const [acrescimo, setAcrescimo] = useState(0);
     const [desconto, setDesconto] = useState(0);
@@ -83,15 +84,6 @@ const Modelo = () => {
     let minute = String(new Date().getMinutes()).padStart(2, '0');
 
 
-    useEffect(() => {
-        async function makeQr() {
-            if (result > 0) {
-                const dataUrl = await gerarQrCodePix(result, empresa.pix, empresa.name, empresa.city);
-                setQrCode(dataUrl);
-            }
-        }
-        makeQr();
-    }, [result]);
 
     useEffect(() => {
         (async () => {
@@ -104,11 +96,15 @@ const Modelo = () => {
         })();
     }, [id]);
 
-    // useEffect(() => {
-    //     (async () => {
-
-    //     })();
-    // }, []);
+    useEffect(() => {
+        async function makeQr() {
+            if (result > 0 && empresa && empresa.pix) {
+                const dataUrl = await gerarQrCodePix(result, empresa.pix, empresa.name, empresa.city);
+                setQrCode(dataUrl);
+            }
+        }
+        makeQr();
+    }, [result, empresa]);
 
     if (!empresa) return <p>Necessita dos dados da empresa</p>;
 

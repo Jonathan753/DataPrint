@@ -1,6 +1,6 @@
 // src/components/Sidebar.tsx
 
-import { ChevronFirst, ChevronLast } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { createContext, useContext, useState } from "react";
 import logo from "../assets/logo_newDataPrint.svg";
 
@@ -27,7 +27,7 @@ const Sidebar = ({ children }: SidebarProps) => {
                   onClick={() => setExpanded((curr) => !curr)}
                   className="p-1.5 rounded-lg bg-slate-600 hover:bg-slate-300 text-white"
                >
-                  {expanded ? <ChevronFirst /> : <ChevronLast />}
+                  {expanded ? <X /> : <Menu />}
                </button>
             </div>
 
