@@ -1,5 +1,5 @@
 import Title from "../components/Title";
-import { ButtonNext, ButtonReset } from "../components/Button";
+import { ButtonNext, ButtonReset, ButtonReturn } from "../components/Button";
 import Input from "../components/Input";
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -25,32 +25,33 @@ const NoteFast = () => {
     const navigate = useNavigate();
 
     const [form, setForm] = useState<Client>({
-            cnpj_cpf: "",
-            name: "",
-            company: "",
-            email: "",
-            adress: "",
-            number: "",
-            neighborhood: "",
-            city: "",
-            uf: "",
-            cep: "",
-            complement: "",
-            phone: "",
-            cell: "",
-        });
+        cnpj_cpf: "",
+        name: "",
+        company: "",
+        email: "",
+        adress: "",
+        number: "",
+        neighborhood: "",
+        city: "",
+        uf: "",
+        cep: "",
+        complement: "",
+        phone: "",
+        cell: "",
+    });
 
-        const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setForm((prev) => ({ ...prev, [name]: value }));
     }
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        navigate("/nota-fast/template",  { state: { dadosDoFormulario: form } });
+        navigate("/nota-fast/template", { state: { dadosDoFormulario: form } });
     }
     return (
         <>
+            <ButtonReturn />
             <Title title="Nota Rápida" subtitle="Faça sua nota sem burocracia." />
             <div className="p-8">
                 <form method="GET" onSubmit={handleSubmit}>

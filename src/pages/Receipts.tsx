@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Title from "../components/Title";
-import { ButtonView } from "../components/Button";
+import { ButtonReturn, ButtonView } from "../components/Button";
 import { useNavigate, useParams } from "react-router-dom";
 
 type Receipt = {
@@ -30,6 +30,7 @@ const Receipt = () => {
 
     return (
         <>
+            <ButtonReturn />
             <Title title="Notas" subtitle="visualize todas as notas." />
             <div className="max-w-7xl mx-auto p-8">
                 <div className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -56,7 +57,6 @@ const Receipt = () => {
                                                 style: "currency",
                                                 currency: "BRL",
                                             }).format(r.totalLiquido)
-
                                         }</td>
                                         <td className="px-6 py-4">{r.date}</td>
                                         <td className="px-6 py-4">

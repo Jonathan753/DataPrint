@@ -1,4 +1,5 @@
-import { ArrowRight, Eye, File, Pencil, Printer, RotateCcw, Save, Trash2 } from "lucide-react";
+import { ArrowRight, Eye, File, Pencil, Printer, RotateCcw, Save, Trash2, Undo2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
     onClick?: () => void
@@ -136,3 +137,18 @@ const ButtonView = ({ onClick, textMain }: Props) => {
     )
 }
 export { ButtonView };
+
+
+const ButtonReturn = () => {
+
+    const navigate = useNavigate()
+    return (
+        <>
+            <button onClick={() => navigate(-1)} type="button" className="relative group text-white hover:text-gray-500 hover:border-gray-500 transition-colors border rounded-md p-2 mb-3">
+                <Undo2 size={20} />
+            </button>
+        </>
+    )
+}
+export { ButtonReturn };
+

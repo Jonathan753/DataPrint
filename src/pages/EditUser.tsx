@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Input from "../components/Input";
 import Title from "../components/Title";
-import { ButtonReset, ButtonSave } from "../components/Button";
+import { ButtonReset, ButtonReturn, ButtonSave } from "../components/Button";
 import { useParams, useNavigate } from "react-router-dom";
 
 type Clients = {
@@ -56,6 +56,7 @@ const EditUser = () => {
 
     return (
         <>
+            <ButtonReturn />
             <Title title="Editar Cliente" subtitle="Edite algum dado que precise." />
             <div className="p-8">
                 <form onSubmit={handleSubmit} className="space-y-4">

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ButtonSave } from "../components/Button";
+import { ButtonReturn, ButtonSave } from "../components/Button";
 import Input from "../components/Input";
 import Title from "../components/Title";
 import { Modal } from "../components/Modal";
@@ -29,9 +29,9 @@ const MyInfo = () => {
 
     return (
         <>
+            <ButtonReturn />
             <Title title="Meus Dados" subtitle="Insira os dados da sua empresa." />
             <div className="p-8">
-
                 <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                         <Input gridClass="md:col-span-1" onChange={handleChange} value={form.name} label="Nome" id="nome" name="name" type="text" placeholder="João da Silva" />

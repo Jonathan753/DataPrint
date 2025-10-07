@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Input from "../components/Input";
 import Title from "../components/Title";
-import { ButtonReset, ButtonSave } from "../components/Button";
+import { ButtonReset, ButtonReturn, ButtonSave } from "../components/Button";
 import { Modal } from "../components/Modal";
 
 type Services = {
@@ -41,6 +41,7 @@ const AddService = () => {
 
     return (
         <>
+            <ButtonReturn />
             <Title title="Adicionar Serviço/Produto" />
             <div className="p-8">
 

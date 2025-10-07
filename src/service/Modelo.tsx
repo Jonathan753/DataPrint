@@ -4,7 +4,7 @@ import logo from "../assets/logo_newDataPrint.svg"
 import SearchService from "../components/SearchService";
 import Input from "../components/Input";
 import { gerarQrCodePix } from "./pix";
-import { ButtonPrinter } from "../components/Button";
+import { ButtonPrinter, ButtonReturn } from "../components/Button";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import Title from "../components/Title";
@@ -186,6 +186,7 @@ const Modelo = () => {
     // }
     return (
         <>
+        <ButtonReturn/>
 
             <Title title="Criaçao da nota" subtitle={"Nota de " + subtitle} />
             <div style={{ minWidth: "210mm" }}>

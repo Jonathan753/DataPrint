@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { ButtonDelete, ButtonNota, ButtonUpdate, ButtonView } from "../components/Button";
+import { ButtonDelete, ButtonNota, ButtonReturn, ButtonUpdate, ButtonView } from "../components/Button";
 import Title from "../components/Title"
 import { useState, useEffect } from "react";
 import { ModalDelete } from "../components/Modal";
@@ -41,6 +41,7 @@ const ClientList = () => {
 
     return (
         <>
+            <ButtonReturn />
             <Title title="Lista de Clientes" subtitle="Visualize e gerencie os clientes cadastrados." />
             <div className="max-w-7xl mx-auto p-8">
                 <div className="bg-white rounded-lg shadow-md overflow-hidden">

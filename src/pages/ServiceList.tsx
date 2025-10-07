@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { ButtonDelete, ButtonUpdate} from "../components/Button";
+import { ButtonDelete, ButtonReturn, ButtonUpdate } from "../components/Button";
 import Title from "../components/Title";
 import { ModalDelete } from "../components/Modal";
 
@@ -27,6 +27,7 @@ const ServiceList = () => {
 
     return (
         <>
+            <ButtonReturn />
             <Title title="Lista de Servicos" />
             <div className="max-w-7xl mx-auto p-8">
                 <div className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -56,13 +57,11 @@ const ServiceList = () => {
                                         }</td>
                                         <td className="px-6 py-4">
                                             <div className="flex justify-center items-center gap-4">
-
                                                 <ButtonDelete textMain="Excluir CLiente" onClick={
                                                     () => {
                                                         setModalOpen(true);
                                                         getId = service.serviceId;
                                                     }
-
                                                 } />
                                                 <ButtonUpdate textMain="Editar Serviço" onClick={() => navigate(`/service/edit/${service.serviceId}`)} />
                                             </div>

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Input from "../components/Input";
 import Title from "../components/Title";
-import { ButtonReset, ButtonSave } from "../components/Button";
-import {Modal} from "../components/Modal";
+import { ButtonReset, ButtonReturn, ButtonSave } from "../components/Button";
+import { Modal } from "../components/Modal";
 
 type Clients = {
     cnpj_cpf: string;
@@ -48,11 +48,12 @@ const AddUser = () => {
         e.preventDefault();
         await (window as any).clients.add(form);
         setForm({ ...form, cnpj_cpf: "", name: "", company: "", email: "", adress: "", number: "", neighborhood: "", city: "", uf: "", cep: "", complement: "", phone: "", cell: "" });
-        setModalOpen(true); 
+        setModalOpen(true);
     }
 
     return (
         <>
+            <ButtonReturn />
             <Title title="Adicionar Cliente" subtitle="Adicione seu cliente com seguintes dados" />
             <div className="p-8">
                 <form onSubmit={handleSubmit}>

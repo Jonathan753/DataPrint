@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Input from "../components/Input";
 import Title from "../components/Title";
-import { ButtonReset, ButtonSave } from "../components/Button";
+import { ButtonReset, ButtonReturn, ButtonSave } from "../components/Button";
 import { useParams, useNavigate } from "react-router-dom";
 
 type Services = {
@@ -47,6 +47,7 @@ const EditService = () => {
 
     return (
         <>
+            <ButtonReturn />
             <Title title="Editar Serviço/Produto" />
             <div className="p-8">
 

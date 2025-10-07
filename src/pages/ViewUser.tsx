@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Input from "../components/Input";
 import Title from "../components/Title";
-import { ButtonReset, ButtonSave } from "../components/Button";
+import { ButtonReset, ButtonReturn, ButtonSave } from "../components/Button";
 import { useParams, useNavigate } from "react-router-dom";
 import ViewData from "../components/ViewData";
 
@@ -57,6 +57,7 @@ const ViewUser = () => {
 
     return (
         <>
+            <ButtonReturn />
             <Title title="Dados do Cliente" subtitle="Visualize as informaçoes." />
             <div className="p-8 ">
                 <div className="flex gap-5 flex-wrap m-auto md:justify-center ">
@@ -83,18 +84,18 @@ const ViewUser = () => {
                 {/* TESTE */}
                 <div className="w-full">
                     <table className="w-full text-sm text-left text-gray-600">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                        <tr>
-                            <th scope="col" className="px-6 py-3">Código da Nota</th>
-                            <th scope="col" className="px-6 py-3">Email</th>
-                            <th scope="col" className="px-6 py-3">Celular</th>
-                            <th scope="col" className="px-6 py-3">Cidade</th>
-                            <th scope="col" className="px-6 py-3 text-center">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                            <tr>
+                                <th scope="col" className="px-6 py-3">Código da Nota</th>
+                                <th scope="col" className="px-6 py-3">Email</th>
+                                <th scope="col" className="px-6 py-3">Celular</th>
+                                <th scope="col" className="px-6 py-3">Cidade</th>
+                                <th scope="col" className="px-6 py-3 text-center">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                    </tbody>
+                        </tbody>
                     </table>
                 </div>
             </div>
