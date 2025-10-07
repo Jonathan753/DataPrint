@@ -19,6 +19,7 @@ import EditService from './pages/EditService';
 import Home from './pages/Home';
 import ViewUser from './pages/ViewUser';
 import TemplateFast from './service/TemplateFast';
+import ViewReceipt from './pages/ViewReceipt';
 
 type Page = "add-user" | "add-service" | "client-list" | "service-list" | "nota-fast" | "my-info" | "/" | "receipts";
 
@@ -58,6 +59,7 @@ function App() {
                 <Route path='/client/edit/:id' element={<EditUser />} />
                 <Route path='/service/edit/:id' element={<EditService />} />
                 <Route path='/client/view/:id' element={<ViewUser />} />
+                <Route path='/receipts/view/:id' element={<ViewReceipt />} />
               </Routes>
             </div>
           </main>
