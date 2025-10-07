@@ -27,6 +27,10 @@ contextBridge.exposeInMainWorld("receipt", {
     all: () => ipcRenderer.invoke("receipt:all"),
 });
 
+contextBridge.exposeInMainWorld("receipt_services", {
+    getById: (id) => ipcRenderer.invoke("receipt_services:getById", id),
+});
+
 contextBridge.exposeInMainWorld("myInfo", {
     get: () => ipcRenderer.invoke("myInfo:get"),
     save: (data) => ipcRenderer.invoke("myInfo:save", data),
