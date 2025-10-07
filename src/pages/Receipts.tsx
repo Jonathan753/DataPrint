@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Title from "../components/Title";
 import { ButtonView } from "../components/Button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 type Receipt = {
     receiptId: number,
@@ -14,7 +14,9 @@ type Receipt = {
 
 
 const Receipt = () => {
-const navigate = useNavigate();
+    const navigate = useNavigate();
+
+    const { id } = useParams();
 
     const [receipt, setReceipt] = useState<Receipt[]>([])
 
@@ -46,7 +48,7 @@ const navigate = useNavigate();
                                 {receipt.map((r, idx) => (
                                     <tr key={idx} className="bg-white hover:bg-gray-50">
                                         <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                            {r.receiptId}
+                                            {r.receiptId.toString().padStart(4, "0")}
                                         </td>
                                         <td className="px-6 py-4">{r.clientName}</td>
                                         <td className="px-6 py-4">{
@@ -59,7 +61,7 @@ const navigate = useNavigate();
                                         <td className="px-6 py-4">{r.date}</td>
                                         <td className="px-6 py-4">
                                             <div className="flex justify-center items-center gap-4">
-                                                <ButtonView textMain="Informações da Nota" onClick={() => {navigate(`/receipts/view/${r.receiptId}`)}} />
+                                                <ButtonView textMain="Informações da Nota" onClick={() => { navigate(`/receipts/view/${r.receiptId}`) }} />
                                                 {/* <ButtonDelete textMain="Excluir CLiente" onClick={
                                                     () => {
                                                         setModalOpen(true)

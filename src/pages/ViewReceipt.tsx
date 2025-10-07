@@ -41,23 +41,23 @@ const ViewReceipt = () => {
                     <tr>
 
                         <th scope="col" className="px-6 py-3">Código</th>
-                        <th scope="col" className="px-6 py-3">Serviço/Produto</th>
-                        <th scope="col" className="px-6 py-3">Valor</th>
-                        <th scope="col" className="px-6 py-3 text-center">Ações</th>
+                        <th scope="col" className="px-6 py-3">Quantidade</th>
+                        <th scope="col" className="px-6 py-3">Valaor Único</th>
+                        <th scope="col" className="px-6 py-3 text-center">Valor Total</th>
                     </tr>
                 </thead>
 
                 <tbody className="divide-y divide-gray-200">
                     {receiptService.map((s, idx) => (
                         <tr key={idx} className="bg-white hover:bg-gray-50">
+                            
                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                {s?.serviceId}
+                                {s.serviceId}
                             </td>
-                            <td>{s?.valueUnitario}</td>
+                            <td>{s.qtd}</td>
 
-                            <td>{
-                                s?.valueTotal
-                            }</td>
+                            <td>{s.valueUnitario}</td>
+                            <td>{s.valueTotal}</td>
                             {/* <td className="px-6 py-4">
                             <div className="flex justify-center items-center gap-4">
                             

@@ -251,7 +251,12 @@ ipcMain.handle("receipt:getMaxNumber", () => {
 /////////////////////////
 ipcMain.handle("receipt_services:getById", (e, id) => {
   const stmt = db.prepare("SELECT * FROM receipt_services WHERE receiptId = ?");
-  return stmt.get(id);
+  return stmt.all(id);
+});
+
+ipcMain.handle("receipt_services:all", () => {
+  const stmt = db.prepare("SELECT * FROM receipt_services");
+  return stmt.all();
 });
 
 
