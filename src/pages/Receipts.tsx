@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Title from "../components/Title";
-import { ButtonReturn, ButtonView } from "../components/Button";
-import { useNavigate, useParams } from "react-router-dom";
+import { ButtonView } from "../components/Button";
+import { useNavigate } from "react-router-dom";
 
 type Receipt = {
     receiptId: number,
@@ -11,31 +11,75 @@ type Receipt = {
     totalLiquido: number,
 }
 
-
+const ITEMS_PER_PAGE = 10; // Defina quantos itens por página você quer
 
 const Receipt = () => {
     const navigate = useNavigate();
 
-    const { id } = useParams();
+    // Novos estados para filtro e paginação
+    const [receipts, setReceipts] = useState<Receipt[]>([]);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const [receipt, setReceipt] = useState<Receipt[]>([])
+    // Função para buscar os dados no backend
+    const fetchReceipts = useCallback(async (page: number, search: string) => {
+        setIsLoading(true);
+        try {
+            const result = await (window as any).receipt.paginated({
+                page: page,
+                limit: ITEMS_PER_PAGE,
+                searchTerm: search,
+            });
 
-    useEffect(() => {
-        (async () => {
-            const r = await (window as any).receipt.all();
-            setReceipt(r);
-        })();
+            setReceipts(result.data);
+            // Calcula o total de páginas com base no total de itens retornados
+            setTotalPages(Math.ceil(result.totalItems / ITEMS_PER_PAGE));
+        } catch (error) {
+            console.error("Erro ao buscar notas:", error);
+        } finally {
+            setIsLoading(false);
+        }
     }, []);
 
+    // Efeito para buscar os dados quando a página ou o filtro mudarem
+    useEffect(() => {
+        // Debounce: espera o usuário parar de digitar por 300ms antes de buscar
+        const handler = setTimeout(() => {
+            fetchReceipts(currentPage, searchTerm);
+        }, 300);
+
+        // Limpa o timeout se o usuário digitar novamente
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [currentPage, searchTerm, fetchReceipts]);
+
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(event.target.value);
+        setCurrentPage(1); // Reseta para a primeira página ao fazer uma nova busca
+    };
 
     return (
         <>
-            <ButtonReturn />
-            <Title title="Notas" subtitle="visualize todas as notas." />
+            <Title title="Notas" subtitle="Visualize todas as notas." />
             <div className="max-w-7xl mx-auto p-8">
+                {/* --- CAMPO DE BUSCA --- */}
+                <div className="mb-4">
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        placeholder="Buscar por nome do cliente..."
+                        className="w-full p-2 border border-gray-300 rounded-lg"
+                    />
+                </div>
+
                 <div className="bg-white rounded-lg shadow-md overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left text-gray-600">
+                            {/* ... seu thead continua o mesmo ... */}
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                                 <tr>
                                     <th scope="col" className="px-6 py-3">Código</th>
@@ -46,36 +90,59 @@ const Receipt = () => {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
-                                {receipt.map((r, idx) => (
-                                    <tr key={idx} className="bg-white hover:bg-gray-50">
-                                        <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                            {r.receiptId.toString().padStart(4, "0")}
-                                        </td>
-                                        <td className="px-6 py-4">{r.clientName}</td>
-                                        <td className="px-6 py-4">{
-                                            new Intl.NumberFormat("pt-BR", {
-                                                style: "currency",
-                                                currency: "BRL",
-                                            }).format(r.totalLiquido)
-                                        }</td>
-                                        <td className="px-6 py-4">{r.date}</td>
-                                        <td className="px-6 py-4">
-                                            <div className="flex justify-center items-center gap-4">
-                                                <ButtonView textMain="Informações da Nota" onClick={() => { navigate(`/receipts/view/${r.receiptId}`) }} />
-                                                {/* <ButtonDelete textMain="Excluir CLiente" onClick={
-                                                    () => {
-                                                        setModalOpen(true)
-                                                        getId = c.clientId
-                                                    }
-                                                } /> */}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
+                                {isLoading ? (
+                                    <tr><td colSpan={5} className="text-center p-4">Carregando...</td></tr>
+                                ) : receipts.length > 0 ? (
+                                    receipts.map((r) => (
+                                        <tr key={r.receiptId} className="bg-white hover:bg-gray-50">
+                                            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                {r.receiptId.toString().padStart(4, "0")}
+                                            </td>
+                                            <td className="px-6 py-4">{r.clientName}</td>
+                                            <td className="px-6 py-4">{
+                                                new Intl.NumberFormat("pt-BR", {
+                                                    style: "currency",
+                                                    currency: "BRL",
+                                                }).format(r.totalLiquido)
+                                            }</td>
+                                            <td className="px-6 py-4">{r.date}</td>
+                                            <td className="px-6 py-4">
+                                                <div className="flex justify-center items-center gap-4">
+                                                    <ButtonView textMain="Informações da Nota" onClick={() => navigate(`/receipts/view/${r.receiptId}`)} />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr><td colSpan={5} className="text-center p-4">Nenhuma nota encontrada.</td></tr>
+                                )}
                             </tbody>
                         </table>
                     </div>
                 </div>
+
+                {/* --- CONTROLES DE PAGINAÇÃO --- */}
+                {totalPages > 0 && (
+                    <div className="flex justify-between items-center mt-4">
+                        <button
+                            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                            disabled={currentPage === 1 || isLoading}
+                            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg disabled:opacity-50"
+                        >
+                            Anterior
+                        </button>
+                        <span>
+                            Página {currentPage} de {totalPages}
+                        </span>
+                        <button
+                            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                            disabled={currentPage === totalPages || isLoading}
+                            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg disabled:opacity-50"
+                        >
+                            Próxima
+                        </button>
+                    </div>
+                )}
             </div>
         </>
     )

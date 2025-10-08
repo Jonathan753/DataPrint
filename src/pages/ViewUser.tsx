@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import Input from "../components/Input";
 import Title from "../components/Title";
-import { ButtonReset, ButtonReturn, ButtonSave } from "../components/Button";
+import { ButtonReturn } from "../components/Button";
 import { useParams, useNavigate } from "react-router-dom";
 import ViewData from "../components/ViewData";
 

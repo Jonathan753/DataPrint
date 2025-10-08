@@ -1,7 +1,7 @@
 import { ButtonReturn } from "../components/Button";
 import Title from "../components/Title";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 type Receipt = {
     receiptId: number;

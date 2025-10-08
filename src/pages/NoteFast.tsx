@@ -2,7 +2,7 @@ import Title from "../components/Title";
 import { ButtonNext, ButtonReset, ButtonReturn } from "../components/Button";
 import Input from "../components/Input";
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 type Client = {
     cnpj_cpf: string;

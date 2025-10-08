@@ -248,6 +248,64 @@ ipcMain.handle("receipt:getMaxNumber", () => {
   const result = stmt.get(); // executa a query e traz o resultado
   return result?.maxId || 0; // se for null, retorna 0
 });
+
+
+// main.js
+
+// ... outros handlers ...
+
+ipcMain.handle("receipt:paginated", (e, { page, limit, searchTerm }) => {
+  // Calcula o OFFSET para pular os itens das páginas anteriores
+  const offset = (page - 1) * limit;
+
+  // Parâmetros para a query SQL. Usamos um array para construir de forma segura.
+  const params = [];
+
+  // Base da query para buscar o total de itens (para calcular o total de páginas)
+  let countSql = `
+    SELECT COUNT(*) as total
+    FROM receipts n
+    JOIN clients c ON c.clientId = n.clientId
+  `;
+
+  // Base da query para buscar os dados da página atual
+  let dataSql = `
+    SELECT 
+      n.receiptId,
+      n.clientId,
+      c.name AS clientName,
+      n.totalLiquido,
+      n.date AS date
+    FROM receipts n
+    JOIN clients c ON c.clientId = n.clientId
+  `;
+
+  // Se um termo de busca for fornecido, adiciona a condição WHERE
+  if (searchTerm) {
+    const whereClause = ` WHERE c.name LIKE ?`;
+    countSql += whereClause;
+    dataSql += whereClause;
+    params.push(`%${searchTerm}%`); // O '%' é o coringa para o LIKE
+  }
+
+  // Ordena os resultados
+  dataSql += ` ORDER BY n.receiptId DESC`;
+
+  // Adiciona a paginação (LIMIT e OFFSET) na query de dados
+  dataSql += ` LIMIT ? OFFSET ?`;
+  
+  // Adiciona os parâmetros de paginação
+  const dataParams = [...params, limit, offset];
+  
+  // Executa as queries
+  const countStmt = db.prepare(countSql);
+  const { total } = countStmt.get(params); // Conta o total de itens que correspondem ao filtro
+
+  const dataStmt = db.prepare(dataSql);
+  const data = dataStmt.all(dataParams); // Busca os itens da página atual
+
+  return { data, totalItems: total }; // Retorna os dados e o total de itens
+});
 /////////////////////////
 ipcMain.handle("receipt_services:getById", (e, id) => {
   const stmt = db.prepare("SELECT * FROM receipt_services WHERE receiptId = ?");

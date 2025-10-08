@@ -25,6 +25,7 @@ contextBridge.exposeInMainWorld("receipt", {
     add: (data) => ipcRenderer.invoke("receipt:add", data),
     getMaxNumber: () => ipcRenderer.invoke("receipt:getMaxNumber"),
     all: () => ipcRenderer.invoke("receipt:all"),
+    paginated: (options) => ipcRenderer.invoke("receipt:paginated", options), // <-- ADICIONE AQUI
 });
 
 contextBridge.exposeInMainWorld("receipt_services", {

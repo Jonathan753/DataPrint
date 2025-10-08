@@ -40,7 +40,6 @@ function App() {
               <SidebarItem onClick={() => setActivePage("service-list")} active={activePage === "service-list"} to="service-list" icon={<PackageSearch size={20} />} text="Lista de Serviço/Produto" />
               <SidebarItem onClick={() => setActivePage("nota-fast")} active={activePage === "nota-fast"} to="nota-fast" icon={<File size={20} />} text="Nota Rápida" />
               <SidebarItem onClick={() => setActivePage("receipts")} active={activePage === "receipts"} to="receipts" icon={<Receipt size={20} />} text="Notas" />
-              <SidebarItem onClick={() => setActivePage("receipts")} active={activePage === "receipts"} to="teste" icon={<Receipt size={20} />} text="teste" />
               <hr className="my-3" />
               <SidebarItem to="my-info" onClick={() => setActivePage("my-info")} active={activePage === "my-info"} icon={<Info size={20} />} text="Meus Dados" />
               {/* <SidebarItem to="nota" icon={<Info size={20} />} text="Teste" /> */}
@@ -61,7 +60,6 @@ function App() {
                 <Route path='/service/edit/:id' element={<EditService />} />
                 <Route path='/client/view/:id' element={<ViewUser />} />
                 <Route path='/receipts/view/:id' element={<ViewReceipt />} />
-                <Route path='/teste' element={<ViewReceipt />} />
               </Routes>
             </div>
           </main>
