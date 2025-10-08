@@ -1,24 +1,26 @@
 import { useState, useEffect } from "react";
-import Input from "../components/Input";
-import Title from "../components/Title";
-import { ButtonReset, ButtonReturn, ButtonSave } from "../components/Button";
+import Input from "../../components/Input";
+import Title from "../../components/Title";
+import { ButtonReset, ButtonReturn, ButtonSave } from "../../components/Button";
 import { useParams, useNavigate } from "react-router-dom";
+import type { Clients } from "../../types/global";
 
-type Clients = {
-    cnpj_cpf: string;
-    name: string;
-    company: string;
-    email: string;
-    adress: string;
-    number: string;
-    neighborhood: string;
-    city: string;
-    uf: string;
-    cep: string;
-    complement: string;
-    phone: string;
-    cell: string
-}
+
+// type Clients = {
+//     cnpj_cpf: string;
+//     name: string;
+//     company: string;
+//     email: string;
+//     adress: string;
+//     number: string;
+//     neighborhood: string;
+//     city: string;
+//     uf: string;
+//     cep: string;
+//     complement: string;
+//     phone: string;
+//     cell: string
+// }
 
 const EditUser = () => {
     const { id } = useParams();
@@ -76,7 +78,7 @@ const EditUser = () => {
                         <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cell} mask="(00) 00000-0000" label="Celular" id="celular" name="cell" type="tel" placeholder="(11) 98765-4321" />
                     </div>
                     <div className="mt-8 flex justify-end gap-4">
-                        <ButtonReset />
+                        {/* <ButtonReset /> */}
                         <ButtonSave />
                     </div>
                 </form>

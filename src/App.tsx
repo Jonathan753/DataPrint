@@ -1,25 +1,25 @@
 import './style/index.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import AddUser from './pages/AddUser';
-import AddService from './pages/AddService';
+import AddUser from './pages/Client/AddUser';
+import AddService from './pages/Service/AddService';
 import Sidebar from './layout/Sidebar';
 import { SidebarItem } from './components/SidebarItem';
 import { UsersRound, UserRoundPlus, PackagePlus, PackageSearch, File, Info, HomeIcon, Receipt, } from "lucide-react"
 import NoteFast from './pages/NoteFast';
-import ClientList from './pages/ClientList';
-import ServiceList from './pages/ServiceList';
+import ClientList from './pages/Client/ClientList';
+import ServiceList from './pages/Service/ServiceList';
 import MyInfo from './pages/MyInfo';
 // import TemplateNota from './service/TemplateNota';
 import Modelo from './service/Modelo';
 import { useState } from 'react';
 import TitleBar from './layout/Titlebar';
-import EditUser from './pages/EditUser';
-import Receipts from './pages/Receipts';
-import EditService from './pages/EditService';
+import EditUser from './pages/Client/EditUser';
+import Receipts from './pages/Receipt/Receipts';
+import EditService from './pages/Service/EditService';
 import Home from './pages/Home';
-import ViewUser from './pages/ViewUser';
+import ViewUser from './pages/Client/ViewUser';
 import TemplateFast from './service/TemplateFast';
-import ViewReceipt from './pages/ViewReceipt';
+import ViewReceipt from './pages/Receipt/ViewReceipt';
 
 type Page = "add-user" | "add-service" | "client-list" | "service-list" | "nota-fast" | "my-info" | "/" | "receipts";
 

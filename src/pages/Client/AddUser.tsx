@@ -1,28 +1,30 @@
 import { useState } from "react";
-import Input from "../components/Input";
-import Title from "../components/Title";
-import { ButtonReset, ButtonReturn, ButtonSave } from "../components/Button";
-import { Modal } from "../components/Modal";
+import Input from "../../components/Input";
+import Title from "../../components/Title";
+import { ButtonReset, ButtonReturn, ButtonSave } from "../../components/Button";
+import { Modal } from "../../components/Modal";
+import type { Clients } from "../../types/global";
 
-type Clients = {
-    cnpj_cpf: string;
-    name: string;
-    company: string;
-    email: string;
-    adress: string;
-    number: string;
-    neighborhood: string;
-    city: string;
-    uf: string;
-    cep: string;
-    complement: string;
-    phone: string;
-    cell: string
-}
+// type Clients = {
+//     cnpj_cpf: string;
+//     name: string;
+//     company: string;
+//     email: string;
+//     adress: string;
+//     number: string;
+//     neighborhood: string;
+//     city: string;
+//     uf: string;
+//     cep: string;
+//     complement: string;
+//     phone: string;
+//     cell: string
+// }
 
 const AddUser = () => {
 
     const [form, setForm] = useState<Clients>({
+        clientId: 0, //irrelevante
         cnpj_cpf: "",
         name: "",
         company: "",
@@ -75,6 +77,7 @@ const AddUser = () => {
                     <div className="mt-8 flex justify-end gap-4">
                         <ButtonReset onClick={
                             () => setForm({
+                                clientId: 0,
                                 cnpj_cpf: "",
                                 name: "",
                                 company: "",

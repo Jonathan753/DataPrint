@@ -1,14 +1,15 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { ButtonDelete, ButtonReturn, ButtonUpdate } from "../components/Button";
-import Title from "../components/Title";
-import { ModalDelete } from "../components/Modal";
+import { ButtonDelete, ButtonReturn, ButtonUpdate } from "../../components/Button";
+import Title from "../../components/Title";
+import { ModalDelete } from "../../components/Modal";
+import type { Service } from "../../types/global";
 
-type Service = {
-    serviceId: number,
-    service: string;
-    value: number;
-}
+// type Service = {
+//     serviceId: number,
+//     service: string;
+//     value: number;
+// }
 
 let getId = 0;
 

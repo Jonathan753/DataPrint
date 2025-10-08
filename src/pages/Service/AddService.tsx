@@ -1,8 +1,10 @@
 import { useState } from "react";
-import Input from "../components/Input";
-import Title from "../components/Title";
-import { ButtonReset, ButtonReturn, ButtonSave } from "../components/Button";
-import { Modal } from "../components/Modal";
+import Input from "../../components/Input";
+import Title from "../../components/Title";
+import { ButtonReset, ButtonReturn, ButtonSave } from "../../components/Button";
+import { Modal } from "../../components/Modal";
+import type { Service } from "../../types/global";
+
 
 type Services = {
     service: string;
@@ -11,7 +13,8 @@ type Services = {
 
 const AddService = () => {
 
-    const [form, setForm] = useState<Services>({
+    const [form, setForm] = useState<Service>({
+        serviceId: 0,
         service: "",
         value: 0,
     });
@@ -35,7 +38,7 @@ const AddService = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         await (window as any).services.add(form);
-        setForm({ service: "", value: 0 });
+        setForm({ service: "", value: 0 , serviceId: 0});
         setModalOpen(true); // abre modal em vez de alert
     }
 
@@ -82,6 +85,7 @@ const AddService = () => {
                         <ButtonReset onClick={
                             () => setForm({
                                 service: "",
+                                serviceId: 0,
                                 value: 0,
                             })
                         } />

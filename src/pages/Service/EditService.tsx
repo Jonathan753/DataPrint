@@ -1,20 +1,17 @@
 import { useState, useEffect } from "react";
-import Input from "../components/Input";
-import Title from "../components/Title";
-import { ButtonReset, ButtonReturn, ButtonSave } from "../components/Button";
+import Input from "../../components/Input";
+import Title from "../../components/Title";
+import { ButtonReset, ButtonReturn, ButtonSave } from "../../components/Button";
 import { useParams, useNavigate } from "react-router-dom";
+import type { Service } from "../../types/global";
 
-type Services = {
-    service: string;
-    value: string;
-}
 
 const EditService = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
 
-    const [form, setForm] = useState<Services | null>(null);
+    const [form, setForm] = useState<Service | null>(null);
 
     useEffect(() => {
         (async () => {

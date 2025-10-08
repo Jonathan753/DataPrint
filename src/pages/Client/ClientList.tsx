@@ -1,25 +1,27 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { ButtonDelete, ButtonNota, ButtonReturn, ButtonUpdate, ButtonView } from "../components/Button";
-import Title from "../components/Title"
+import { ButtonDelete, ButtonNota, ButtonReturn, ButtonUpdate, ButtonView } from "../../components/Button";
+import Title from "../../components/Title"
 import { useState, useEffect } from "react";
-import { ModalDelete } from "../components/Modal";
+import { ModalDelete } from "../../components/Modal";
+import type { Clients } from "../../types/global";
 
-type Clients = {
-    clientId: number;
-    cnpj_cpf: string;
-    name: string;
-    company: string;
-    email: string;
-    adress: string;
-    number: string;
-    neighborhood: string;
-    city: string;
-    uf: string;
-    cep: string;
-    complement: string;
-    phone: string;
-    cell: string
-}
+
+// type Clients = {
+//     clientId: number;
+//     cnpj_cpf: string;
+//     name: string;
+//     company: string;
+//     email: string;
+//     adress: string;
+//     number: string;
+//     neighborhood: string;
+//     city: string;
+//     uf: string;
+//     cep: string;
+//     complement: string;
+//     phone: string;
+//     cell: string
+// }
 
 let getId = 0;
 

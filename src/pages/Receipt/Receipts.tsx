@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
-import Title from "../components/Title";
-import { ButtonView } from "../components/Button";
+import Title from "../../components/Title";
+import { ButtonView } from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 
 type Receipt = {

@@ -1,5 +1,5 @@
-import { ButtonReturn } from "../components/Button";
-import Title from "../components/Title";
+import { ButtonReturn } from "../../components/Button";
+import Title from "../../components/Title";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
