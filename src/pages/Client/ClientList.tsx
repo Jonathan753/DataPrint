@@ -1,44 +1,30 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ButtonDelete, ButtonNota, ButtonReturn, ButtonUpdate, ButtonView } from "../../components/Button";
 import Title from "../../components/Title"
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ModalDelete } from "../../components/Modal";
-import type { Clients } from "../../types/global";
+import type { Client } from "../../types/global";
+import { useDatabaseQueryAll } from "../../hooks/useDatabaseQueryAll";
 
-
-// type Clients = {
-//     clientId: number;
-//     cnpj_cpf: string;
-//     name: string;
-//     company: string;
-//     email: string;
-//     adress: string;
-//     number: string;
-//     neighborhood: string;
-//     city: string;
-//     uf: string;
-//     cep: string;
-//     complement: string;
-//     phone: string;
-//     cell: string
-// }
 
 let getId = 0;
 
 const ClientList = () => {
 
-    const { id } = useParams();
-
-    const [clients, setClients] = useState<Clients[]>([]);
+    const [clients, setClients] = useState<Client[]>([]);
     const [modalOpen, setModalOpen] = useState(false);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        (async () => {
-            const data = await (window as any).clients.all();
-            setClients(data);
-        })();
-    }, [id]);
+    const query = (window as any).clients.all();
+    const { data: client, isLoading, error } = useDatabaseQueryAll<Client[]>(() => query);
+
+    if (isLoading) {
+        return <p>Carregando Clientes...</p>;
+    }
+
+    if (error) {
+        return <p style={{ color: 'red' }}>{error}</p>;
+    }
 
 
     return (
@@ -59,7 +45,7 @@ const ClientList = () => {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
-                                {clients.map((c, idx) => (
+                                {client && client.map((c, idx) => (
                                     <tr key={idx} className="bg-white hover:bg-gray-50">
                                         <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                             {c.name}
@@ -71,12 +57,12 @@ const ClientList = () => {
                                             <div className="flex justify-center items-center gap-4">
                                                 <ButtonView textMain="Ver dados do cliente" onClick={() => navigate(`/client/view/${c.clientId}`)} />
                                                 <ButtonNota textMain="Criar Nota" onClick={() => navigate(`/modelo/${c.clientId}`)} />
-                                                <ButtonDelete textMain="Excluir CLiente" onClick={
+                                                {/* <ButtonDelete textMain="Excluir CLiente" onClick={
                                                     () => {
                                                         setModalOpen(true)
                                                         getId = c.clientId
                                                     }
-                                                } />
+                                                } /> */}
                                                 <ButtonUpdate textMain="Editar Cliente" onClick={() => navigate(`/client/edit/${c.clientId}`)} />
                                             </div>
                                         </td>

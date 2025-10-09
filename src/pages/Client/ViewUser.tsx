@@ -3,29 +3,15 @@ import Title from "../../components/Title";
 import { ButtonReturn } from "../../components/Button";
 import { useParams, useNavigate } from "react-router-dom";
 import ViewData from "../../components/ViewData";
-import type { Clients } from "../../types/global";
+import type { Client } from "../../types/global";
 
 
-// type Clients = {
-//     cnpj_cpf: string;
-//     name: string;
-//     company: string;
-//     email: string;
-//     adress: string;
-//     number: string;
-//     neighborhood: string;
-//     city: string;
-//     uf: string;
-//     cep: string;
-//     complement: string;
-//     phone: string;
-//     cell: string
-// }
+
 
 const ViewUser = () => {
     const { id } = useParams();
 
-    const [form, setForm] = useState<Clients | null>(null);
+    const [form, setForm] = useState<Client | null>(null);
 
     useEffect(() => {
         (async () => {

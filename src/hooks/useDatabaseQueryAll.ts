@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 
 // T é um tipo genérico. Ele representa o tipo de dado que vamos buscar (Client[], Service[], etc.)
-export function useDatabaseQuery<T>(queryFunction: () => Promise<T>) {
+export function useDatabaseQueryAll<T>(queryFunction: () => Promise<T>) {
     const [data, setData] = useState<T | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -25,7 +25,7 @@ export function useDatabaseQuery<T>(queryFunction: () => Promise<T>) {
         };
 
         executeQuery();
-    }, [queryFunction]); // Dependência da função de query
+    }, []); // Dependência da função de query
 
     // O hook retorna o estado para que o componente possa usá-lo
     return { data, isLoading, error };

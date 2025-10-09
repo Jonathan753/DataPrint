@@ -3,30 +3,14 @@ import Input from "../../components/Input";
 import Title from "../../components/Title";
 import { ButtonReset, ButtonReturn, ButtonSave } from "../../components/Button";
 import { useParams, useNavigate } from "react-router-dom";
-import type { Clients } from "../../types/global";
+import type { Client } from "../../types/global";
 
-
-// type Clients = {
-//     cnpj_cpf: string;
-//     name: string;
-//     company: string;
-//     email: string;
-//     adress: string;
-//     number: string;
-//     neighborhood: string;
-//     city: string;
-//     uf: string;
-//     cep: string;
-//     complement: string;
-//     phone: string;
-//     cell: string
-// }
 
 const EditUser = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    const [form, setForm] = useState<Clients | null>(null);
+    const [form, setForm] = useState<Client | null>(null);
 
     useEffect(() => {
         (async () => {

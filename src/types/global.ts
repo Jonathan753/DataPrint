@@ -1,4 +1,4 @@
-export type Clients = {
+export type Client = {
     clientId: number;
     cnpj_cpf: string;
     name: string;

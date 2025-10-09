@@ -1,10 +1,6 @@
 import { useState } from "react";
+import type { Service } from "../types/global";
 
-type Service = {
-    serviceId: number,
-    service: string;
-    value: number;
-}
 
 type SelectService = Service & { qtd: number }
 

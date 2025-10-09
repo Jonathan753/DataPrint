@@ -1,30 +1,29 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { data, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ButtonDelete, ButtonReturn, ButtonUpdate } from "../../components/Button";
 import Title from "../../components/Title";
 import { ModalDelete } from "../../components/Modal";
 import type { Service } from "../../types/global";
+import { useDatabaseQueryAll } from "../../hooks/useDatabaseQueryAll";
 
-// type Service = {
-//     serviceId: number,
-//     service: string;
-//     value: number;
-// }
 
 let getId = 0;
 
 const ServiceList = () => {
-    const { id } = useParams();
-    const [form, setForm] = useState<Service[]>([]);
+
     const [modalOpen, setModalOpen] = useState(false);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        (async () => {
-            const data = await (window as any).services.all();
-            setForm(data);
-        })();
-    }, [id]);
+    const query = (window as any).services.all();
+    const { data: service, isLoading, error } = useDatabaseQueryAll<Service[]>(() => query);
+
+    if (isLoading) {
+        return <p>Carregando Serviços...</p>;
+    }
+
+    if (error) {
+        return <p style={{ color: 'red' }}>{error}</p>;
+    }
 
     return (
         <>
@@ -43,7 +42,7 @@ const ServiceList = () => {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
-                                {form.map((service, idx) => (
+                                {service && service.map((service, idx) => (
                                     <tr key={idx} className="bg-white hover:bg-gray-50">
                                         <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                             {service.serviceId}
@@ -76,12 +75,12 @@ const ServiceList = () => {
                 <ModalDelete
                     isOpen={modalOpen}
                     onClose={() => setModalOpen(false)}
-                    onDelete={
-                        async () => {
-                            await (window as any).services.delete(getId);
-                            setForm(form.filter(ser => ser.serviceId !== getId));
-                        }
-                    }
+                    // onDelete={
+                    //     async () => {
+                    //         await (window as any).services.delete(getId);
+                    //         setForm(service.filter(ser => ser.serviceId !== getId));
+                    //     }
+                    // }
                     title="Tem certeza que quer excluir esse serviço?"
                     message="Essa ação será irreversível!"
                 />
