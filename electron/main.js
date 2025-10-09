@@ -35,6 +35,11 @@ ipcMain.handle("clients:all", () => {
   return stmt.all();
 });
 
+ipcMain.handle("clients:totalNumber", () => {
+  const stmt = db.prepare("SELECT COUNT(*) FROM clients");
+  return stmt.get();
+});
+
 ipcMain.handle("clients:getById", (e, id) => {
   const stmt = db.prepare("SELECT * FROM clients WHERE clientId = ?");
   return stmt.get(id);

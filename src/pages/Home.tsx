@@ -21,6 +21,7 @@ const Home = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
+    const [clientNumber, setClientNumber] = useState(0);
     const navigate = useNavigate();
 
     const fetchReceipts = useCallback(async (page: number, search: string) => {
@@ -42,6 +43,12 @@ const Home = () => {
         }
     }, []);
 
+    useEffect(() => {
+        async () => {
+            const c = await (window as any).clients.totalNumber();
+            setClientNumber(c);
+        }
+    }, [])
     // Efeito para buscar os dados quando a página ou o filtro mudarem
     useEffect(() => {
         // Debounce: espera o usuário parar de digitar por 300ms antes de buscar
@@ -65,13 +72,14 @@ const Home = () => {
 
     return (
         <>
-            <Title title="Home" subtitle="Vamos Começar?"/>
+            <Title title="Home" subtitle="Vamos Começar?" />
             <div className="p-8">
                 <div className="mx-auto ">
                     <div className="flex flex-row w-4/5 mx-auto flex-wrap gap-4">
                         <Card />
                         <Card />
                         <Card />
+                        <p>{clientNumber}</p>
                     </div>
 
                     {/* flex justify-around flex-wrap px-24 gap-3 */}

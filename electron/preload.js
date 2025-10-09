@@ -18,7 +18,8 @@ contextBridge.exposeInMainWorld("clients", {
     all: () => ipcRenderer.invoke("clients:all"),
     getById: (id) => ipcRenderer.invoke("clients:getById", id),
     delete: (id) => ipcRenderer.invoke("clients:delete", id),
-    update: (client) => ipcRenderer.invoke("clients:update", client)
+    update: (client) => ipcRenderer.invoke("clients:update", client),
+    totalNumber: () => ipcRenderer.invoke("clients:totalNumber"),
 });
 
 contextBridge.exposeInMainWorld("receipt", {
