@@ -18,7 +18,7 @@ const TitleBar: React.FC = () => {
 
     return (
         <div className="
-      top-0 left-0 w-full h-8 bg-zinc-900 text-white
+      top-0 left-0 w-full h-8 bg-accent-primary text-white
       flex justify-between items-center select-none z-50
     ">
             {/* Área arrastável */}

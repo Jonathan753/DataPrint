@@ -31,7 +31,7 @@ function App() {
       <div className="flex flex-col h-dvh">
         <TitleBar />
         <BrowserRouter>
-          <main className="flex flex-1 overflow-hidden">
+          <main className="flex flex-1 overflow-hidden bg-background-main">
             <Sidebar>
               <SidebarItem onClick={() => setActivePage("/")} active={activePage === "/"} to="/" icon={<HomeIcon size={20} />} text="Home" />
               <SidebarItem onClick={() => setActivePage("add-user")} active={activePage === "add-user"} to="add-user" icon={<UserRoundPlus size={20} />} text="Adicionar Cliente" />

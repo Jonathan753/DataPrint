@@ -38,7 +38,7 @@ export { ButtonNext };
 const ButtonReset = ({ onClick }: Props) => {
     return (
         <>
-            <button type="reset" onClick={onClick} className="px-6 flex gap-2 py-2 border border-gray-200 rounded-md text-gray-200 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400">
+            <button type="reset" onClick={onClick} className="px-6 flex gap-2 py-2 border border-gray-600 rounded-md text-gray-600 hover:bg-gray-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-400">
                 <div className="content-center">
 
                     <RotateCcw size={20} />
@@ -144,7 +144,7 @@ const ButtonReturn = () => {
     const navigate = useNavigate()
     return (
         <>
-            <button onClick={() => navigate(-1)} type="button" className="relative group text-white hover:text-gray-500 hover:border-gray-500 transition-colors border rounded-md p-2 mb-3">
+            <button onClick={() => navigate(-1)} type="button" className="relative group border-gray-600 bg-slate-600 text-gray-600 hover:text-gray-500 hover:border-gray-500 transition-colors border rounded-md p-2 mb-3">
                 <Undo2 size={20} />
             </button>
         </>

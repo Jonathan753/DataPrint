@@ -21,8 +21,8 @@ const SidebarItem = ({ icon, text, active, alert, to, onClick }: SidebarItemProp
               font-medium rounded-md cursor-pointer
               transition-colors group
               ${active
-            ? "bg-zinc-500 text-white"
-            : "hover:bg-zinc-600 text-white"
+            ? "bg-accent-hover text-text-primary"
+            : "hover:bg-accent-hover text-text-primary"
           }
               `}
       >

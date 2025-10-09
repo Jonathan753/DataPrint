@@ -32,11 +32,11 @@ const ClientList = () => {
             <ButtonReturn />
             <Title title="Lista de Clientes" subtitle="Visualize e gerencie os clientes cadastrados." />
             <div className="max-w-7xl mx-auto p-8">
-                <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                <div className="bg-white rounded-lg shadow-md border-border overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left text-gray-600">
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                                <tr>
+                                <tr className="bg-accent-primary text-text-primary">
                                     <th scope="col" className="px-6 py-3">Nome</th>
                                     <th scope="col" className="px-6 py-3">Email</th>
                                     <th scope="col" className="px-6 py-3">Celular</th>
@@ -46,7 +46,7 @@ const ClientList = () => {
                             </thead>
                             <tbody className="divide-y divide-gray-200">
                                 {client && client.map((c, idx) => (
-                                    <tr key={idx} className="bg-white hover:bg-gray-50">
+                                    <tr key={idx} className="bg-white hover:bg-gray-200 ">
                                         <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                             {c.name}
                                         </td>

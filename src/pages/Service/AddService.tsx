@@ -45,7 +45,7 @@ const AddService = () => {
     return (
         <>
             <ButtonReturn />
-            <Title title="Adicionar Serviço/Produto" />
+            <Title title="Adicionar Serviço/Produto" subtitle="Adicione seu serviço/produto com seguintes dados."/>
             <div className="p-8">
 
                 <form onSubmit={handleSubmit} >

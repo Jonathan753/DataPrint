@@ -28,12 +28,12 @@ const ServiceList = () => {
     return (
         <>
             <ButtonReturn />
-            <Title title="Lista de Servicos" />
+            <Title title="Lista de Servicos" subtitle="Visualize e gerencie os serviços/produtos cadastrados."/>
             <div className="max-w-7xl mx-auto p-8">
                 <div className="bg-white rounded-lg shadow-md overflow-hidden">
                     <div className="overflow-x-auto">
-                        <table className="w-full text-sm text-left text-gray-600">
-                            <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                        <table className="w-full text-sm text-left text-gray-600 ">
+                            <thead className="text-xs text-text-primary uppercase bg-accent-primary">
                                 <tr>
                                     <th scope="col" className="px-6 py-3">Código</th>
                                     <th scope="col" className="px-6 py-3">Serviço/Produto</th>
@@ -43,12 +43,11 @@ const ServiceList = () => {
                             </thead>
                             <tbody className="divide-y divide-gray-200">
                                 {service && service.map((service, idx) => (
-                                    <tr key={idx} className="bg-white hover:bg-gray-50">
+                                    <tr key={idx} className="bg-white hover:bg-gray-200">
                                         <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                             {service.serviceId}
                                         </td>
                                         <td>{service.service}</td>
-                                        <td>{service.value}</td>
                                         <td>{
                                             new Intl.NumberFormat("ptt-BR", {
                                                 style: "currency",
@@ -57,12 +56,12 @@ const ServiceList = () => {
                                         }</td>
                                         <td className="px-6 py-4">
                                             <div className="flex justify-center items-center gap-4">
-                                                <ButtonDelete textMain="Excluir CLiente" onClick={
+                                                {/* <ButtonDelete textMain="Excluir CLiente" onClick={
                                                     () => {
                                                         setModalOpen(true);
                                                         getId = service.serviceId;
                                                     }
-                                                } />
+                                                } /> */}
                                                 <ButtonUpdate textMain="Editar Serviço" onClick={() => navigate(`/service/edit/${service.serviceId}`)} />
                                             </div>
                                         </td>

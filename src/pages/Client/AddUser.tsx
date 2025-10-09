@@ -3,7 +3,7 @@ import Input from "../../components/Input";
 import Title from "../../components/Title";
 import { ButtonReset, ButtonReturn, ButtonSave } from "../../components/Button";
 import { Modal } from "../../components/Modal";
-import type { Clients } from "../../types/global";
+import type { Client } from "../../types/global";
 
 // type Clients = {
 //     cnpj_cpf: string;
@@ -23,7 +23,7 @@ import type { Clients } from "../../types/global";
 
 const AddUser = () => {
 
-    const [form, setForm] = useState<Clients>({
+    const [form, setForm] = useState<Client>({
         clientId: 0, //irrelevante
         cnpj_cpf: "",
         name: "",
@@ -56,7 +56,7 @@ const AddUser = () => {
     return (
         <>
             <ButtonReturn />
-            <Title title="Adicionar Cliente" subtitle="Adicione seu cliente com seguintes dados" />
+            <Title title="Adicionar Cliente" subtitle="Adicione seu cliente com seguintes dados." />
             <div className="p-8">
                 <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-x-8 gap-y-6">

@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import Title from "../../components/Title";
 import { ButtonView } from "../../components/Button";
 import { useNavigate } from "react-router-dom";
+import Input from "../../components/Input";
 
 type Receipt = {
     receiptId: number,
@@ -66,21 +67,25 @@ const Receipt = () => {
             <Title title="Notas" subtitle="Visualize todas as notas." />
             <div className="max-w-7xl mx-auto p-8">
                 {/* --- CAMPO DE BUSCA --- */}
-                <div className="mb-4">
+                {/* <div className="mb-4">
                     <input
                         type="text"
                         value={searchTerm}
                         onChange={handleSearchChange}
                         placeholder="Buscar por nome do cliente..."
-                        className="w-full p-2 border border-gray-300 rounded-lg"
+                        className="w-96 p-2 border border-gray-300 rounded-lg"
                     />
+                </div> */}
+                <div className="mb-4">
+
+                    <Input type="text" onChange={handleSearchChange} value={searchTerm} label="Filtro" id="filtro" gridClass="w-96" placeholder="Buscar por nome do cliente..." />
                 </div>
 
                 <div className="bg-white rounded-lg shadow-md overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left text-gray-600">
                             {/* ... seu thead continua o mesmo ... */}
-                            <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                            <thead className="text-xs text-text-primary uppercase bg-accent-primary">
                                 <tr>
                                     <th scope="col" className="px-6 py-3">Código</th>
                                     <th scope="col" className="px-6 py-3">Cliente</th>
@@ -94,7 +99,7 @@ const Receipt = () => {
                                     <tr><td colSpan={5} className="text-center p-4">Carregando...</td></tr>
                                 ) : receipts.length > 0 ? (
                                     receipts.map((r) => (
-                                        <tr key={r.receiptId} className="bg-white hover:bg-gray-50">
+                                        <tr key={r.receiptId} className="bg-white hover:bg-gray-200">
                                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                                 {r.receiptId.toString().padStart(4, "0")}
                                             </td>
@@ -122,6 +127,7 @@ const Receipt = () => {
                 </div>
 
                 {/* --- CONTROLES DE PAGINAÇÃO --- */}
+
                 {totalPages > 0 && (
                     <div className="flex justify-between items-center mt-4">
                         <button
