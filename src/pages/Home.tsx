@@ -21,7 +21,7 @@ const Home = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
-    const [clientNumber, setClientNumber] = useState(0);
+    const [clientNumber, setClientNumber] = useState<number>(0);
     const navigate = useNavigate();
 
     const fetchReceipts = useCallback(async (page: number, search: string) => {
@@ -44,11 +44,12 @@ const Home = () => {
     }, []);
 
     useEffect(() => {
-        async () => {
+        (async () => {
             const c = await (window as any).clients.totalNumber();
             setClientNumber(c);
-        }
-    }, [])
+        })();
+    }, []);
+
     // Efeito para buscar os dados quando a página ou o filtro mudarem
     useEffect(() => {
         // Debounce: espera o usuário parar de digitar por 300ms antes de buscar
@@ -75,34 +76,15 @@ const Home = () => {
             <Title title="Home" subtitle="Vamos Começar?" />
             <div className="p-8">
                 <div className="mx-auto ">
-                    <div className="flex flex-row w-4/5 mx-auto flex-wrap gap-4">
-                        <Card />
-                        <Card />
-                        <Card />
-                        <p>{clientNumber}</p>
+                    <div className="flex ">
+                        <Card title="Clientes" conteudo={clientNumber} nav="/client-list" />
                     </div>
 
                     {/* flex justify-around flex-wrap px-24 gap-3 */}
                     {/* ////////////// */}
                     <div className="bg-background-surface w-full shadow-md rounded-lg px-24 mt-6">
-
                         <div className="max-w-7xl mx-auto p-8">
-                            {/* --- CAMPO DE BUSCA --- */}
-                            {/* <div className="mb-4">
-                    <input
-                        type="text"
-                        value={searchTerm}
-                        onChange={handleSearchChange}
-                        placeholder="Buscar por nome do cliente..."
-                        className="w-96 p-2 border border-gray-300 rounded-lg"
-                    />
-                </div> */}
-                            {/* <div className="mb-4">
-
-                                <Input type="text" onChange={handleSearchChange} value={searchTerm} label="Filtro" id="filtro" gridClass="w-96" placeholder="Buscar por nome do cliente..." />
-                            </div> */}
-                            <h2>Ntas Recentes</h2>
-
+                            <h2 className="text-center text-4xl mb-4">Notas Recentes</h2>
                             <div className="bg-white rounded-lg shadow-md overflow-hidden">
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-sm text-left text-gray-600">

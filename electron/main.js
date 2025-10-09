@@ -36,8 +36,9 @@ ipcMain.handle("clients:all", () => {
 });
 
 ipcMain.handle("clients:totalNumber", () => {
-  const stmt = db.prepare("SELECT COUNT(*) FROM clients");
-  return stmt.get();
+  const stmt = db.prepare("SELECT COUNT(*) AS total FROM clients");
+  const result = stmt.get();
+  return result.total;
 });
 
 ipcMain.handle("clients:getById", (e, id) => {
@@ -298,10 +299,10 @@ ipcMain.handle("receipt:paginated", (e, { page, limit, searchTerm }) => {
 
   // Adiciona a paginação (LIMIT e OFFSET) na query de dados
   dataSql += ` LIMIT ? OFFSET ?`;
-  
+
   // Adiciona os parâmetros de paginação
   const dataParams = [...params, limit, offset];
-  
+
   // Executa as queries
   const countStmt = db.prepare(countSql);
   const { total } = countStmt.get(params); // Conta o total de itens que correspondem ao filtro
