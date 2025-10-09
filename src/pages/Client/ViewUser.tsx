@@ -46,25 +46,36 @@ const ViewUser = () => {
             <ButtonReturn />
             <Title title="Dados do Cliente" subtitle="Visualize as informaçoes." />
             <div className="p-8 ">
-                <div className="flex gap-5 flex-wrap m-auto md:justify-center ">
-                    <div>
-                        <ViewData info="Nome:" data={form.name} />
-                        <ViewData info="Razão Social:" data={form.company} />
-                        <ViewData info="CNPJ/CPF:" data={form.cnpj_cpf} />
+                <div className="flex gap-5 m-auto md:justify-center ">
+                    <div className="border-border w-full bg-background-surface shadow-md rounded-lg p-4 ">
+                        <h2 className="text-center text-lg border-b border-black py-1">Indetificação</h2>
+                        <div className="py-2 px-5 grid grid-cols-1 gap-1">
+
+                            <ViewData info="Nome:" data={form.name} />
+                            <ViewData info="Razão Social:" data={form.company} />
+                            <ViewData info="CNPJ/CPF:" data={form.cnpj_cpf} />
+                        </div>
                     </div>
-                    <div>
-                        <ViewData info="Endereço:" data={form.adress} />
-                        <ViewData info="N:" data={form.number} />
-                        <ViewData info="Bairro:" data={form.neighborhood} />
-                        <ViewData info="Cidade:" data={form.city} />
-                        <ViewData info="UF:" data={form.uf} />
-                        <ViewData info="CEP:" data={form.cep} />
-                        <ViewData info="Complemento:" data={form.complement} />
+                    <div className="border-border w-full bg-background-surface shadow-md rounded-lg p-4">
+                        <h2 className="text-center text-lg border-b border-black py-1">Logradouro</h2>
+                        <div className="py-2 px-5 grid grid-cols-1 gap-1">
+
+                            <ViewData info="Endereço:" data={form.adress} />
+                            <ViewData info="N:" data={form.number} />
+                            <ViewData info="Bairro:" data={form.neighborhood} />
+                            <ViewData info="Cidade:" data={form.city} />
+                            <ViewData info="UF:" data={form.uf} />
+                            <ViewData info="CEP:" data={form.cep} />
+                            <ViewData info="Complemento:" data={form.complement} />
+                        </div>
                     </div>
-                    <div>
-                        <ViewData info="E-mail:" data={form.email} />
-                        <ViewData info="Telefone:" data={form.phone} />
-                        <ViewData info="Celular:" data={form.cell} />
+                    <div className="border-border w-full bg-background-surface shadow-md rounded-lg p-4">
+                        <h2 className="text-center text-lg border-b border-black py-1">Contato</h2>
+                        <div className="py-2 px-5 grid grid-cols-1 gap-1">
+                            <ViewData info="E-mail:" data={form.email} />
+                            <ViewData info="Telefone:" data={form.phone} />
+                            <ViewData info="Celular:" data={form.cell} />
+                        </div>
                     </div>
                 </div>
                 {/* TESTE */}

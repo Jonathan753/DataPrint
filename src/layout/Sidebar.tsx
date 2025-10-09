@@ -25,7 +25,7 @@ const Sidebar = ({ children }: SidebarProps) => {
                />
                <button
                   onClick={() => setExpanded((curr) => !curr)}
-                  className="p-1.5 rounded-lg bg-slate-600 hover:bg-slate-300 text-white"
+                  className="p-1.5 transition-colors rounded-lg bg-blue-300 text-text-primary hover:bg-blue-200"
                >
                   {expanded ? <X /> : <Menu />}
                </button>

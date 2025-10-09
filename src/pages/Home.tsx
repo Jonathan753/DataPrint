@@ -10,7 +10,7 @@ const Home = () => {
                         </div>
                         <div className="bg-background-surface h-60 w-60 rounded-lg shadow-md flex-col content-center"></div>
                     </div>
-                    <div className="bg-background-surface h-60 w-full rounded-lg px-24 mt-6"></div>
+                    <div className="bg-background-surface h-60 w-full shadow-md rounded-lg px-24 mt-6"></div>
                 </div>
             </div>
         </>

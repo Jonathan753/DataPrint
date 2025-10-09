@@ -30,7 +30,8 @@ const Input = ({ label, id, gridClass = "", mask, ...props }: InputProps) => {
         id: id,
         className: `w-full px-3 py-2 border border-gray-600 text-text-primary rounded-lg shadow-sm 
                     focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-indigo-400
-                    transition duration-150 ease-in-out bg-background-surface placeholder:text-gray-500`,
+                    transition duration-150 ease-in-out bg-background-surface placeholder:text-gray-500
+                    disabled:text-text-disabled disabled:border-gray-300`,
         ...props
     };
 

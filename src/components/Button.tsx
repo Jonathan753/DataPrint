@@ -1,4 +1,4 @@
-import { ArrowRight, Eye, File, Pencil, Printer, RotateCcw, Save, Trash2, Undo2 } from "lucide-react";
+import { ArrowRight, Edit, Eye, File, Pencil, Printer, RotateCcw, Save, Trash2, Undo, Undo2, Undo2Icon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
@@ -20,6 +20,20 @@ const ButtonSave = () => {
     )
 }
 export { ButtonSave };
+
+const ButtonEdit = ({ onClick }: Props) => {
+    return (
+        <>
+            <button type="button" onClick={onClick} className="px-6 py-2 flex gap-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <div className="content-center">
+                    <Edit size={20} />
+                </div>
+                Editar
+            </button>
+        </>
+    )
+}
+export { ButtonEdit };
 
 const ButtonNext = () => {
     return (
@@ -144,7 +158,7 @@ const ButtonReturn = () => {
     const navigate = useNavigate()
     return (
         <>
-            <button onClick={() => navigate(-1)} type="button" className="relative group border-gray-600 bg-slate-600 text-gray-600 hover:text-gray-500 hover:border-gray-500 transition-colors border rounded-md p-2 mb-3">
+            <button onClick={() => navigate(-1)} type="button" className="relative group transition-colors  border hover:text-gray-200 border-gray-600 hover:bg-gray-600 rounded-md p-2 mb-3">
                 <Undo2 size={20} />
             </button>
         </>
