@@ -41,7 +41,6 @@ const SidebarItem = ({ icon, text, active, alert, to, onClick }: SidebarItemProp
           />
         )}
 
-        {/* Tooltip que aparece quando a sidebar está recolhida */}
         {!expanded && (
           <div
             className={`

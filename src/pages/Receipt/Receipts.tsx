@@ -12,19 +12,17 @@ type Receipt = {
     totalLiquido: number,
 }
 
-const ITEMS_PER_PAGE = 10; // Defina quantos itens por página você quer
+const ITEMS_PER_PAGE = 10;
 
 const Receipt = () => {
     const navigate = useNavigate();
 
-    // Novos estados para filtro e paginação
     const [receipts, setReceipts] = useState<Receipt[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
 
-    // Função para buscar os dados no backend
     const fetchReceipts = useCallback(async (page: number, search: string) => {
         setIsLoading(true);
         try {
@@ -35,7 +33,6 @@ const Receipt = () => {
             });
 
             setReceipts(result.data);
-            // Calcula o total de páginas com base no total de itens retornados
             setTotalPages(Math.ceil(result.totalItems / ITEMS_PER_PAGE));
         } catch (error) {
             console.error("Erro ao buscar notas:", error);
@@ -44,14 +41,12 @@ const Receipt = () => {
         }
     }, []);
 
-    // Efeito para buscar os dados quando a página ou o filtro mudarem
+
     useEffect(() => {
-        // Debounce: espera o usuário parar de digitar por 300ms antes de buscar
         const handler = setTimeout(() => {
             fetchReceipts(currentPage, searchTerm);
         }, 300);
 
-        // Limpa o timeout se o usuário digitar novamente
         return () => {
             clearTimeout(handler);
         };
@@ -59,23 +54,13 @@ const Receipt = () => {
 
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
-        setCurrentPage(1); // Reseta para a primeira página ao fazer uma nova busca
+        setCurrentPage(1);
     };
 
     return (
         <>
             <Title title="Notas" subtitle="Visualize todas as notas." />
             <div className="max-w-7xl mx-auto p-8">
-                {/* --- CAMPO DE BUSCA --- */}
-                {/* <div className="mb-4">
-                    <input
-                        type="text"
-                        value={searchTerm}
-                        onChange={handleSearchChange}
-                        placeholder="Buscar por nome do cliente..."
-                        className="w-96 p-2 border border-gray-300 rounded-lg"
-                    />
-                </div> */}
                 <div className="mb-4">
 
                     <Input type="text" onChange={handleSearchChange} value={searchTerm} label="Filtro" id="filtro" gridClass="w-96" placeholder="Buscar por nome do cliente..." />
@@ -125,9 +110,6 @@ const Receipt = () => {
                         </table>
                     </div>
                 </div>
-
-                {/* --- CONTROLES DE PAGINAÇÃO --- */}
-
                 {totalPages > 0 && (
                     <div className="flex justify-between items-center mt-4">
                         <button

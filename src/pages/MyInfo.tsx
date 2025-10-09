@@ -16,10 +16,6 @@ const MyInfo = () => {
         })();
     }, []);
 
-    if(edit) {
-        
-    }
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setForm((prev: any) => ({ ...prev, [name]: value }));
@@ -54,12 +50,7 @@ const MyInfo = () => {
                         <Input disabled={edit} gridClass="md:col-span-1" label="Logo" id="celular" name="cell" type="file" />
                     </div>
                     <div className="mt-8 flex justify-end gap-4">
-                        {/* "<button type="button" className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-400">
-                            Cancelar
-                        </button>" */}
-                        
-                        {edit?<ButtonEdit onClick={()=>setEdit(false)}/>:<ButtonSave />}
-                        
+                        {edit ? <ButtonEdit onClick={() => setEdit(false)} /> : <ButtonSave />}
                     </div>
                 </form>
                 <Modal

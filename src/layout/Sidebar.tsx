@@ -31,8 +31,6 @@ const Sidebar = ({ children }: SidebarProps) => {
                </button>
             </div>
 
-            {/* Passando o estado 'expanded' para os filhos via Contexto */}
-
             <SidebarContext.Provider value={{ expanded }}>
                <ul className="flex-1 px-3">{children}</ul>
             </SidebarContext.Provider>

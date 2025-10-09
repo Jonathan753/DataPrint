@@ -25,10 +25,10 @@ const AddService = () => {
 
         if (name === "value") {
             // tira vírgula, ponto etc.
-            const numeric = value.replace(/\D/g, ""); // só números
+            const numeric = value.replace(/\D/g, "");
             setForm((prev) => ({
                 ...prev,
-                value: numeric ? parseInt(numeric, 10) : 0, // guarda em centavos
+                value: numeric ? parseInt(numeric, 10) : 0,
             }));
         } else {
             setForm((prev) => ({ ...prev, [name]: value }));
@@ -38,14 +38,14 @@ const AddService = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         await (window as any).services.add(form);
-        setForm({ service: "", value: 0 , serviceId: 0});
-        setModalOpen(true); // abre modal em vez de alert
+        setForm({ service: "", value: 0, serviceId: 0 });
+        setModalOpen(true);
     }
 
     return (
         <>
             <ButtonReturn />
-            <Title title="Adicionar Serviço/Produto" subtitle="Adicione seu serviço/produto com seguintes dados."/>
+            <Title title="Adicionar Serviço/Produto" subtitle="Adicione seu serviço/produto com seguintes dados." />
             <div className="p-8">
 
                 <form onSubmit={handleSubmit} >

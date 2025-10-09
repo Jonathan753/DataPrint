@@ -5,22 +5,6 @@ import { ButtonReset, ButtonReturn, ButtonSave } from "../../components/Button";
 import { Modal } from "../../components/Modal";
 import type { Client } from "../../types/global";
 
-// type Clients = {
-//     cnpj_cpf: string;
-//     name: string;
-//     company: string;
-//     email: string;
-//     adress: string;
-//     number: string;
-//     neighborhood: string;
-//     city: string;
-//     uf: string;
-//     cep: string;
-//     complement: string;
-//     phone: string;
-//     cell: string
-// }
-
 const AddUser = () => {
 
     const [form, setForm] = useState<Client>({
@@ -77,20 +61,7 @@ const AddUser = () => {
                     <div className="mt-8 flex justify-end gap-4">
                         <ButtonReset onClick={
                             () => setForm({
-                                clientId: 0,
-                                cnpj_cpf: "",
-                                name: "",
-                                company: "",
-                                email: "",
-                                adress: "",
-                                number: "",
-                                neighborhood: "",
-                                city: "",
-                                uf: "",
-                                cep: "",
-                                complement: "",
-                                phone: "",
-                                cell: "",
+                                clientId: 0, cnpj_cpf: "", name: "", company: "", email: "", adress: "", number: "", neighborhood: "", city: "", uf: "", cep: "", complement: "", phone: "", cell: "",
                             })
                         } />
                         <ButtonSave />

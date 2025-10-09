@@ -30,10 +30,47 @@ ipcMain.handle("clients:add", (e, data) => {
   return { success: true };
 });
 
-ipcMain.handle("clients:all", () => {
-  const stmt = db.prepare("SELECT * FROM clients");
-  return stmt.all();
+ipcMain.handle("clients:all", (e, { page, limit, searchTerm }) => {
+  // Calcula o OFFSET para pular os itens das páginas anteriores
+  const offset = (page - 1) * limit;
+
+  // Parâmetros para a query SQL. Usamos um array para construir de forma segura.
+  const params = [];
+
+  // Base da query para buscar o total de itens (para calcular o total de páginas)
+  let countSql = `SELECT COUNT(*) as total FROM clients
+  `;
+
+  // Base da query para buscar os dados da página atual
+  let dataSql = `SELECT * FROM clients`;
+
+  // Se um termo de busca for fornecido, adiciona a condição WHERE
+  if (searchTerm) {
+    const whereClause = ` WHERE name LIKE ?`;
+    countSql += whereClause;
+    dataSql += whereClause;
+    params.push(`%${searchTerm}%`); // O '%' é o coringa para o LIKE
+  }
+
+  // Ordena os resultados
+  dataSql += ` ORDER BY clientId DESC`;
+
+  // Adiciona a paginação (LIMIT e OFFSET) na query de dados
+  dataSql += ` LIMIT ? OFFSET ?`;
+
+  // Adiciona os parâmetros de paginação
+  const dataParams = [...params, limit, offset];
+
+  // Executa as queries
+  const countStmt = db.prepare(countSql);
+  const { total } = countStmt.get(params); // Conta o total de itens que correspondem ao filtro
+
+  const dataStmt = db.prepare(dataSql);
+  const data = dataStmt.all(dataParams); // Busca os itens da página atual
+
+  return { data, totalItems: total }; // Retorna os dados e o total de itens
 });
+
 
 ipcMain.handle("clients:totalNumber", () => {
   const stmt = db.prepare("SELECT COUNT(*) AS total FROM clients");
@@ -154,9 +191,45 @@ ipcMain.handle("services:add", (e, data) => {
   return { success: true };
 });
 
-ipcMain.handle("services:all", () => {
-  const stmt = db.prepare("SELECT * FROM services");
-  return stmt.all();
+ipcMain.handle("services:all", (e, { page, limit, searchTerm }) => {
+  // Calcula o OFFSET para pular os itens das páginas anteriores
+  const offset = (page - 1) * limit;
+
+  // Parâmetros para a query SQL. Usamos um array para construir de forma segura.
+  const params = [];
+
+  // Base da query para buscar o total de itens (para calcular o total de páginas)
+  let countSql = `SELECT COUNT(*) as total FROM services
+  `;
+
+  // Base da query para buscar os dados da página atual
+  let dataSql = `SELECT * FROM services`;
+
+  // Se um termo de busca for fornecido, adiciona a condição WHERE
+  if (searchTerm) {
+    const whereClause = ` WHERE name LIKE ?`;
+    countSql += whereClause;
+    dataSql += whereClause;
+    params.push(`%${searchTerm}%`); // O '%' é o coringa para o LIKE
+  }
+
+  // Ordena os resultados
+  dataSql += ` ORDER BY serviceId DESC`;
+
+  // Adiciona a paginação (LIMIT e OFFSET) na query de dados
+  dataSql += ` LIMIT ? OFFSET ?`;
+
+  // Adiciona os parâmetros de paginação
+  const dataParams = [...params, limit, offset];
+
+  // Executa as queries
+  const countStmt = db.prepare(countSql);
+  const { total } = countStmt.get(params); // Conta o total de itens que correspondem ao filtro
+
+  const dataStmt = db.prepare(dataSql);
+  const data = dataStmt.all(dataParams); // Busca os itens da página atual
+
+  return { data, totalItems: total }; // Retorna os dados e o total de itens
 });
 
 ipcMain.handle("services:delete", (e, id) => {
@@ -400,54 +473,3 @@ function createWindow() {
 app.whenReady().then(createWindow);
 app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit(); });
 app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });
-
-
-//TitleBar
-// ipcMain.on('minimize-app', () => {
-//     BrowserWindow.getFocusedWindow()?.minimize();
-// });
-
-// ipcMain.on('maximize-app', () => {
-//     const win = BrowserWindow.getFocusedWindow();
-//     if (win?.isMaximized()) {
-//         win.unmaximize();
-//     } else {
-//         win?.maximize();
-//     }
-// });
-
-// ipcMain.on('close-app', () => {
-//     BrowserWindow.getFocusedWindow()?.close();
-// });
-
-// ipcMain.handle("print-nota", async (e, html)=>{
-//   const printWindow = new BrowserWindow({show:false});
-//   const fullHTML = `
-//   <html>
-//     <head>
-//       <meta charset="utf-8"/>
-//       <style>
-//         body {
-//           font-family: Arial, sans-serif;
-//           margin: 20px;
-//         }
-//       </style>
-//     </head>
-//     <body>
-//       ${htmlContent}
-//     </body>
-//   </html>
-//   `
-//   await printWindow.loadURL("data:text/html;charset=utf-8"+encodeURIComponent(fullHTML));
-
-//   const pdfBuffer = await printWindow.webContents.printToPDF({
-//     marginType: 1,
-//     pageSize: "A4",
-//     printBackground: true,
-//   });
-
-//   const filePath = path.join(app.getPath("desktop"), "nota.pdf");
-//   fs.writeFileSync(filePath, pdfBuffer);
-
-//   return filePath;
-// })

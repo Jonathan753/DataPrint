@@ -20,24 +20,6 @@ const ViewUser = () => {
         })();
     }, [id]);
 
-    // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     const { name, value } = e.target;
-    //     setForm((prev) => (prev ? { ...prev, [name]: value } : prev));
-    // }
-
-    // async function handleSubmit(e: React.FormEvent) {
-    //     e.preventDefault();
-    //     if (!form) return;
-    //     const result = await (window as any).clients.update(form);
-    //     if (result && result.success) {
-    //         // opcional: mostrar aviso
-    //         alert("Cliente atualizado com sucesso!");
-    //         navigate("/client-list"); // ajustar para a rota correta do App.tsx
-    //     } else {
-    //         console.error("Erro no update:", result);
-    //         alert("Falha ao atualizar cliente. Veja console para detalhes.");
-    //     }
-    // }
 
     if (!form) return <p>Carregando...</p>;
 

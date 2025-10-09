@@ -15,7 +15,7 @@ contextBridge.exposeInMainWorld('electron', {
 
 contextBridge.exposeInMainWorld("clients", {
     add: (data) => ipcRenderer.invoke("clients:add", data),
-    all: () => ipcRenderer.invoke("clients:all"),
+    all: (options) => ipcRenderer.invoke("clients:all", options),
     getById: (id) => ipcRenderer.invoke("clients:getById", id),
     delete: (id) => ipcRenderer.invoke("clients:delete", id),
     update: (client) => ipcRenderer.invoke("clients:update", client),
@@ -42,7 +42,7 @@ contextBridge.exposeInMainWorld("myInfo", {
 contextBridge.exposeInMainWorld("services", {
     add: (data) => ipcRenderer.invoke("services:add", data),
     getById: (id) => ipcRenderer.invoke("services:getById", id),
-    all: () => ipcRenderer.invoke("services:all"),
+    all: (options) => ipcRenderer.invoke("services:all", options),
     search: (term) => ipcRenderer.invoke("services:search", term),
     delete: (id) => ipcRenderer.invoke("services:delete", id),
     update: (data) => ipcRenderer.invoke("services:update", data),

@@ -3,28 +3,15 @@ import { ButtonNext, ButtonReset, ButtonReturn } from "../components/Button";
 import Input from "../components/Input";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import type { Client } from "../types/global";
 
-type Client = {
-    cnpj_cpf: string;
-    name: string;
-    company: string;
-    email: string;
-    adress: string;
-    number: string;
-    neighborhood: string;
-    city: string;
-    uf: string;
-    cep: string;
-    complement: string;
-    phone: string;
-    cell: string
-}
 
 const NoteFast = () => {
 
     const navigate = useNavigate();
 
     const [form, setForm] = useState<Client>({
+        clientId: 0,
         cnpj_cpf: "",
         name: "",
         company: "",

@@ -36,11 +36,10 @@ const ViewReceipt = () => {
         })();
     }, [id]);
 
-
     return (
         <>
             <ButtonReturn />
-            <Title title="Lista de Servicos" />
+            <Title title="Detalhes da Nota" subtitle={"Nota: " + id?.padStart(4, "0")}/>
             <div className="max-w-7xl mx-auto p-8">
                 <div className="bg-white rounded-lg shadow-md overflow-hidden">
                     <div className="overflow-x-auto">

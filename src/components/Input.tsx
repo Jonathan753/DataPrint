@@ -1,5 +1,5 @@
 import type { InputHTMLAttributes } from "react";
-import { IMaskInput, type IMaskInputProps } from "react-imask";
+import { IMaskInput } from "react-imask";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     label: string;
@@ -35,20 +35,19 @@ const Input = ({ label, id, gridClass = "", mask, ...props }: InputProps) => {
         ...props
     };
 
-    // MODIFICADO: Lógica para escolher a máscara correta
     const maskConfig = mask === 'cpf-cnpj'
         ? {
             mask: cpfCnpjMask,
             dispatch: (appended: string, dynamicMasked: any) => {
                 const rawValue = (dynamicMasked.value + appended).replace(/\D/g, "");
                 if (rawValue.length <= 11) {
-                    return dynamicMasked.compiledMasks[0]; // Retorna a máscara de CPF
+                    return dynamicMasked.compiledMasks[0];
                 }
-                return dynamicMasked.compiledMasks[1]; // Retorna a máscara de CNPJ
+                return dynamicMasked.compiledMasks[1];
             }
         }
         : mask === "letters-uf" ? lettersUfMask
-            : mask; // Se não for 'cpf-cnpj', usa a string da máscara como antes
+            : mask;
 
 
     return (
@@ -60,7 +59,6 @@ const Input = ({ label, id, gridClass = "", mask, ...props }: InputProps) => {
             {mask ? (
                 <IMaskInput
                     {...commonProps}
-                    // MODIFICADO: Passa a configuração da máscara (pode ser a string ou o objeto dinâmico)
                     {...(typeof maskConfig === 'string' ? { mask: maskConfig } : maskConfig)}
                 />
             ) : (
