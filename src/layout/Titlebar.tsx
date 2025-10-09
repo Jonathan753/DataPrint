@@ -25,7 +25,7 @@ const TitleBar: React.FC = () => {
             <div
                 className="title-bar flex-grow h-full flex items-center pl-3 justify-center"
             >
-            <h3>Data Print</h3>
+                <h3>Data Print</h3>
                 {/* O título já estava no seu App.tsx, mantendo aqui a consistência */}
             </div>
 
@@ -59,7 +59,7 @@ const TitleBar: React.FC = () => {
                     style={{ fontFamily: 'Segoe MDL2 Assets' }}
                     onClick={handleClose}
                 >
-                    
+
                     <X size={16} />
                 </button>
             </div>

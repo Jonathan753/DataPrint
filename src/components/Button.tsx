@@ -1,4 +1,4 @@
-import { ArrowRight, Edit, Eye, File, Pencil, Printer, RotateCcw, Save, Trash2, Undo, Undo2, Undo2Icon } from "lucide-react";
+import { ArrowRight, Edit, Eye, File, Pencil, Printer, RotateCcw, Save, Trash2, Undo2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface Props {

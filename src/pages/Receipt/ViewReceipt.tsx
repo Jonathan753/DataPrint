@@ -3,15 +3,15 @@ import Title from "../../components/Title";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-type Receipt = {
-    receiptId: number;
-    clientId: number;
-    date: string;
-    totalBruto: number;
-    desconto: number;
-    acrescimo: number;
-    totalLiquido: number;
-}
+// type Receipt = {
+//     receiptId: number;
+//     clientId: number;
+//     date: string;
+//     totalBruto: number;
+//     desconto: number;
+//     acrescimo: number;
+//     totalLiquido: number;
+// }
 type ReceiptService = {
     id: number;
     receiptId: number;
@@ -26,7 +26,7 @@ const ViewReceipt = () => {
     const { id } = useParams();
 
 
-    const [receipt, setReceipt] = useState<Receipt | null>(null)
+    // const [receipt, setReceipt] = useState<Receipt | null>(null)
     const [receiptService, setReceiptService] = useState<ReceiptService[]>([])
 
     useEffect(() => {

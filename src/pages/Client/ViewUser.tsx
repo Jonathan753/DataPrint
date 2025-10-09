@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Title from "../../components/Title";
 import { ButtonReturn } from "../../components/Button";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ViewData from "../../components/ViewData";
 import type { Client } from "../../types/global";
 

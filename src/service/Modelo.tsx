@@ -8,23 +8,8 @@ import { ButtonPrinter, ButtonReturn } from "../components/Button";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import Title from "../components/Title";
+import type { Client, Enterprise } from "../types/global";
 
-type Clients = {
-    clientId: number;
-    cnpj_cpf: string;
-    name: string;
-    company: string;
-    email: string;
-    adress: string;
-    number: string;
-    neighborhood: string;
-    city: string;
-    uf: string;
-    cep: string;
-    complement: string;
-    phone: string;
-    cell: string
-};
 
 type Service = {
     serviceId: number,
@@ -33,34 +18,12 @@ type Service = {
     value: number;
 }
 
-type Enterprise = {
-    cnpj: string;
-    name: string;
-    email: string;
-    adress: string;
-    number: string;
-    neighborhood: string;
-    city: string;
-    uf: string;
-    cep: string;
-    complement: string;
-    phone: string;
-    cell: string
-    salesperson: string;
-    pix: string;
-}
-
-// type Nota = {
-//     cliente: Clients;
-//     servicos: Service[];
-// };
-
 const Modelo = () => {
 
     const notaRef = useRef<HTMLDivElement | null>(null)
     //UseSate para cada dado
     const { id } = useParams();
-    const [cliente, setCliente] = useState<Clients | null>(null);
+    const [cliente, setCliente] = useState<Client | null>(null);
     const [obs, setObs] = useState('');
     const [services, setServices] = useState<Service[]>([]);
     const [empresa, setEmpresa] = useState<Enterprise | null>(null);

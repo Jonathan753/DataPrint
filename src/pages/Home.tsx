@@ -1,7 +1,6 @@
 import { ButtonView } from "../components/Button";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Input from "../components/Input";
 import Card from "../components/Card";
 import Title from "../components/Title";
 

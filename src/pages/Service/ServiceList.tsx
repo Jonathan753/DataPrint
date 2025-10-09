@@ -1,10 +1,8 @@
-import { data, useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
-import { ButtonDelete, ButtonReturn, ButtonUpdate } from "../../components/Button";
+import { ButtonReturn, ButtonUpdate } from "../../components/Button";
 import Title from "../../components/Title";
-import { ModalDelete } from "../../components/Modal";
 import type { Service } from "../../types/global";
-import { useDatabaseQueryAll } from "../../hooks/useDatabaseQueryAll";
 import Input from "../../components/Input";
 
 

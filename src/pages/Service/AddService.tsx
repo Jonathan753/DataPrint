@@ -5,12 +5,6 @@ import { ButtonReset, ButtonReturn, ButtonSave } from "../../components/Button";
 import { Modal } from "../../components/Modal";
 import type { Service } from "../../types/global";
 
-
-type Services = {
-    service: string;
-    value: number;
-}
-
 const AddService = () => {
 
     const [form, setForm] = useState<Service>({
