@@ -3,29 +3,50 @@ import Title from "../../components/Title";
 import { ButtonReturn } from "../../components/Button";
 import { useParams } from "react-router-dom";
 import ViewData from "../../components/ViewData";
-import type { Client, Receipt } from "../../types/global";
+import type { Client} from "../../types/global";
+import { useDatabaseQueryPage } from "../../hooks/useDatabaseQueryPage";
+import Input from "../../components/Input";
 
-
-
+type Receipt = {
+    receiptId: number,
+    clientId: number,
+    clientName: string,
+    date: string,
+    totalLiquido: number,
+}
+const ITEMS_PER_PAGE = 3;
 
 const ViewUser = () => {
+    let t =""
     const { id } = useParams();
 
     const [client, setClient] = useState<Client | null>(null);
-    const [receipt, setReceipt] = useState<Receipt[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
+    // const [receipt, setReceipt] = useState<Receipt[]>([]);
+    // const [isLoading, setIsLoading] = useState(false);
 
-    const dados = id;
     useEffect(() => {
         (async () => {
-            setIsLoading(true);
-            const c = await (window as any).clients.getById(Number(dados));
-            const r = await (window as any).receipt.getClient(Number(dados));
+            // setIsLoading(true);
+            const c = await (window as any).clients.getById(Number(id));
+            const r = await (window as any).receipt.getClient(Number(id));
             setClient(c);
-            setReceipt(r);
+            // setReceipt(r);
         })();
     }, [id]);
 
+const {
+        data: receipt, // Renomeamos 'data' para 'clients' para ficar mais claro
+        isLoading,
+        totalPages,
+        handleSearchChange,
+        searchTerm,
+        currentPage,
+        setCurrentPage,
+        setSearchTerm
+    } = useDatabaseQueryPage<Receipt>( // Especificamos que o item é do tipo 'Client'
+        (props) => (window as any).receipt.paginated(props), // A função que busca os clientes
+        ITEMS_PER_PAGE
+    );
 
     // const {
     //     data: service, // Renomeamos 'data' para 'clients' para ficar mais claro
@@ -39,13 +60,20 @@ const ViewUser = () => {
     //     (props) => (window as any).services.all(props), // A função que busca os clientes
     //     ITEMS_PER_PAGE
     // );
-
+    useEffect(()=>{
+        
+        t = client?.name ?? "ts";
+        setSearchTerm(t)
+        console.log(t)
+    },[t])
+    
     if (!client) return <p>Carregando...</p>;
-
+console.log(searchTerm)
     return (
         <>
             <ButtonReturn />
             <Title title="Dados do Cliente" subtitle="Visualize as informaçoes." />
+            {/* <Input label="invisivel" onChange={handleSearchChange} value={searchTerm}/> */}
             <div className="p-8 ">
                 <div className="flex gap-5 m-auto md:justify-center ">
                     <div className="border-border w-full bg-background-surface shadow-md rounded-lg p-4 ">
@@ -103,12 +131,16 @@ const ViewUser = () => {
                                                     {r.receiptId.toString().padStart(4, "0")}
                                                 </td>
                                                 <td className="px-6 py-4 ">
-                                                    {r.totalBruto}
+                                                    {r.clientId}
                                                 </td>
                                                 <td className="px-6 py-4">{r.totalLiquido}</td>
                                                 <td className="px-6 py-4">{
                                                     r.date
                                                 }</td>
+                                                <td className="px-6 py-4">{
+                                                    r.clientName
+                                                }</td>
+                                                
                                                 <td className="px-6 py-4">
                                                     <div className="flex justify-center items-center gap-4">
                                                         {/* <ButtonView textMain="Ver dados do cliente" onClick={() => navigate(`/client/view/${c.clientId}`)} /> */}
