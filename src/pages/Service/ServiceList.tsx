@@ -4,6 +4,7 @@ import { ButtonReturn, ButtonUpdate } from "../../components/Button";
 import Title from "../../components/Title";
 import type { Service } from "../../types/global";
 import Input from "../../components/Input";
+import { useDatabaseQueryPage } from "../../hooks/useDatabaseQueryPage";
 
 
 let getId = 0;
@@ -11,50 +12,64 @@ const ITEMS_PER_PAGE = 10;
 
 const ServiceList = () => {
 
-    const [service, setService] = useState<Service[]>([]);
+    // const [service, setService] = useState<Service[]>([]);
     const [modalOpen, setModalOpen] = useState(false);
-    const [searchTerm, setSearchTerm] = useState("");
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(0);
-    const [isLoading, setIsLoading] = useState(false);
+    // const [searchTerm, setSearchTerm] = useState("");
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const [totalPages, setTotalPages] = useState(0);
+    // const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
-    const fetchClients = useCallback(async (page: number, search: string) => {
-        setIsLoading(true);
-        try {
-            const result = await (window as any).services.all({
-                page: page,
-                limit: ITEMS_PER_PAGE,
-                searchTerm: search,
-            });
+    // const fetchClients = useCallback(async (page: number, search: string) => {
+    //     setIsLoading(true);
+    //     try {
+    //         const result = await (window as any).services.all({
+    //             page: page,
+    //             limit: ITEMS_PER_PAGE,
+    //             searchTerm: search,
+    //         });
 
-            setService(result.data);
-            // Calcula o total de páginas com base no total de itens retornados
-            setTotalPages(Math.ceil(result.totalItems / ITEMS_PER_PAGE));
-        } catch (error) {
-            console.error("Erro ao buscar clientes:", error);
-        } finally {
-            setIsLoading(false);
-        }
-    }, []);
+    //         setService(result.data);
+    //         // Calcula o total de páginas com base no total de itens retornados
+    //         setTotalPages(Math.ceil(result.totalItems / ITEMS_PER_PAGE));
+    //     } catch (error) {
+    //         console.error("Erro ao buscar clientes:", error);
+    //     } finally {
+    //         setIsLoading(false);
+    //     }
+    // }, []);
 
-    // Efeito para buscar os dados quando a página ou o filtro mudarem
-    useEffect(() => {
-        // Debounce: espera o usuário parar de digitar por 300ms antes de buscar
-        const handler = setTimeout(() => {
-            fetchClients(currentPage, searchTerm);
-        }, 300);
+    // // Efeito para buscar os dados quando a página ou o filtro mudarem
+    // useEffect(() => {
+    //     // Debounce: espera o usuário parar de digitar por 300ms antes de buscar
+    //     const handler = setTimeout(() => {
+    //         fetchClients(currentPage, searchTerm);
+    //     }, 300);
 
-        // Limpa o timeout se o usuário digitar novamente
-        return () => {
-            clearTimeout(handler);
-        };
-    }, [currentPage, searchTerm, fetchClients]);
+    //     // Limpa o timeout se o usuário digitar novamente
+    //     return () => {
+    //         clearTimeout(handler);
+    //     };
+    // }, [currentPage, searchTerm, fetchClients]);
 
-    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(event.target.value);
-        setCurrentPage(1); // Reseta para a primeira página ao fazer uma nova busca
-    };
+    // const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setSearchTerm(event.target.value);
+    //     setCurrentPage(1); // Reseta para a primeira página ao fazer uma nova busca
+    // };
+
+
+    const {
+            data: service, // Renomeamos 'data' para 'clients' para ficar mais claro
+            isLoading,
+            totalPages,
+            handleSearchChange,
+            searchTerm,
+            currentPage,
+            setCurrentPage
+        } = useDatabaseQueryPage<Service>( // Especificamos que o item é do tipo 'Client'
+            (props) => (window as any).services.all(props), // A função que busca os clientes
+            ITEMS_PER_PAGE
+        );
 
     return (
         <>

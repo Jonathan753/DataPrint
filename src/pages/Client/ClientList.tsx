@@ -6,54 +6,69 @@ import { ModalDelete } from "../../components/Modal";
 import type { Client } from "../../types/global";
 import Input from "../../components/Input";
 
+import { useDatabaseQueryPage } from "../../hooks/useDatabaseQueryPage";
+
 
 let getId = 0;
 const ITEMS_PER_PAGE = 10;
 
 const ClientList = () => {
 
-    const [clients, setClients] = useState<Client[]>([]);
+    // const [clients, setClients] = useState<Client[]>([]);
     const [modalOpen, setModalOpen] = useState(false);
-    const [searchTerm, setSearchTerm] = useState("");
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(0);
-    const [isLoading, setIsLoading] = useState(false);
-    
+    // const [searchTerm, setSearchTerm] = useState("");
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const [totalPages, setTotalPages] = useState(0);
+    // const [isLoading, setIsLoading] = useState(false);
+
     const navigate = useNavigate();
 
-    const fetchClients = useCallback(async (page: number, search: string) => {
-        setIsLoading(true);
-        try {
-            const result = await (window as any).clients.all({
-                page: page,
-                limit: ITEMS_PER_PAGE,
-                searchTerm: search,
-            });
+    // const fetchClients = useCallback(async (page: number, search: string) => {
+    //     setIsLoading(true);
+    //     try {
+    //         const result = await (window as any).clients.all({
+    //             page: page,
+    //             limit: ITEMS_PER_PAGE,
+    //             searchTerm: search,
+    //         });
 
-            setClients(result.data);
-            setTotalPages(Math.ceil(result.totalItems / ITEMS_PER_PAGE));
-        } catch (error) {
-            console.error("Erro ao buscar clientes:", error);
-        } finally {
-            setIsLoading(false);
-        }
-    }, []);
+    //         setClients(result.data);
+    //         setTotalPages(Math.ceil(result.totalItems / ITEMS_PER_PAGE));
+    //     } catch (error) {
+    //         console.error("Erro ao buscar clientes:", error);
+    //     } finally {
+    //         setIsLoading(false);
+    //     }
+    // }, []);
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        const handler = setTimeout(() => {
-            fetchClients(currentPage, searchTerm);
-        }, 300);
+    //     const handler = setTimeout(() => {
+    //         fetchClients(currentPage, searchTerm);
+    //     }, 300);
 
-        return () => {
-            clearTimeout(handler);
-        };
-    }, [currentPage, searchTerm, fetchClients]);
+    //     return () => {
+    //         clearTimeout(handler);
+    //     };
+    // }, [currentPage, searchTerm, fetchClients]);
 
-    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(event.target.value);
-        setCurrentPage(1);
-    };
+    // const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setSearchTerm(event.target.value);
+    //     setCurrentPage(1);
+    // };
+
+    const {
+        data: clients, // Renomeamos 'data' para 'clients' para ficar mais claro
+        isLoading,
+        totalPages,
+        handleSearchChange,
+        searchTerm,
+        currentPage,
+        setCurrentPage
+    } = useDatabaseQueryPage<Client>( // Especificamos que o item é do tipo 'Client'
+        (props) => (window as any).clients.all(props), // A função que busca os clientes
+        ITEMS_PER_PAGE
+    );
 
     return (
         <>
@@ -138,7 +153,7 @@ const ClientList = () => {
                         </button>
                     </div>
                 )}
-                <ModalDelete
+                {/* <ModalDelete
                     isOpen={modalOpen}
                     onClose={() => setModalOpen(false)}
                     onDelete={
@@ -149,7 +164,7 @@ const ClientList = () => {
                     }
                     title="Tem certeza que quer excluir o cliente?"
                     message="Essa ação será irreversível!"
-                />
+                /> */}
             </div>
         </>
     )

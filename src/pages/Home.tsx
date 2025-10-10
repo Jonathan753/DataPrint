@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Card from "../components/Card";
 import Title from "../components/Title";
+import { useDatabaseQueryPage } from "../hooks/useDatabaseQueryPage";
 
 type Receipt = {
     receiptId: number,
@@ -15,32 +16,32 @@ type Receipt = {
 const ITEMS_PER_PAGE = 5 // D
 
 const Home = () => {
-    const [receipts, setReceipts] = useState<Receipt[]>([]);
-    const [searchTerm, setSearchTerm] = useState("");
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(0);
-    const [isLoading, setIsLoading] = useState(false);
+    // const [receipts, setReceipts] = useState<Receipt[]>([]);
+    // const [searchTerm, setSearchTerm] = useState("");
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const [totalPages, setTotalPages] = useState(0);
+    // const [isLoading, setIsLoading] = useState(false);
     const [clientNumber, setClientNumber] = useState<number>(0);
     const navigate = useNavigate();
 
-    const fetchReceipts = useCallback(async (page: number, search: string) => {
-        setIsLoading(true);
-        try {
-            const result = await (window as any).receipt.paginated({
-                page: page,
-                limit: ITEMS_PER_PAGE,
-                searchTerm: search,
-            });
+    // const fetchReceipts = useCallback(async (page: number, search: string) => {
+    //     setIsLoading(true);
+    //     try {
+    //         const result = await (window as any).receipt.paginated({
+    //             page: page,
+    //             limit: ITEMS_PER_PAGE,
+    //             searchTerm: search,
+    //         });
 
-            setReceipts(result.data);
-            // Calcula o total de páginas com base no total de itens retornados
-            setTotalPages(Math.ceil(result.totalItems / ITEMS_PER_PAGE));
-        } catch (error) {
-            console.error("Erro ao buscar notas:", error);
-        } finally {
-            setIsLoading(false);
-        }
-    }, []);
+    //         setReceipts(result.data);
+    //         // Calcula o total de páginas com base no total de itens retornados
+    //         setTotalPages(Math.ceil(result.totalItems / ITEMS_PER_PAGE));
+    //     } catch (error) {
+    //         console.error("Erro ao buscar notas:", error);
+    //     } finally {
+    //         setIsLoading(false);
+    //     }
+    // }, []);
 
     useEffect(() => {
         (async () => {
@@ -49,25 +50,37 @@ const Home = () => {
         })();
     }, []);
 
-    // Efeito para buscar os dados quando a página ou o filtro mudarem
-    useEffect(() => {
-        // Debounce: espera o usuário parar de digitar por 300ms antes de buscar
-        const handler = setTimeout(() => {
-            fetchReceipts(currentPage, searchTerm);
-        }, 300);
+    // // Efeito para buscar os dados quando a página ou o filtro mudarem
+    // useEffect(() => {
+    //     // Debounce: espera o usuário parar de digitar por 300ms antes de buscar
+    //     const handler = setTimeout(() => {
+    //         fetchReceipts(currentPage, searchTerm);
+    //     }, 300);
 
-        // Limpa o timeout se o usuário digitar novamente
-        return () => {
-            clearTimeout(handler);
-        };
-    }, [currentPage, searchTerm, fetchReceipts]);
+    //     // Limpa o timeout se o usuário digitar novamente
+    //     return () => {
+    //         clearTimeout(handler);
+    //     };
+    // }, [currentPage, searchTerm, fetchReceipts]);
 
-    // const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setSearchTerm(event.target.value);
-    //     setCurrentPage(1); // Reseta para a primeira página ao fazer uma nova busca
-    // };
+    // // const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // //     setSearchTerm(event.target.value);
+    // //     setCurrentPage(1); // Reseta para a primeira página ao fazer uma nova busca
+    // // };
 
 
+    const {
+        data: receipts, // Renomeamos 'data' para 'clients' para ficar mais claro
+        isLoading,
+        totalPages,
+        handleSearchChange,
+        searchTerm,
+        currentPage,
+        setCurrentPage
+    } = useDatabaseQueryPage<Receipt>( // Especificamos que o item é do tipo 'Client'
+        (props) => (window as any).receipt.paginated(props), // A função que busca os clientes
+        ITEMS_PER_PAGE
+    );
 
 
     return (
