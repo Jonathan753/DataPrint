@@ -73,8 +73,6 @@ const Home = () => {
         data: receipts, // Renomeamos 'data' para 'clients' para ficar mais claro
         isLoading,
         totalPages,
-        handleSearchChange,
-        searchTerm,
         currentPage,
         setCurrentPage
     } = useDatabaseQueryPage<Receipt>( // Especificamos que o item é do tipo 'Client'

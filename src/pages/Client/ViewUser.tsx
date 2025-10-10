@@ -27,6 +27,19 @@ const ViewUser = () => {
     }, [id]);
 
 
+    // const {
+    //     data: service, // Renomeamos 'data' para 'clients' para ficar mais claro
+    //     isLoading,
+    //     totalPages,
+    //     handleSearchChange,
+    //     searchTerm,
+    //     currentPage,
+    //     setCurrentPage
+    // } = useDatabaseQueryPage<Service>( // Especificamos que o item é do tipo 'Client'
+    //     (props) => (window as any).services.all(props), // A função que busca os clientes
+    //     ITEMS_PER_PAGE
+    // );
+
     if (!client) return <p>Carregando...</p>;
 
     return (
