@@ -375,6 +375,42 @@ ipcMain.handle("receipt:paginated", (e, { page, limit, searchTerm }) => {
 
   return { data, totalItems: total }; // Retorna os dados e o total de itens
 });
+
+//Lista de Notas de um cliente
+ipcMain.handle("receipt:client", (e, { page, limit, id }) => {
+  // Calcula o OFFSET para pular os itens das páginas anteriores
+  const offset = (page - 1) * limit;
+
+  // Parâmetros para a query SQL. Usamos um array para construir de forma segura.
+  const params = [];
+
+  // Base da query para buscar o total de itens (para calcular o total de páginas)
+  let countSql = `SELECT COUNT(*) as total FROM receipts`;
+
+  // Base da query para buscar os dados da página atual
+  let dataSql = `SELECT * FROM receipts WHERE clientId = ?`;
+
+  // Se um termo de busca for fornecido, adiciona a condição WHERE
+  params.push(`%${id}%`); // O '%' é o coringa para o LIKE
+
+  // Ordena os resultados
+  dataSql += ` ORDER BY n.receiptId DESC`;
+
+  // Adiciona a paginação (LIMIT e OFFSET) na query de dados
+  dataSql += ` LIMIT ? OFFSET ?`;
+
+  // Adiciona os parâmetros de paginação
+  const dataParams = [...params, limit, offset];
+
+  // Executa as queries
+  const countStmt = db.prepare(countSql);
+  const { total } = countStmt.get(params); // Conta o total de itens que correspondem ao filtro
+
+  const dataStmt = db.prepare(dataSql);
+  const data = dataStmt.all(dataParams); // Busca os itens da página atual
+
+  return { data, totalItems: total }; // Retorna os dados e o total de itens
+});
 /////////////////////////
 ipcMain.handle("receipt_services:getById", (e, id) => {
   const stmt = db.prepare("SELECT * FROM receipt_services WHERE receiptId = ?");

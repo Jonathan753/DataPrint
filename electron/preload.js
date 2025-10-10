@@ -28,6 +28,7 @@ contextBridge.exposeInMainWorld("receipt", {
     all: () => ipcRenderer.invoke("receipt:all"),
     getClient: (id) => ipcRenderer.invoke("receipt:getClient", id),
     paginated: (options) => ipcRenderer.invoke("receipt:paginated", options), // <-- ADICIONE AQUI
+    client: (options) => ipcRenderer.invoke("receipt:client", options), // <-- ADICIONE AQUI
 });
 
 contextBridge.exposeInMainWorld("receipt_services", {

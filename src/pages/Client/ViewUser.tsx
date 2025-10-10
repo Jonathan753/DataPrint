@@ -1,79 +1,89 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Title from "../../components/Title";
 import { ButtonReturn } from "../../components/Button";
 import { useParams } from "react-router-dom";
 import ViewData from "../../components/ViewData";
-import type { Client} from "../../types/global";
+import type { Client, Receipt } from "../../types/global";
 import { useDatabaseQueryPage } from "../../hooks/useDatabaseQueryPage";
 import Input from "../../components/Input";
 
-type Receipt = {
-    receiptId: number,
-    clientId: number,
-    clientName: string,
-    date: string,
-    totalLiquido: number,
-}
+// type Receipt = {
+//     receiptId: number,
+//     clientId: number,
+//     clientName: string,
+//     date: string,
+//     totalLiquido: number,
+// }
 const ITEMS_PER_PAGE = 3;
 
 const ViewUser = () => {
-    let t =""
+    let t = ""
     const { id } = useParams();
 
     const [client, setClient] = useState<Client | null>(null);
-    // const [receipt, setReceipt] = useState<Receipt[]>([]);
-    // const [isLoading, setIsLoading] = useState(false);
+    const [receipt, setReceipt] = useState<Receipt[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
 
     useEffect(() => {
         (async () => {
-            // setIsLoading(true);
+            setIsLoading(true);
             const c = await (window as any).clients.getById(Number(id));
             const r = await (window as any).receipt.getClient(Number(id));
             setClient(c);
-            // setReceipt(r);
+            setReceipt(r);
         })();
     }, [id]);
 
-const {
-        data: receipt, // Renomeamos 'data' para 'clients' para ficar mais claro
-        isLoading,
-        totalPages,
-        handleSearchChange,
-        searchTerm,
-        currentPage,
-        setCurrentPage,
-        setSearchTerm
-    } = useDatabaseQueryPage<Receipt>( // Especificamos que o item é do tipo 'Client'
-        (props) => (window as any).receipt.paginated(props), // A função que busca os clientes
-        ITEMS_PER_PAGE
-    );
+    ////
+    // const [receipts, setReceipts] = useState<Receipt[]>([]);
+    // const [searchTerm, setSearchTerm] = useState("");
 
-    // const {
-    //     data: service, // Renomeamos 'data' para 'clients' para ficar mais claro
-    //     isLoading,
-    //     totalPages,
-    //     handleSearchChange,
-    //     searchTerm,
-    //     currentPage,
-    //     setCurrentPage
-    // } = useDatabaseQueryPage<Service>( // Especificamos que o item é do tipo 'Client'
-    //     (props) => (window as any).services.all(props), // A função que busca os clientes
-    //     ITEMS_PER_PAGE
-    // );
-    useEffect(()=>{
-        
-        t = client?.name ?? "ts";
-        setSearchTerm(t)
-        console.log(t)
-    },[t])
-    
+    const fetchReceipts = useCallback(async (page: number, id:string) => {
+        setIsLoading(true);
+        try {
+            const result = await (window as any).receipt.client({
+                page: page,
+                limit: ITEMS_PER_PAGE,
+                id: Number(id),
+            });
+
+            setReceipt(result.data);
+            setTotalPages(Math.ceil(result.totalItems / ITEMS_PER_PAGE));
+        } catch (error) {
+            console.error("Erro ao buscar notas:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            fetchReceipts(currentPage, id);
+        }, 300);
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [currentPage, id, fetchReceipts]);
+
+    // const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setSearchTerm(event.target.value);
+    //     setCurrentPage(1);
+    // };
+
+    ////
+
+
     if (!client) return <p>Carregando...</p>;
-console.log(searchTerm)
     return (
         <>
             <ButtonReturn />
             <Title title="Dados do Cliente" subtitle="Visualize as informaçoes." />
             {/* <Input label="invisivel" onChange={handleSearchChange} value={searchTerm}/> */}
+            {/* <button onClick={()=>{setSearchTerm(client.name)}} type="button">teste</button> */}
             <div className="p-8 ">
                 <div className="flex gap-5 m-auto md:justify-center ">
                     <div className="border-border w-full bg-background-surface shadow-md rounded-lg p-4 ">
@@ -85,7 +95,7 @@ console.log(searchTerm)
                             <ViewData info="CNPJ/CPF:" data={client.cnpj_cpf} />
                         </div>
                     </div>
-                    <div className="border-border w-full bg-background-surface shadow-md rounded-lg p-4">
+                    <div className="border-border w-full bg-background-surface shadow-md rounded-lg p-4" >
                         <h2 className="text-center text-lg border-b border-black py-1">Logradouro</h2>
                         <div className="py-2 px-5 grid grid-cols-1 gap-1">
 
@@ -138,9 +148,9 @@ console.log(searchTerm)
                                                     r.date
                                                 }</td>
                                                 <td className="px-6 py-4">{
-                                                    r.clientName
+                                                    r.clientId
                                                 }</td>
-                                                
+
                                                 <td className="px-6 py-4">
                                                     <div className="flex justify-center items-center gap-4">
                                                         {/* <ButtonView textMain="Ver dados do cliente" onClick={() => navigate(`/client/view/${c.clientId}`)} /> */}
