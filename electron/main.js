@@ -322,6 +322,11 @@ ipcMain.handle("receipt:all", () => {
   return stmt.all();
 });
 
+ipcMain.handle("receipt:getClient", (e, id) => {
+  const stmt = db.prepare("SELECT * FROM receipts WHERE clientId = ?");
+  return stmt.all(id);
+});
+
 ipcMain.handle("receipt:getMaxNumber", () => {
   const stmt = db.prepare("SELECT MAX(receiptId) as maxId FROM receipts");
   const result = stmt.get(); // executa a query e traz o resultado

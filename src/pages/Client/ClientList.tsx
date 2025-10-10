@@ -8,7 +8,7 @@ import Input from "../../components/Input";
 
 
 let getId = 0;
-const ITEMS_PER_PAGE = 10; // Defina quantos itens por página você quer
+const ITEMS_PER_PAGE = 10;
 
 const ClientList = () => {
 
@@ -18,6 +18,7 @@ const ClientList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
+    
     const navigate = useNavigate();
 
     const fetchClients = useCallback(async (page: number, search: string) => {

@@ -3,7 +3,7 @@ import Title from "../../components/Title";
 import { ButtonReturn } from "../../components/Button";
 import { useParams } from "react-router-dom";
 import ViewData from "../../components/ViewData";
-import type { Client } from "../../types/global";
+import type { Client, Receipt } from "../../types/global";
 
 
 
@@ -11,17 +11,23 @@ import type { Client } from "../../types/global";
 const ViewUser = () => {
     const { id } = useParams();
 
-    const [form, setForm] = useState<Client | null>(null);
+    const [client, setClient] = useState<Client | null>(null);
+    const [receipt, setReceipt] = useState<Receipt[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
 
+    const dados = id;
     useEffect(() => {
         (async () => {
-            const data = await (window as any).clients.getById(Number(id));
-            setForm(data);
+            setIsLoading(true);
+            const c = await (window as any).clients.getById(Number(dados));
+            const r = await (window as any).receipt.getClient(Number(dados));
+            setClient(c);
+            setReceipt(r);
         })();
     }, [id]);
 
 
-    if (!form) return <p>Carregando...</p>;
+    if (!client) return <p>Carregando...</p>;
 
     return (
         <>
@@ -33,49 +39,85 @@ const ViewUser = () => {
                         <h2 className="text-center text-lg border-b border-black py-1">Indetificação</h2>
                         <div className="py-2 px-5 grid grid-cols-1 gap-1">
 
-                            <ViewData info="Nome:" data={form.name} />
-                            <ViewData info="Razão Social:" data={form.company} />
-                            <ViewData info="CNPJ/CPF:" data={form.cnpj_cpf} />
+                            <ViewData info="Nome:" data={client.name} />
+                            <ViewData info="Razão Social:" data={client.company} />
+                            <ViewData info="CNPJ/CPF:" data={client.cnpj_cpf} />
                         </div>
                     </div>
                     <div className="border-border w-full bg-background-surface shadow-md rounded-lg p-4">
                         <h2 className="text-center text-lg border-b border-black py-1">Logradouro</h2>
                         <div className="py-2 px-5 grid grid-cols-1 gap-1">
 
-                            <ViewData info="Endereço:" data={form.adress} />
-                            <ViewData info="N:" data={form.number} />
-                            <ViewData info="Bairro:" data={form.neighborhood} />
-                            <ViewData info="Cidade:" data={form.city} />
-                            <ViewData info="UF:" data={form.uf} />
-                            <ViewData info="CEP:" data={form.cep} />
-                            <ViewData info="Complemento:" data={form.complement} />
+                            <ViewData info="Endereço:" data={client.adress} />
+                            <ViewData info="N:" data={client.number} />
+                            <ViewData info="Bairro:" data={client.neighborhood} />
+                            <ViewData info="Cidade:" data={client.city} />
+                            <ViewData info="UF:" data={client.uf} />
+                            <ViewData info="CEP:" data={client.cep} />
+                            <ViewData info="Complemento:" data={client.complement} />
                         </div>
                     </div>
                     <div className="border-border w-full bg-background-surface shadow-md rounded-lg p-4">
                         <h2 className="text-center text-lg border-b border-black py-1">Contato</h2>
                         <div className="py-2 px-5 grid grid-cols-1 gap-1">
-                            <ViewData info="E-mail:" data={form.email} />
-                            <ViewData info="Telefone:" data={form.phone} />
-                            <ViewData info="Celular:" data={form.cell} />
+                            <ViewData info="E-mail:" data={client.email} />
+                            <ViewData info="Telefone:" data={client.phone} />
+                            <ViewData info="Celular:" data={client.cell} />
                         </div>
                     </div>
                 </div>
                 {/* TESTE */}
                 <div className="w-full">
-                    <table className="w-full text-sm text-left text-gray-600">
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                            <tr>
-                                <th scope="col" className="px-6 py-3">Código da Nota</th>
-                                <th scope="col" className="px-6 py-3">Email</th>
-                                <th scope="col" className="px-6 py-3">Celular</th>
-                                <th scope="col" className="px-6 py-3">Cidade</th>
-                                <th scope="col" className="px-6 py-3 text-center">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-sm text-left text-gray-600">
+                                <thead className="text-xs text-text-primary uppercase bg-accent-primary">
+                                    <tr>
+                                        <th scope="col" className="px-6 py-3">Código</th>
+                                        <th scope="col" className="px-6 py-3">Cliente</th>
+                                        <th scope="col" className="px-6 py-3">Telefone</th>
+                                        <th scope="col" className="px-6 py-3">CPF/CNPJ</th>
+                                        <th scope="col" className="px-6 py-3 text-center">Email</th>
+                                        <th scope="col" className="px-6 py-3 text-center">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-gray-200">
+                                    {receipt.length > 0 ? (
+                                        receipt.map((r) => (
+                                            <tr key={r.receiptId} className="bg-white hover:bg-gray-200">
 
-                        </tbody>
-                    </table>
+                                                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                    {r.receiptId.toString().padStart(4, "0")}
+                                                </td>
+                                                <td className="px-6 py-4 ">
+                                                    {r.totalBruto}
+                                                </td>
+                                                <td className="px-6 py-4">{r.totalLiquido}</td>
+                                                <td className="px-6 py-4">{
+                                                    r.date
+                                                }</td>
+                                                <td className="px-6 py-4">
+                                                    <div className="flex justify-center items-center gap-4">
+                                                        {/* <ButtonView textMain="Ver dados do cliente" onClick={() => navigate(`/client/view/${c.clientId}`)} /> */}
+                                                        {/* <ButtonNota textMain="Criar Nota" onClick={() => navigate(`/modelo/${c.clientId}`)} /> */}
+                                                        {/* <ButtonDelete textMain="Excluir CLiente" onClick={
+                                                    () => {
+                                                        setModalOpen(true)
+                                                        getId = c.clientId
+                                                    }
+                                                } /> */}
+                                                        {/* <ButtonUpdate textMain="Editar Cliente" onClick={() => navigate(`/client/edit/${c.clientId}`)} /> */}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr><td colSpan={5} className="text-center p-4">Nenhuma nota encontrada.</td></tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>

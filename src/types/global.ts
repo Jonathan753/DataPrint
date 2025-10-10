@@ -1,3 +1,5 @@
+import { Receipt } from "lucide-react";
+
 export type Client = {
     clientId: number;
     cnpj_cpf: string;
@@ -36,4 +38,14 @@ export type Enterprise = {
     cell: string
     salesperson: string;
     pix: string;
+}
+
+export type Receipt = {
+    receiptId: number,
+    clientId: number,
+    date: string,
+    totalBruto: number,
+    desconto: number,
+    acrescimo: number,
+    totalLiquido: number,
 }

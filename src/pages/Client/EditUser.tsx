@@ -4,6 +4,7 @@ import Title from "../../components/Title";
 import { ButtonReset, ButtonReturn, ButtonSave } from "../../components/Button";
 import { useParams, useNavigate } from "react-router-dom";
 import type { Client } from "../../types/global";
+import { Modal } from "../../components/Modal";
 
 
 const EditUser = () => {
@@ -11,6 +12,7 @@ const EditUser = () => {
     const navigate = useNavigate();
 
     const [form, setForm] = useState<Client | null>(null);
+    const [modalOpen, setModalOpen] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -30,11 +32,9 @@ const EditUser = () => {
         const result = await (window as any).clients.update(form);
         if (result && result.success) {
             // opcional: mostrar aviso
-            alert("Cliente atualizado com sucesso!");
-            navigate("/client-list"); // ajustar para a rota correta do App.tsx
+            setModalOpen(true)
         } else {
             console.error("Erro no update:", result);
-            alert("Falha ao atualizar cliente. Veja console para detalhes.");
         }
     }
 
@@ -66,6 +66,15 @@ const EditUser = () => {
                         <ButtonSave />
                     </div>
                 </form>
+                <Modal
+                    isOpen={modalOpen}
+                    onClose={() => {
+                        setModalOpen(false);
+                        navigate("/client-list");
+                    }}
+                    title="Cliente atualizado"
+                    message="Será redirecionado para página anterior."
+                />
             </div>
         </>
     )

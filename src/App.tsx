@@ -24,7 +24,7 @@ import ViewReceipt from './pages/Receipt/ViewReceipt';
 type Page = "add-user" | "add-service" | "client-list" | "service-list" | "nota-fast" | "my-info" | "/" | "receipts";
 
 function App() {
-  const [activePage, setActivePage] = useState<Page>("add-user")
+  const [activePage, setActivePage] = useState<Page>("/")
 
   return (
     <>
