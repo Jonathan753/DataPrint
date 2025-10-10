@@ -2,7 +2,10 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const db = require('./db');
 const fs = require('node:fs');
+
 //////////////////////////// CLIENT /////////////////////////////
+
+// Adicionar CLient
 ipcMain.handle("clients:add", (e, data) => {
   const stmt = db.prepare(`
     INSERT INTO clients (
@@ -30,65 +33,57 @@ ipcMain.handle("clients:add", (e, data) => {
   return { success: true };
 });
 
+//Listar CLient com paginação e filtro
 ipcMain.handle("clients:all", (e, { page, limit, searchTerm }) => {
-  // Calcula o OFFSET para pular os itens das páginas anteriores
-  const offset = (page - 1) * limit;
 
-  // Parâmetros para a query SQL. Usamos um array para construir de forma segura.
+  const offset = (page - 1) * limit;
   const params = [];
 
-  // Base da query para buscar o total de itens (para calcular o total de páginas)
-  let countSql = `SELECT COUNT(*) as total FROM clients
-  `;
-
-  // Base da query para buscar os dados da página atual
+  let countSql = `SELECT COUNT(*) as total FROM clients`;
   let dataSql = `SELECT * FROM clients`;
 
-  // Se um termo de busca for fornecido, adiciona a condição WHERE
   if (searchTerm) {
     const whereClause = ` WHERE name LIKE ?`;
     countSql += whereClause;
     dataSql += whereClause;
-    params.push(`%${searchTerm}%`); // O '%' é o coringa para o LIKE
+    params.push(`%${searchTerm}%`);
   }
 
-  // Ordena os resultados
   dataSql += ` ORDER BY clientId DESC`;
-
-  // Adiciona a paginação (LIMIT e OFFSET) na query de dados
   dataSql += ` LIMIT ? OFFSET ?`;
 
-  // Adiciona os parâmetros de paginação
   const dataParams = [...params, limit, offset];
 
-  // Executa as queries
   const countStmt = db.prepare(countSql);
-  const { total } = countStmt.get(params); // Conta o total de itens que correspondem ao filtro
+  const { total } = countStmt.get(params);
 
   const dataStmt = db.prepare(dataSql);
-  const data = dataStmt.all(dataParams); // Busca os itens da página atual
+  const data = dataStmt.all(dataParams);
 
-  return { data, totalItems: total }; // Retorna os dados e o total de itens
+  return { data, totalItems: total };
 });
 
-
+// Mostro o tatal de clientes
 ipcMain.handle("clients:totalNumber", () => {
   const stmt = db.prepare("SELECT COUNT(*) AS total FROM clients");
   const result = stmt.get();
   return result.total;
 });
 
+//Seleciona o client com base no ID
 ipcMain.handle("clients:getById", (e, id) => {
   const stmt = db.prepare("SELECT * FROM clients WHERE clientId = ?");
   return stmt.get(id);
 });
 
+//Deleta o cliente
 ipcMain.handle("clients:delete", (e, id) => {
   const stmt = db.prepare("DELETE FROM clients WHERE clientId = ?");
   stmt.run(id);
   return { success: true }
 });
 
+//Altera os dados do cliente
 ipcMain.handle("clients:update", async (e, client) => {
   const stmt = db.prepare(`
     UPDATE clients SET cnpj_cpf = ?, name = ?, company = ?, email = ?, adress = ?, number = ?, neighborhood = ?,
@@ -116,11 +111,13 @@ ipcMain.handle("clients:update", async (e, client) => {
 });
 
 //////////////////////////// MY INFO ////////////////////////////////////
+//Pega a informação da Empresa
 ipcMain.handle("myInfo:get", () => {
   const stmt = db.prepare("SELECT * FROM myInfo WHERE myInfoId = 1");
   return stmt.get();
 });
 
+//Salva ou Altera a informação da empresa
 ipcMain.handle("myInfo:save", (e, data) => {
   const exists = db.prepare("SELECT 1 FROM myInfo WHERE myInfoId = 1").get();
 
@@ -176,6 +173,7 @@ ipcMain.handle("myInfo:save", (e, data) => {
 
 
 ////////////////////////// Servico ///////////////////////////////
+//Adiciona um serviço
 ipcMain.handle("services:add", (e, data) => {
   const stmt = db.prepare(`
     INSERT INTO services (
@@ -191,60 +189,50 @@ ipcMain.handle("services:add", (e, data) => {
   return { success: true };
 });
 
+//Lista os serviços com paginação e filtro
 ipcMain.handle("services:all", (e, { page, limit, searchTerm }) => {
-  // Calcula o OFFSET para pular os itens das páginas anteriores
-  const offset = (page - 1) * limit;
 
-  // Parâmetros para a query SQL. Usamos um array para construir de forma segura.
+  const offset = (page - 1) * limit;
   const params = [];
 
-  // Base da query para buscar o total de itens (para calcular o total de páginas)
-  let countSql = `SELECT COUNT(*) as total FROM services
-  `;
-
-  // Base da query para buscar os dados da página atual
+  let countSql = `SELECT COUNT(*) as total FROM services`;
   let dataSql = `SELECT * FROM services`;
 
-  // Se um termo de busca for fornecido, adiciona a condição WHERE
   if (searchTerm) {
     const whereClause = ` WHERE name LIKE ?`;
     countSql += whereClause;
     dataSql += whereClause;
-    params.push(`%${searchTerm}%`); // O '%' é o coringa para o LIKE
+    params.push(`%${searchTerm}%`);
   }
 
-  // Ordena os resultados
   dataSql += ` ORDER BY serviceId DESC`;
-
-  // Adiciona a paginação (LIMIT e OFFSET) na query de dados
   dataSql += ` LIMIT ? OFFSET ?`;
 
-  // Adiciona os parâmetros de paginação
   const dataParams = [...params, limit, offset];
 
-  // Executa as queries
   const countStmt = db.prepare(countSql);
-  const { total } = countStmt.get(params); // Conta o total de itens que correspondem ao filtro
+  const { total } = countStmt.get(params);
 
   const dataStmt = db.prepare(dataSql);
-  const data = dataStmt.all(dataParams); // Busca os itens da página atual
+  const data = dataStmt.all(dataParams);
 
-  return { data, totalItems: total }; // Retorna os dados e o total de itens
+  return { data, totalItems: total };
 });
 
+//Deleta serviço
 ipcMain.handle("services:delete", (e, id) => {
   const stmt = db.prepare("DELETE FROM services WHERE serviceId = ?");
   stmt.run(id);
   return { success: true }
 });
 
+//Busca para Adicionar na nota
 ipcMain.handle("services:search", (e, term) => {
-  const stmt = db.prepare(`
-    SELECT * FROM services WHERE service LIKE ?
-  `);
+  const stmt = db.prepare(`SELECT * FROM services WHERE service LIKE ?`);
   return stmt.all(`%${term}%`);
 });
 
+//Alterar dado do serviço
 ipcMain.handle("services:update", (e, data) => {
   const stmt = db.prepare(`
     UPDATE services SET service = ?,value = ? WHERE serviceId = ?
@@ -260,11 +248,13 @@ ipcMain.handle("services:update", (e, data) => {
   return { success: true };
 });
 
+//Seleciona o serviço
 ipcMain.handle("services:getById", (e, id) => {
   const stmt = db.prepare("SELECT * FROM services WHERE serviceId = ?");
   return stmt.get(id);
 });
-/////////////////////////////// NOTA //////////
+/////////////////////////////// RECEIPT //////////
+//Adiona a nota no BD
 ipcMain.handle("receipt:add", async (e, data) => {
 
   const insertReceipt = db.prepare(`
@@ -299,12 +289,9 @@ ipcMain.handle("receipt:add", async (e, data) => {
   }
 
   return { success: true, receiptId };
-  // } catch (err) {
-  //   console.error("Erro ao salvar nota:", err);
-  //   return { success: false, error: err.message };
-  // }
 });
 
+//Apresenta lista de Nota
 ipcMain.handle("receipt:all", () => {
 
   const stmt = db.prepare(`
@@ -322,21 +309,19 @@ ipcMain.handle("receipt:all", () => {
   return stmt.all();
 });
 
+//Apresenta as Notas com base no ID do client
 ipcMain.handle("receipt:getClient", (e, id) => {
   const stmt = db.prepare("SELECT * FROM receipts WHERE clientId = ?");
   return stmt.all(id);
 });
 
+//Saber o maximo de notas
 ipcMain.handle("receipt:getMaxNumber", () => {
   const stmt = db.prepare("SELECT MAX(receiptId) as maxId FROM receipts");
-  const result = stmt.get(); // executa a query e traz o resultado
-  return result?.maxId || 0; // se for null, retorna 0
+  const result = stmt.get();
+  return result?.maxId || 0;
 });
 
-
-// main.js
-
-// ... outros handlers ...
 
 ipcMain.handle("receipt:paginated", (e, { page, limit, searchTerm }) => {
   // Calcula o OFFSET para pular os itens das páginas anteriores
@@ -402,30 +387,7 @@ ipcMain.handle("receipt_services:all", () => {
 });
 
 
-/////////////////////////////////////
-// // Geração de PDF
-// ipcMain.handle("pdf:gerar", async (e, html) => {
-//   const tempWin = new BrowserWindow({ show: false }); // janela oculta
-//   await tempWin.loadURL("data:text/html;charset=utf-8," + encodeURIComponent(html));
-
-//   const pdfBuffer = await tempWin.webContents.printToPDF({});
-//   fs.writeFileSync("nota.pdf", pdfBuffer);
-//   tempWin.close();
-//   return "nota.pdf";
-// });
-
-// // Impressão direta
-// ipcMain.handle("pdf:imprimir", async (e, html) => {
-//   const tempWin = new BrowserWindow({ show: false });
-//   await tempWin.loadURL("data:text/html;charset=utf-8," + encodeURIComponent(html));
-
-//   tempWin.webContents.print({ silent: false }); // manda pra impressora
-//   return true;
-// });
-////////////////////////////////////
-
-
-
+//////////////////// Aplicação principal do electron
 const isDev = !!process.env.ELECTRON_START_URL; // setado no script de dev
 
 function createWindow() {
@@ -440,12 +402,9 @@ function createWindow() {
       nodeIntegration: false,
       preload: path.join(__dirname, 'preload.js'),
     },
-    // titleBarStyle: 'customButtonsOnHover',
-    // ...(process.platform !== 'darwin' ? { titleBarOverlay: true } : {})
-
-
   });
 
+  // Funções da barra de navegação (TitleBar)
   ipcMain.on('minimize-app', () => {
     win.minimize();
   });
