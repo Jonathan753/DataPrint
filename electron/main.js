@@ -219,13 +219,6 @@ ipcMain.handle("services:all", (e, { page, limit, searchTerm }) => {
   return { data, totalItems: total };
 });
 
-//Deleta serviço
-ipcMain.handle("services:delete", (e, id) => {
-  const stmt = db.prepare("DELETE FROM services WHERE serviceId = ?");
-  stmt.run(id);
-  return { success: true }
-});
-
 //Busca para Adicionar na nota
 ipcMain.handle("services:search", (e, term) => {
   const stmt = db.prepare(`SELECT * FROM services WHERE service LIKE ?`);
@@ -378,37 +371,25 @@ ipcMain.handle("receipt:paginated", (e, { page, limit, searchTerm }) => {
 
 //Lista de Notas de um cliente
 ipcMain.handle("receipt:client", (e, { page, limit, id }) => {
-  // Calcula o OFFSET para pular os itens das páginas anteriores
+
+  const clientId = Number(id);
+  if (isNaN(clientId)) {
+    return { data: [], totalItems: 0 };
+  }
   const offset = (page - 1) * limit;
 
-  // Parâmetros para a query SQL. Usamos um array para construir de forma segura.
-  const params = [];
-
-  // Base da query para buscar o total de itens (para calcular o total de páginas)
-  let countSql = `SELECT COUNT(*) as total FROM receipts`;
-
-  // Base da query para buscar os dados da página atual
-  let dataSql = `SELECT * FROM receipts WHERE clientId = ?`;
-
-  // Se um termo de busca for fornecido, adiciona a condição WHERE
-  params.push(`%${id}%`); // O '%' é o coringa para o LIKE
-
-  // Ordena os resultados
-  dataSql += ` ORDER BY n.receiptId DESC`;
-
-  // Adiciona a paginação (LIMIT e OFFSET) na query de dados
-  dataSql += ` LIMIT ? OFFSET ?`;
-
-  // Adiciona os parâmetros de paginação
-  const dataParams = [...params, limit, offset];
-
-  // Executa as queries
+  const countSql = `SELECT COUNT(*) as total FROM receipts WHERE clientId = ?`;
   const countStmt = db.prepare(countSql);
-  const { total } = countStmt.get(params); // Conta o total de itens que correspondem ao filtro
+  const { total } = countStmt.get(clientId);
+
+  if (total === 0) {
+    return { data: [], totalItems: 0 }
+  }
+
+  let dataSql = `SELECT * FROM receipts WHERE clientId = ? ORDER BY receiptId DESC LIMIT ? OFFSET ?`;
 
   const dataStmt = db.prepare(dataSql);
-  const data = dataStmt.all(dataParams); // Busca os itens da página atual
-
+  const data = dataStmt.all(clientId, limit, offset); // Busca os itens da página atual
   return { data, totalItems: total }; // Retorna os dados e o total de itens
 });
 /////////////////////////

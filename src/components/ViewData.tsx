@@ -7,8 +7,8 @@ const ViewData = ({ data = "", info }: Props) => {
     return (
         <>
             <div className="flex">
-                <p>{info}</p>
-                <p className="text-red-900 col-span-4">{data}</p>
+                <p className="font-medium">{info}</p>
+                <p className="text-text-primary col-span-4 ml-1">{data}</p>
             </div>
         </>
     )

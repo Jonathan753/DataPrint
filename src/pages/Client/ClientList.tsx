@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { ButtonNota, ButtonReturn, ButtonUpdate, ButtonView } from "../../components/Button";
+import { ButtonDelete, ButtonNota, ButtonReturn, ButtonUpdate, ButtonView } from "../../components/Button";
 import Title from "../../components/Title"
 import { useCallback, useEffect, useState } from "react";
 import { ModalDelete } from "../../components/Modal";
@@ -64,7 +64,8 @@ const ClientList = () => {
         handleSearchChange,
         searchTerm,
         currentPage,
-        setCurrentPage
+        setCurrentPage,
+        setSearchTerm
     } = useDatabaseQueryPage<Client>( // Especificamos que o item é do tipo 'Client'
         (props) => (window as any).clients.all(props), // A função que busca os clientes
         ITEMS_PER_PAGE
@@ -79,7 +80,7 @@ const ClientList = () => {
 
                     <Input type="text" onChange={handleSearchChange} value={searchTerm} label="Filtro" id="filtro" gridClass="w-96" placeholder="Buscar por nome do cliente..." />
                 </div>
-                <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                <div className="bg-white rounded-lg shadow-md overflow-hidden min-w-[1070px]">
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left text-gray-600">
                             <thead className="text-xs text-text-primary uppercase bg-accent-primary">
@@ -114,12 +115,12 @@ const ClientList = () => {
                                                 <div className="flex justify-center items-center gap-4">
                                                     <ButtonView textMain="Ver dados do cliente" onClick={() => navigate(`/client/view/${c.clientId}`)} />
                                                     <ButtonNota textMain="Criar Nota" onClick={() => navigate(`/modelo/${c.clientId}`)} />
-                                                    {/* <ButtonDelete textMain="Excluir CLiente" onClick={
+                                                    <ButtonDelete textMain="Excluir CLiente" onClick={
                                                     () => {
                                                         setModalOpen(true)
                                                         getId = c.clientId
                                                     }
-                                                } /> */}
+                                                } />
                                                     <ButtonUpdate textMain="Editar Cliente" onClick={() => navigate(`/client/edit/${c.clientId}`)} />
                                                 </div>
                                             </td>
@@ -153,18 +154,18 @@ const ClientList = () => {
                         </button>
                     </div>
                 )}
-                {/* <ModalDelete
+                <ModalDelete
                     isOpen={modalOpen}
                     onClose={() => setModalOpen(false)}
                     onDelete={
                         async () => {
                             await (window as any).clients.delete(getId);
-                            setClients(clients.filter(cl => cl.clientId !== getId));
+                            // setSearchTerm(clients.filter(cl => cl.clientId !== getId));
                         }
                     }
                     title="Tem certeza que quer excluir o cliente?"
                     message="Essa ação será irreversível!"
-                /> */}
+                />
             </div>
         </>
     )

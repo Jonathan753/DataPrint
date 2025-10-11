@@ -46,7 +46,6 @@ contextBridge.exposeInMainWorld("services", {
     getById: (id) => ipcRenderer.invoke("services:getById", id),
     all: (options) => ipcRenderer.invoke("services:all", options),
     search: (term) => ipcRenderer.invoke("services:search", term),
-    delete: (id) => ipcRenderer.invoke("services:delete", id),
     update: (data) => ipcRenderer.invoke("services:update", data),
 });
 
