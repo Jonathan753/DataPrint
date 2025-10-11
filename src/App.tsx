@@ -59,7 +59,7 @@ function App() {
                 <Route path='/client/edit/:id' element={<EditUser />} />
                 <Route path='/service/edit/:id' element={<EditService />} />
                 <Route path='/client/view/:id' element={<ViewUser />} />
-                <Route path='/receipts/view/:id' element={<ViewReceipt />} />
+                <Route path='/receipts/view/:id/:value' element={<ViewReceipt />} />
               </Routes>
             </div>
           </main>

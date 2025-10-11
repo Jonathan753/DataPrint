@@ -337,6 +337,7 @@ ipcMain.handle("receipt:paginated", (e, { page, limit, searchTerm }) => {
       n.clientId,
       c.name AS clientName,
       n.totalLiquido,
+      n.totalBruto,
       n.date AS date
     FROM receipts n
     JOIN clients c ON c.clientId = n.clientId

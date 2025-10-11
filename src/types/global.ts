@@ -1,5 +1,3 @@
-import { Receipt } from "lucide-react";
-
 export type Client = {
     clientId: number;
     cnpj_cpf: string;
@@ -48,4 +46,13 @@ export type Receipt = {
     desconto: number,
     acrescimo: number,
     totalLiquido: number,
+}
+
+export type ReceiptService = {
+    id: number;
+    receiptId: number;
+    serviceId: number;
+    qtd: number;
+    valueUnitario: number;
+    valueTotal: number;
 }

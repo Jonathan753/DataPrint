@@ -4,15 +4,6 @@ contextBridge.exposeInMainWorld('electron', {
     ping: () => ipcRenderer.invoke('ping'),
 });
 
-// contextBridge.exposeInMainWorld('electronAPI', {
-//     printNota: (html) => ipcRenderer.invoke('print-nota', html),
-// });
-
-// contextBridge.exposeInMainWorld('pdf', {
-//     gerar: (html) => ipcRenderer.invoke('pdf:gerar', html),
-//     imprimir: (html) => ipcRenderer.invoke('pdf:imprimir', html),
-// });
-
 contextBridge.exposeInMainWorld("clients", {
     add: (data) => ipcRenderer.invoke("clients:add", data),
     all: (options) => ipcRenderer.invoke("clients:all", options),
@@ -27,8 +18,8 @@ contextBridge.exposeInMainWorld("receipt", {
     getMaxNumber: () => ipcRenderer.invoke("receipt:getMaxNumber"),
     all: () => ipcRenderer.invoke("receipt:all"),
     getClient: (id) => ipcRenderer.invoke("receipt:getClient", id),
-    paginated: (options) => ipcRenderer.invoke("receipt:paginated", options), // <-- ADICIONE AQUI
-    client: (options) => ipcRenderer.invoke("receipt:client", options), // <-- ADICIONE AQUI
+    paginated: (options) => ipcRenderer.invoke("receipt:paginated", options), 
+    client: (options) => ipcRenderer.invoke("receipt:client", options), 
 });
 
 contextBridge.exposeInMainWorld("receipt_services", {
@@ -54,13 +45,3 @@ contextBridge.exposeInMainWorld('electronAPI', {
     maximize: () => ipcRenderer.send('maximize-app'),
     close: () => ipcRenderer.send('close-app'),
 });
-//Titlebar
-
-// contextBridge.exposeInMainWorld('electron', {
-//   send: (channel, ...args) => {
-//     const validChannels = ['minimize-app', 'maximize-app', 'close-app'];
-//     if (validChannels.includes(channel)) {
-//       ipcRenderer.send(channel, ...args);
-//     }
-//   },
-// });

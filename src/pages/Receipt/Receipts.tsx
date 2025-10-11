@@ -11,6 +11,7 @@ type Receipt = {
     clientName: string,
     date: string,
     totalLiquido: number,
+    totalBruto: number,
 }
 
 const ITEMS_PER_PAGE = 10;
@@ -112,7 +113,7 @@ const Receipt = () => {
                                             <td className="px-6 py-4">{r.date}</td>
                                             <td className="px-6 py-4">
                                                 <div className="flex justify-center items-center gap-4">
-                                                    <ButtonView textMain="Informações da Nota" onClick={() => navigate(`/receipts/view/${r.receiptId}`)} />
+                                                    <ButtonView textMain="Informações da Nota" onClick={() => navigate(`/receipts/view/${r.receiptId}/${r.totalBruto}`)} />
                                                 </div>
                                             </td>
                                         </tr>
