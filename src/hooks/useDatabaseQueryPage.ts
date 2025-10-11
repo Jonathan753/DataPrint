@@ -63,5 +63,5 @@ export function useDatabaseQueryPage<TItem>(
     };
 
     // Retornamos todos os estados e funções que o componente precisa
-    return { data, isLoading, totalPages, handleSearchChange, searchTerm, currentPage, setCurrentPage, setSearchTerm };
+    return { data, isLoading, totalPages, handleSearchChange, searchTerm, currentPage, setCurrentPage, setData};
 }

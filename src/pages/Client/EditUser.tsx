@@ -31,7 +31,6 @@ const EditUser = () => {
         if (!form) return;
         const result = await (window as any).clients.update(form);
         if (result && result.success) {
-            // opcional: mostrar aviso
             setModalOpen(true)
         } else {
             console.error("Erro no update:", result);

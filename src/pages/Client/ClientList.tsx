@@ -65,7 +65,7 @@ const ClientList = () => {
         searchTerm,
         currentPage,
         setCurrentPage,
-        setSearchTerm
+        setData
     } = useDatabaseQueryPage<Client>( // Especificamos que o item é do tipo 'Client'
         (props) => (window as any).clients.all(props), // A função que busca os clientes
         ITEMS_PER_PAGE
@@ -160,7 +160,7 @@ const ClientList = () => {
                     onDelete={
                         async () => {
                             await (window as any).clients.delete(getId);
-                            // setSearchTerm(clients.filter(cl => cl.clientId !== getId));
+                            setData(clients.filter(cl => cl.clientId !== getId));
                         }
                     }
                     title="Tem certeza que quer excluir o cliente?"
