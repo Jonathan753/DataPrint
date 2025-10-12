@@ -80,7 +80,7 @@ const ClientList = () => {
 
                     <Input type="text" onChange={handleSearchChange} value={searchTerm} label="Filtro" id="filtro" gridClass="w-96" placeholder="Buscar por nome do cliente..." />
                 </div>
-                <div className="bg-white rounded-lg shadow-md overflow-hidden min-w-[1070px]">
+                <div className="bg-white rounded-lg shadow-md overflow-hidden ">
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left text-gray-600">
                             <thead className="text-xs text-text-primary uppercase bg-accent-primary">

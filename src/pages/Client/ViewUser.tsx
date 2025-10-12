@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import Title from "../../components/Title";
-import { ButtonReturn, ButtonView } from "../../components/Button";
+import { ButtonNota, ButtonReturn, ButtonView } from "../../components/Button";
 import { useNavigate, useParams } from "react-router-dom";
 import ViewData from "../../components/ViewData";
 import type { Client, Receipt } from "../../types/global";
@@ -170,6 +170,7 @@ const ViewUser = () => {
                                                 }</td>
                                                 <td className="px-6 py-4">
                                                     <div className="flex justify-center items-center gap-4">
+                                                        <ButtonNota textMain="Criar Nota" onClick={() => navigate(`/receipts/view/template/${r.clientId}/${r.receiptId}`)} />
 
                                                         <ButtonView textMain="Informações da Nota" onClick={() => navigate(`/receipts/view/${r.receiptId}/${r.totalBruto}`)} />
                                                     </div>

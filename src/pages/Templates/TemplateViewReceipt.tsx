@@ -131,20 +131,6 @@ const TemplateViewReceipt = () => {
     //     setServices((prev) => [...prev, service]);
     // }
 
-    // const receipt = {
-    //     clientId: cliente?.clientId,
-    //     dataEmissao: new Date().toISOString(),
-    //     totalBruto,
-    //     desconto,
-    //     acrescimo,
-    //     totalLiquido: totalLiquido / 100,
-    //     services: services.map(s => ({
-    //         serviceId: s.serviceId,
-    //         qtd: s.qtd,
-    //         valueUnitario: s.value,
-    //         valueTotal: s.qtd * s.value
-    //     }))
-    // };
 
 
 
@@ -157,46 +143,7 @@ const TemplateViewReceipt = () => {
 
             <Title title="Criaçao da nota" subtitle={"Nota de " + subtitle} />
             <div style={{ minWidth: "210mm" }}>
-                {/* <div className="p-4">
-                    <label className="block text-sm font-medium text-text-primary mb-1" htmlFor="">Adição de Serviços</label>
-                    <SearchService onAdd={addService} />
 
-                    <div className="p-4">
-                        <h3 className="font-medium">Produtos na Nota:</h3>
-                        <ul className="mb-4">
-                            {services.map((s, idx) => (
-                                <li key={idx}>
-                                    {s.service} - {
-                                        new Intl.NumberFormat("pt-BR", {
-                                            style: "currency",
-                                            currency: "BRL",
-                                        }).format(s.value / 100)
-                                    }
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    <div className="grid grid-cols-4 gap-2">
-                        <Input gridClass="md:col-span-4" onChange={handleChangeObs} value={obs} label="OBS" id="obs" name="obs" type="text" placeholder="Uma Observação" />
-                        <Input gridClass="md:col-span-1" onChange={handleChangeAcressimo} value={
-                            acrescimo
-                                ? (acrescimo / 100).toLocaleString("pt-BR", {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                })
-                                : ""
-                        } label="Acréssimo" id="acressimo" name="acressimo" type="text" placeholder="20%" />
-                        <Input gridClass="md:col-span-1" onChange={handleChangeDesconto} value={
-                            desconto
-                                ? (desconto / 100).toLocaleString("pt-BR", {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                })
-                                : ""
-                        } label="Desconto" id="desconto" name="desconto" type="text" placeholder="10%" />
-                    </div>
-                </div> */}
 
                 <div className="template border bg-zinc-700 border-black border-1 p-2 mt-4">
                     <div ref={notaRef} id="nota" style={{ width: '210mm', minHeight: '297mm' }} className="bg-white mx-auto p-8 shadow-lg">
