@@ -35,13 +35,14 @@ const SearchService = ({ onAdd }: { onAdd: (p: SelectService) => void }) => {
                 value={termo}
                 onChange={handleSearch}
                 placeholder="Buscar produto..."
-                className="w-full px-3 py-2 border border-gray-400 text-white rounded-full shadow-sm 
-                    focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-indigo-500
-                    transition duration-150 ease-in-out bg-zinc-600 placeholder:text-gray-500"
+                className="w-full px-3 py-2 border border-gray-600 text-text-primary rounded-lg shadow-sm 
+                    focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-indigo-400
+                    transition duration-150 ease-in-out bg-background-surface placeholder:text-gray-500
+                    disabled:text-text-disabled disabled:border-gray-300"
             />
 
             {services.length > 0 && (
-                <ul className="border mt-2 rounded bg-zinc-600 shadow">
+                <ul className="border mt-2 rounded bg-background-surface shadow">
                     {services.map((p) => (
                         <li key={p.serviceId} className="p-2 flex items-center gap-2 border-b">
                             <span className="flex-1">

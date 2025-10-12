@@ -1,6 +1,5 @@
-import { useEffect, useState, useCallback } from "react";
 import Title from "../../components/Title";
-import { ButtonView } from "../../components/Button";
+import { ButtonNota, ButtonView } from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import Input from "../../components/Input";
 import { useDatabaseQueryPage } from "../../hooks/useDatabaseQueryPage";
@@ -114,6 +113,7 @@ const Receipt = () => {
                                             <td className="px-6 py-4">
                                                 <div className="flex justify-center items-center gap-4">
                                                     <ButtonView textMain="Informações da Nota" onClick={() => navigate(`/receipts/view/${r.receiptId}/${r.totalBruto}`)} />
+                                                    <ButtonNota textMain="Criar Nota" onClick={() => navigate(`/receipts/view/template/${r.clientId}/${r.receiptId}`)} />
                                                 </div>
                                             </td>
                                         </tr>

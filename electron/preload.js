@@ -18,12 +18,14 @@ contextBridge.exposeInMainWorld("receipt", {
     getMaxNumber: () => ipcRenderer.invoke("receipt:getMaxNumber"),
     all: () => ipcRenderer.invoke("receipt:all"),
     getClient: (id) => ipcRenderer.invoke("receipt:getClient", id),
-    paginated: (options) => ipcRenderer.invoke("receipt:paginated", options), 
-    client: (options) => ipcRenderer.invoke("receipt:client", options), 
+    paginated: (options) => ipcRenderer.invoke("receipt:paginated", options),
+    client: (options) => ipcRenderer.invoke("receipt:client", options),
+    getReceipt: (id) => ipcRenderer.invoke("receipt:getReceipt", id),
 });
 
 contextBridge.exposeInMainWorld("receipt_services", {
     getById: (id) => ipcRenderer.invoke("receipt_services:getById", id),
+    getByIdService: (id) => ipcRenderer.invoke("receipt_services:getByIdService", id),
     all: () => ipcRenderer.invoke("receipt_services:all"),
 });
 

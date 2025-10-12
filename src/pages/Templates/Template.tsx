@@ -1,14 +1,14 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
-import logo from "../assets/logo_newDataPrint.svg"
-import SearchService from "../components/SearchService";
-import Input from "../components/Input";
-import { gerarQrCodePix } from "./pix";
-import { ButtonPrinter, ButtonReturn } from "../components/Button";
+import logo from "../../assets/logo_newDataPrint.svg"
+import SearchService from "../../components/SearchService";
+import Input from "../../components/Input";
+import { gerarQrCodePix } from "../../service/pix";
+import { ButtonPrinter, ButtonReturn } from "../../components/Button";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import Title from "../components/Title";
-import type { Client, Enterprise } from "../types/global";
+import Title from "../../components/Title";
+import type { Client, Enterprise } from "../../types/global";
 
 
 type Service = {
@@ -18,7 +18,7 @@ type Service = {
     value: number;
 }
 
-const Modelo = () => {
+const Template = () => {
 
     const notaRef = useRef<HTMLDivElement | null>(null)
     //UseSate para cada dado
@@ -34,19 +34,11 @@ const Modelo = () => {
 
     const totalBruto = services.reduce((acc, s) => acc + (s.value * s.qtd), 0);
 
-    // let result = (totalBruto) - (totalBruto * (desconto / 10000)) + (totalBruto * (acressimo / 10000))
+    let totalLiquido = (totalBruto) - (totalBruto * (desconto / 10000)) + (totalBruto * (acrescimo / 10000));
 
-    // const descontoPercent = desconto / 100;   // exemplo: 150 → 1,5%
-    // const acressimoPercent = acressimo / 100;
-
-    let result = (totalBruto) - (totalBruto * (desconto / 10000)) + (totalBruto * (acrescimo / 10000))
-    // const totalLiquido = totalBruto - (totalBruto * descontoPercent) + (totalBruto * acressimoPercent);
-    let totalLiquido = (totalBruto / 100) - (((totalBruto / 100) * desconto / 100) / 100) + (((totalBruto / 100) * acrescimo / 100) / 100)
     let today = new Date().toLocaleDateString('pt-BR');
     let hours = new Date().getHours();
     let minute = String(new Date().getMinutes()).padStart(2, '0');
-
-
 
     useEffect(() => {
         (async () => {
@@ -61,13 +53,13 @@ const Modelo = () => {
 
     useEffect(() => {
         async function makeQr() {
-            if (result > 0 && empresa && empresa.pix) {
-                const dataUrl = await gerarQrCodePix(result, empresa.pix, empresa.name, empresa.city);
+            if (totalLiquido > 0 && empresa && empresa.pix) {
+                const dataUrl = await gerarQrCodePix(totalLiquido, empresa.pix, empresa.name, empresa.city);
                 setQrCode(dataUrl);
             }
         }
         makeQr();
-    }, [result, empresa]);
+    }, [totalLiquido, empresa]);
 
     if (!empresa) return <p>Necessita dos dados da empresa</p>;
 
@@ -89,24 +81,23 @@ const Modelo = () => {
         pdf.save("nota.pdf");
 
         await (window as any).receipt.add(receipt);
-
     }
 
     // Imprimir direto
-    async function handlePrint() {
-        if (!notaRef.current) return;
+    // async function handlePrint() {
+    //     if (!notaRef.current) return;
 
-        const canvas = await html2canvas(notaRef.current, { scale: 2 });
-        const imgData = canvas.toDataURL("image/png");
+    //     const canvas = await html2canvas(notaRef.current, { scale: 2 });
+    //     const imgData = canvas.toDataURL("image/png");
 
-        // Abre em nova aba para o navegador imprimir
-        const win = window.open("");
-        if (win) {
-            win.document.write(`<img src="${imgData}" style="width:100%">`);
-            win.document.close();
-            win.print();
-        }
-    }
+    //     // Abre em nova aba para o navegador imprimir
+    //     const win = window.open("");
+    //     if (win) {
+    //         win.document.write(`<img src="${imgData}" style="width:100%">`);
+    //         win.document.close();
+    //         win.print();
+    //     }
+    // }
     /////////////
     function addService(service: Service) {
         setServices((prev) => [...prev, service]);
@@ -130,7 +121,7 @@ const Modelo = () => {
         totalBruto,
         desconto,
         acrescimo,
-        totalLiquido,
+        totalLiquido: totalLiquido / 100,
         services: services.map(s => ({
             serviceId: s.serviceId,
             qtd: s.qtd,
@@ -144,31 +135,31 @@ const Modelo = () => {
     let subtitle = cliente?.name ?? ""
 
 
-    // const CalculationTotalNet = () => {
-
-    // }
     return (
         <>
-        <ButtonReturn/>
+            <ButtonReturn />
 
             <Title title="Criaçao da nota" subtitle={"Nota de " + subtitle} />
             <div style={{ minWidth: "210mm" }}>
                 <div className="p-4">
-                    <label className="block text-sm font-medium text-white mb-1" htmlFor="">Adição de Serviços</label>
+                    <label className="block text-sm font-medium text-text-primary mb-1" htmlFor="">Adição de Serviços</label>
                     <SearchService onAdd={addService} />
-                    <h3>Produtos na Nota</h3>
-                    <ul className="mb-4">
-                        {services.map((s, idx) => (
-                            <li key={idx}>
-                                {s.service} - {
-                                    new Intl.NumberFormat("pt-BR", {
-                                        style: "currency",
-                                        currency: "BRL",
-                                    }).format(s.value / 100)
-                                }
-                            </li>
-                        ))}
-                    </ul>
+
+                    <div className="p-4">
+                        <h3 className="font-medium">Produtos na Nota:</h3>
+                        <ul className="mb-4">
+                            {services.map((s, idx) => (
+                                <li key={idx}>
+                                    {s.service} - {
+                                        new Intl.NumberFormat("pt-BR", {
+                                            style: "currency",
+                                            currency: "BRL",
+                                        }).format(s.value / 100)
+                                    }
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
 
                     <div className="grid grid-cols-4 gap-2">
                         <Input gridClass="md:col-span-4" onChange={handleChangeObs} value={obs} label="OBS" id="obs" name="obs" type="text" placeholder="Uma Observação" />
@@ -213,7 +204,7 @@ const Modelo = () => {
                         <hr className="border-black border-collapse mt-2" />
                         <div className="grid grid-cols-4">
                             <p>Vendedor: {empresa.salesperson}</p>
-                            <p>Pedido: {order + 1}</p>
+                            <p>Pedido: {(order + 1).toString().padStart(4, "0")}</p>
                             <p>Emissão: {today}</p>
                             <p>Hora: {hours}:{minute}</p>
                         </div>
@@ -303,7 +294,7 @@ const Modelo = () => {
                                     new Intl.NumberFormat("pt-BR", {
                                         style: "currency",
                                         currency: "BRL",
-                                    }).format(totalLiquido)
+                                    }).format(totalLiquido / 100)
                                 }</h1>
                             </div>
                             <div>
@@ -317,15 +308,15 @@ const Modelo = () => {
                         </div>
                     </div>
                 </div>
-                <div className="grid grid-cols-6 p-4">
+                <div className="flex p-4 justify-end">
                     <ButtonPrinter onClick={handleDownloadPDF} />
-                    <div className="col-start-6">
+                    {/* <div className="col-start-6">
                         <ButtonPrinter onClick={handlePrint} />
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </>
     )
 }
 
-export default Modelo;
+export default Template;

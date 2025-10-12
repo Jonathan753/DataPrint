@@ -15,16 +15,11 @@ const lettersUfMask = {
 
 // NOVO: Definição da máscara dinâmica para CPF/CNPJ
 const cpfCnpjMask = [
-    {
-        mask: '000.000.000-00',
-        maxLength: 11,
-    },
-    {
-        mask: '00.000.000/0000-00',
-    }
+    { mask: '000.000.000-00', maxLength: 11 },
+    { mask: '00.000.000/0000-00' }
 ];
 
-const Input = ({ label, id, gridClass = "", mask, ...props }: InputProps) => {
+const Input = ({ label, id, gridClass = "", onChange, mask, ...props }: InputProps) => {
 
     const commonProps = {
         id: id,
@@ -50,6 +45,21 @@ const Input = ({ label, id, gridClass = "", mask, ...props }: InputProps) => {
             : mask;
 
 
+    // NOVO: Handler para o evento onAccept
+    const handleAccept = (value: any) => {
+        // Se a função onChange foi passada pelo componente pai...
+        if (onChange) {
+            // ...criamos um "evento sintético" que imita a estrutura de um evento real...
+            const syntheticEvent = {
+                target: {
+                    name: props.name || '', // Usamos o name que já veio nas props
+                    value: value,           // O valor limpo que recebemos do onAccept!
+                },
+            };
+            // ...e chamamos a função onChange do pai com nosso evento falso.
+            onChange(syntheticEvent as React.ChangeEvent<HTMLInputElement>);
+        }
+    };
     return (
         <div className={gridClass}>
             <label htmlFor={id} className="block text-sm font-medium text-text-primary mb-1">
@@ -60,9 +70,12 @@ const Input = ({ label, id, gridClass = "", mask, ...props }: InputProps) => {
                 <IMaskInput
                     {...commonProps}
                     {...(typeof maskConfig === 'string' ? { mask: maskConfig } : maskConfig)}
+                    // TROCAMOS: Em vez de passar o onChange diretamente, usamos o onAccept com nosso handler
+                    onAccept={handleAccept}
                 />
             ) : (
-                <input {...commonProps} />
+                // O input normal continua usando o onChange original, sem problemas.
+                <input {...commonProps} onChange={onChange} />
             )}
         </div>
     );

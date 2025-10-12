@@ -9,8 +9,6 @@ import NoteFast from './pages/NoteFast';
 import ClientList from './pages/Client/ClientList';
 import ServiceList from './pages/Service/ServiceList';
 import MyInfo from './pages/MyInfo';
-// import TemplateNota from './service/TemplateNota';
-import Modelo from './service/Modelo';
 import { useState } from 'react';
 import TitleBar from './layout/Titlebar';
 import EditUser from './pages/Client/EditUser';
@@ -18,8 +16,10 @@ import Receipts from './pages/Receipt/Receipts';
 import EditService from './pages/Service/EditService';
 import Home from './pages/Home';
 import ViewUser from './pages/Client/ViewUser';
-import TemplateFast from './service/TemplateFast';
+import TemplateFast from './pages/Templates/TemplateFast';
 import ViewReceipt from './pages/Receipt/ViewReceipt';
+import Template from './pages/Templates/Template';
+import TemplateViewReceipt from './pages/Templates/TemplateViewReceipt';
 
 type Page = "add-user" | "add-service" | "client-list" | "service-list" | "nota-fast" | "my-info" | "/" | "receipts";
 
@@ -55,11 +55,12 @@ function App() {
                 <Route path='/my-info' element={<MyInfo />} />
                 <Route path='/receipts' element={<Receipts />} />
                 <Route path='/nota-fast/template' element={<TemplateFast />} />
-                <Route path='/modelo/:id' element={<Modelo />} />
+                <Route path='/template/:id' element={<Template />} />
                 <Route path='/client/edit/:id' element={<EditUser />} />
                 <Route path='/service/edit/:id' element={<EditService />} />
                 <Route path='/client/view/:id' element={<ViewUser />} />
                 <Route path='/receipts/view/:id/:value' element={<ViewReceipt />} />
+                <Route path='/receipts/view/template/:id/:receipt' element={<TemplateViewReceipt />} />
               </Routes>
             </div>
           </main>

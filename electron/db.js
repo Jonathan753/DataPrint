@@ -17,17 +17,18 @@ db.exec(`
     number VARCHAR(10) NOT NULL,
     neighborhood VARCHAR(50) NOT NULL,
     city VARCHAR(50) NOT NULL,
-    uf VARCHAR(2) NOT NULL,
+    uf VARCHAR(10) NOT NULL,
     cep VARCHAR(10) NOT NULL,
     complement VARCHAR(100),
     phone VARCHAR(20),
-    cell VARCHAR(20)
+    cell VARCHAR(20),
+    active BOOLEAN NOT NULL
   );
 
   CREATE TABLE IF NOT EXISTS services (
   serviceId INTEGER PRIMARY KEY AUTOINCREMENT,
   service TEXT NOT NULL,
-  value TEXT NOT NULL
+  value INTEGER NOT NULL
   );
 
   CREATE TABLE IF NOT EXISTS myInfo (
@@ -53,6 +54,7 @@ db.exec(`
   totalBruto INTEGER NOT NULL,
   desconto INTEGER DEFAULT 0,
   acrescimo INTEGER DEFAULT 0,
+  obs TEXT,
   totalLiquido INTEGER NOT NULL,
   FOREIGN KEY (clientId) REFERENCES clients(clientId)
   );

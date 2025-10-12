@@ -1,13 +1,13 @@
 import { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import logo from "../assets/logo_newDataPrint.svg"
-import SearchService from "../components/SearchService";
-import Input from "../components/Input";
-import { gerarQrCodePix } from "./pix";
-import { ButtonPrinter } from "../components/Button";
+import logo from "../../assets/logo_newDataPrint.svg"
+import SearchService from "../../components/SearchService";
+import Input from "../../components/Input";
+import { gerarQrCodePix } from "../../service/pix";
+import { ButtonPrinter } from "../../components/Button";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import Title from "../components/Title";
+import Title from "../../components/Title";
 
 type Service = {
     serviceId: number,

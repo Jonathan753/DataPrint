@@ -114,7 +114,7 @@ const ClientList = () => {
                                             <td className="px-6 py-4">
                                                 <div className="flex justify-center items-center gap-4">
                                                     <ButtonView textMain="Ver dados do cliente" onClick={() => navigate(`/client/view/${c.clientId}`)} />
-                                                    <ButtonNota textMain="Criar Nota" onClick={() => navigate(`/modelo/${c.clientId}`)} />
+                                                    <ButtonNota textMain="Criar Nota" onClick={() => navigate(`/template/${c.clientId}`)} />
                                                     <ButtonDelete textMain="Excluir CLiente" onClick={
                                                     () => {
                                                         setModalOpen(true)

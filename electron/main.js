@@ -285,21 +285,10 @@ ipcMain.handle("receipt:add", async (e, data) => {
 });
 
 //Apresenta lista de Nota
-ipcMain.handle("receipt:all", () => {
+ipcMain.handle("receipt:getReceipt", (e, id) => {
 
-  const stmt = db.prepare(`
-    SELECT 
-      n.receiptId,
-      n.clientId,
-      c.name AS clientName,
-      n.totalLiquido,
-      n.date AS date
-    FROM receipts n
-    JOIN clients c ON c.clientId = n.clientId
-    ORDER BY n.receiptId DESC
-  `);
-
-  return stmt.all();
+  const stmt = db.prepare(` SELECT * FROM receipts WHERE receiptId = ?`);
+  return stmt.get(id);
 });
 
 //Apresenta as Notas com base no ID do client
@@ -396,6 +385,21 @@ ipcMain.handle("receipt:client", (e, { page, limit, id }) => {
 /////////////////////////
 ipcMain.handle("receipt_services:getById", (e, id) => {
   const stmt = db.prepare("SELECT * FROM receipt_services WHERE receiptId = ?");
+  return stmt.all(id);
+});
+
+ipcMain.handle("receipt_services:getByIdService", (e, id) => {
+  const stmt = db.prepare
+    (`SELECT
+      s.receiptId,
+      s.serviceId,
+      s.qtd,
+      s.valueUnitario,
+      s.valueTotal,
+      n.service
+    FROM receipt_services s
+    JOIN services n ON s.serviceId = n.serviceId
+    WHERE s.receiptId = ?`);
   return stmt.all(id);
 });
 

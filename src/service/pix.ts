@@ -20,7 +20,6 @@ export function gerarPixPayload(valor: number, key: string, name: string, city:s
 
 export async function gerarQrCodePix(valor: number, key: string, name: string, city:string) {
     const pixPayload = gerarPixPayload(valor, key, name, city);
-    console.log(pixPayload)
     const dataUrl = await QRCode.toDataURL(pixPayload, { width: 200 });
     return dataUrl;
 }

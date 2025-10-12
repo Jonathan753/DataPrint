@@ -157,7 +157,7 @@ const ViewUser = () => {
                                                 <td className="px-6 py-4">{
                                                     new Intl.NumberFormat("pt-BR", {
                                                         style: "percent"
-                                                    }).format(r.acrescimo)
+                                                    }).format(r.acrescimo / 10000)
                                                 }</td>
                                                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">{
                                                     new Intl.NumberFormat("pt-BR", {
