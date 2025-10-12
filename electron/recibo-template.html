@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Recibo</title>
+    <style>
+        /* CSS simples para garantir a aparência sem Tailwind */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 20mm;
+            margin: 10mm auto;
+            border: 1px #D3D3D3 solid;
+            background: white;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .header,
+        .client-info,
+        .totals-section {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .header img {
+            max-width: 180px;
+        }
+
+        .company-details {
+            text-align: right;
+            font-size: 11px;
+            color: #555;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #ccc;
+            margin: 20px 0;
+        }
+
+        .meta-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            background: #f9f9f9;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .client-info div {
+            flex-basis: 32%;
+            font-size: 12px;
+        }
+
+        .obs {
+            margin-top: 15px;
+            font-size: 12px;
+            word-break: break-word;
+        }
+
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 12px;
+        }
+
+        .items-table th,
+        .items-table td {
+            border-bottom: 1px solid #eee;
+            padding: 10px 5px;
+            text-align: left;
+        }
+
+        .items-table th {
+            background-color: #f9f9f9;
+            font-weight: bold;
+        }
+
+        .items-table .text-right {
+            text-align: right;
+        }
+
+        .totals-section {
+            margin-top: 30px;
+            align-items: flex-end;
+        }
+
+        .qr-code {
+            text-align: center;
+        }
+
+        .qr-code img {
+            width: 128px;
+            height: 128px;
+        }
+
+        .summary h2 {
+            margin: 0 0 5px 0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .summary h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #000;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <div class="header">
+            <img src="{{LOGO_BASE64}}" alt="Logo da Empresa" />
+            <div class="company-details">
+                <p><strong>{{EMPRESA_NOME}}</strong></p>
+                <p>Endereço: {{EMPRESA_ENDERECO}}</p>
+                <p>Cidade: {{EMPRESA_CIDADE}} | UF: {{EMPRESA_UF}} | CEP: {{EMPRESA_CEP}}</p>
+                <p>Telefone: {{EMPRESA_TELEFONE}} | Cel: {{EMPRESA_CELULAR}}</p>
+                <p>Email: {{EMPRESA_EMAIL}}</p>
+                <p>CNPJ: {{EMPRESA_CNPJ}}</p>
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="meta-info">
+            <span><strong>Vendedor:</strong> {{VENDEDOR}}</span>
+            <span><strong>Pedido:</strong> {{PEDIDO_ID}}</span>
+            <span><strong>Emissão:</strong> {{DATA_EMISSAO}}</span>
+            <span><strong>Hora:</strong> {{HORA_EMISSAO}}</span>
+        </div>
+
+        <hr />
+
+        <div class="client-info">
+            <div>
+                <strong>Nome:</strong> {{CLIENTE_NOME}}<br>
+                <strong>Razão Social:</strong> {{CLIENTE_RAZAO}}<br>
+                <strong>CNPJ/CPF:</strong> {{CLIENTE_CNPJ_CPF}}
+            </div>
+            <div>
+                <strong>Endereço:</strong> {{CLIENTE_ENDERECO}}, {{CLIENTE_NUMERO}}<br>
+                <strong>Bairro:</strong> {{CLIENTE_BAIRRO}}<br>
+                <strong>Complemento:</strong> {{CLIENTE_COMPLEMENTO}}
+            </div>
+            <div>
+                <strong>Cidade:</strong> {{CLIENTE_CIDADE}} | <strong>UF:</strong> {{CLIENTE_UF}}<br>
+                <strong>CEP:</strong> {{CLIENTE_CEP}}<br>
+                <strong>Email:</strong> {{CLIENTE_EMAIL}}
+            </div>
+        </div>
+        <div class="obs">
+            <strong>Observações:</strong> {{OBSERVACOES}}
+        </div>
+
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Descrição</th>
+                    <th>Qtd</th>
+                    <th>Preço Unitário</th>
+                    <th class="text-right">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{SERVICOS_ROWS}}
+            </tbody>
+        </table>
+
+        <br /><br />
+
+        <div class="totals-section">
+            <div class="summary">
+                <h2>Total Bruto: {{TOTAL_BRUTO}}</h2>
+                <p>Desconto: {{DESCONTO}}</p>
+                <p>Acréscimo: {{ACRESCIMO}}</p>
+                <h1>Total Líquido: {{TOTAL_LIQUIDO}}</h1>
+            </div>
+            <div class="qr-code">
+                <img src="{{QRCODE_BASE64}}" alt="QR Code Pix" />
+                <h3>QR Code PIX</h3>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -65,23 +65,23 @@ const Template = () => {
 
     /////////////////
 
-    async function handleDownloadPDF() {
-        if (!notaRef.current) return;
+    // async function handleDownloadPDF() {
+    //     if (!notaRef.current) return;
 
-        const canvas = await html2canvas(notaRef.current, { scale: 2 });
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF("p", "mm", "a4");
+    //     const canvas = await html2canvas(notaRef.current, { scale: 2 });
+    //     const imgData = canvas.toDataURL("image/png");
+    //     const pdf = new jsPDF("p", "mm", "a4");
 
-        const pageWidth = pdf.internal.pageSize.getWidth();
-        // const pageHeight = pdf.internal.pageSize.getHeight();
-        const imgProps = pdf.getImageProperties(imgData);
-        const imgHeight = (imgProps.height * pageWidth) / imgProps.width;
+    //     const pageWidth = pdf.internal.pageSize.getWidth();
+    //     // const pageHeight = pdf.internal.pageSize.getHeight();
+    //     const imgProps = pdf.getImageProperties(imgData);
+    //     const imgHeight = (imgProps.height * pageWidth) / imgProps.width;
 
-        pdf.addImage(imgData, "PNG", 0, 0, pageWidth, imgHeight);
-        pdf.save("nota.pdf");
+    //     pdf.addImage(imgData, "PNG", 0, 0, pageWidth, imgHeight);
+    //     pdf.save("nota.pdf");
 
-        await (window as any).receipt.add(receipt);
-    }
+    //     await (window as any).receipt.add(receipt);
+    // }
 
     // Imprimir direto
     // async function handlePrint() {
@@ -98,6 +98,54 @@ const Template = () => {
     //         win.print();
     //     }
     // }
+
+    async function handleSaveAndGeneratePDF() {
+        if (!cliente) {
+            alert("Por favor, selecione um cliente antes de continuar.");
+            return;
+        }
+
+        // Monta o objeto final com os dados da tela
+        const receiptData = {
+            clientId: cliente?.clientId,
+            date: new Date().toISOString(),
+            totalBruto: totalBruto,
+            desconto: desconto,
+            acrescimo: acrescimo,
+            totalLiquido: totalLiquido/100, // Usando sua variável de resultado que já calcula tudo
+            obs: obs,
+            services: services.map(s => ({
+                serviceId: s.serviceId,
+                qtd: s.qtd,
+                valueUnitario: s.value,
+                valueTotal: s.qtd * s.value
+            }))
+        };
+        
+        try {
+            console.log("1. Salvando os dados do recibo...");
+            const response = await (window as any).receipt.add(receiptData);
+
+            if (response && response.success) {
+                const receiptId = response.receiptId;
+                console.log(`2. Recibo salvo com ID: ${receiptId}. Solicitando PDF...`);
+                
+                const pdfResponse = await (window as any).receipt.generatePdf(receiptId);
+                
+                if (pdfResponse && pdfResponse.success) {
+                    alert(`PDF gerado com sucesso!\nSalvo em: ${pdfResponse.path}`);
+                } else {
+                    alert(`Ocorreu um erro ao gerar o PDF: ${pdfResponse?.error || 'Erro desconhecido'}`);
+                }
+            } else {
+                alert(`Ocorreu um erro ao salvar o recibo: ${response?.error || 'Erro desconhecido'}`);
+            }
+        } catch (error) {
+            console.error("Erro crítico no processo de salvar e gerar PDF:", error);
+            alert("Ocorreu um erro inesperado. Verifique o console para mais detalhes.");
+        }
+    }
+
     /////////////
     function addService(service: Service) {
         setServices((prev) => [...prev, service]);
@@ -309,7 +357,7 @@ const Template = () => {
                     </div>
                 </div>
                 <div className="flex p-4 justify-end">
-                    <ButtonPrinter onClick={handleDownloadPDF} />
+                    <ButtonPrinter onClick={handleSaveAndGeneratePDF} />
                     {/* <div className="col-start-6">
                         <ButtonPrinter onClick={handlePrint} />
                     </div> */}

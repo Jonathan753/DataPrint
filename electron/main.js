@@ -1,7 +1,9 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const db = require('./db');
 const fs = require('node:fs');
+const puppeteer = require('puppeteer');
+const { gerarQrCodePixNode } = require('./pix-node');
 
 //////////////////////////// CLIENT /////////////////////////////
 
@@ -408,6 +410,107 @@ ipcMain.handle("receipt_services:all", () => {
   return stmt.all();
 });
 
+
+/////////////// PDF
+
+ // Importe a função de gerar QR Code para o Node.js
+
+ipcMain.handle("receipt:generate-pdf", async (event, receiptId) => {
+  try {
+    console.log(`Gerando PDF para o recibo ID: ${receiptId}`);
+
+    // ETAPA 1: Buscar TODOS os dados necessários
+    const myInfo = db.prepare("SELECT * FROM myInfo WHERE myInfoId = 1").get();
+    const receipt = db.prepare("SELECT * FROM receipts WHERE receiptId = ?").get(receiptId);
+    if (!receipt) throw new Error("Recibo não encontrado");
+    const client = db.prepare("SELECT * FROM clients WHERE clientId = ?").get(receipt.clientId);
+    if (!client) throw new Error("Cliente não encontrado");
+    const services = db.prepare(`
+            SELECT s.serviceId, s.service, rs.qtd, rs.valueUnitario, rs.valueTotal
+            FROM receipt_services rs
+            JOIN services s ON s.serviceId = rs.serviceId
+            WHERE rs.receiptId = ?
+        `).all(receiptId);
+
+    // ETAPA 2: Preparar o HTML
+    let htmlTemplate = fs.readFileSync(path.join(__dirname, 'recibo-template.html'), 'utf-8');
+
+    // Gerar QR Code e Logo em Base64 para embutir no HTML
+    const qrCodeBase64 = await gerarQrCodePixNode(receipt.totalLiquido, myInfo.pix, myInfo.name, myInfo.city);
+    const logoPath = path.join(__dirname, 'assets', 'logo_newDataPrint.svg'); // Crie uma pasta 'assets' e coloque seu logo lá
+    const logoBase64 = `data:image/svg+xml;base64,${fs.readFileSync(logoPath, 'base64')}`;
+
+    // Substituir os placeholders
+    const dataEmissao = new Date(receipt.date);
+    const replacements = {
+      '{{LOGO_BASE64}}': logoBase64,
+      '{{EMPRESA_NOME}}': myInfo.name || '',
+      '{{EMPRESA_ENDERECO}}': `${myInfo.adress || ''}, ${myInfo.number || ''}`,
+      '{{EMPRESA_CIDADE}}': myInfo.city || '',
+      '{{EMPRESA_UF}}': myInfo.uf || '',
+      '{{EMPRESA_CEP}}': myInfo.cep || '',
+      '{{EMPRESA_TELEFONE}}': myInfo.phone || '',
+      '{{EMPRESA_CELULAR}}': myInfo.cell || '',
+      '{{EMPRESA_EMAIL}}': myInfo.email || '',
+      '{{EMPRESA_CNPJ}}': myInfo.cnpj || '',
+      '{{VENDEDOR}}': myInfo.salesperson || '',
+      '{{PEDIDO_ID}}': receiptId,
+      '{{DATA_EMISSAO}}': dataEmissao.toLocaleDateString('pt-BR'),
+      '{{HORA_EMISSAO}}': dataEmissao.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
+      '{{CLIENTE_NOME}}': client.name || '',
+      '{{CLIENTE_RAZAO}}': client.company || '',
+      '{{CLIENTE_CNPJ_CPF}}': client.cnpj_cpf || '',
+      '{{CLIENTE_ENDERECO}}': client.adress || '',
+      '{{CLIENTE_NUMERO}}': client.number || '',
+      '{{CLIENTE_BAIRRO}}': client.neighborhood || '',
+      '{{CLIENTE_COMPLEMENTO}}': client.complement || '',
+      '{{CLIENTE_CIDADE}}': client.city || '',
+      '{{CLIENTE_UF}}': client.uf || '',
+      '{{CLIENTE_CEP}}': client.cep || '',
+      '{{CLIENTE_EMAIL}}': client.email || '',
+      '{{OBSERVACOES}}': receipt.obs || 'Sem observações.',
+      '{{TOTAL_BRUTO}}': (receipt.totalBruto / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
+      '{{DESCONTO}}': `${(receipt.desconto / 100).toFixed(2)} %`,
+      '{{ACRESCIMO}}': `${(receipt.acrescimo / 100).toFixed(2)} %`,
+      '{{TOTAL_LIQUIDO}}': (receipt.totalLiquido / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
+      '{{QRCODE_BASE64}}': qrCodeBase64,
+    };
+    for (const key in replacements) {
+      htmlTemplate = htmlTemplate.replace(new RegExp(key, 'g'), replacements[key]);
+    }
+
+    // Montar as linhas da tabela
+    const servicesRows = services.map(s => `
+            <tr>
+                <td>${s.serviceId}</td>
+                <td>${s.service}</td>
+                <td>${s.qtd}</td>
+                <td>${(s.valueUnitario / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                <td class="text-right">${(s.valueTotal / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+            </tr>
+        `).join('');
+    htmlTemplate = htmlTemplate.replace('{{SERVICOS_ROWS}}', servicesRows);
+
+    // ETAPA 3: Usar o Puppeteer
+    const browser = await puppeteer.launch({ headless: true });
+    const page = await browser.newPage();
+    await page.setContent(htmlTemplate, { waitUntil: 'networkidle0' });
+    const pdfBuffer = await page.pdf({ format: 'A4', printBackground: true, margin: { top: '0', right: '0', bottom: '0', left: '0' } });
+    await browser.close();
+
+    // ETAPA 4: Salvar o arquivo
+    const { filePath } = await dialog.showSaveDialog({ title: 'Salvar Recibo', defaultPath: `recibo-${receiptId}.pdf`, filters: [{ name: 'Arquivos PDF', extensions: ['pdf'] }] });
+    if (filePath) {
+      fs.writeFileSync(filePath, pdfBuffer);
+      return { success: true, path: filePath };
+    }
+    return { success: false, error: 'Salvamento cancelado' };
+
+  } catch (err) {
+    console.error("Erro ao gerar PDF:", err);
+    return { success: false, error: err.message };
+  }
+});
 
 //////////////////// Aplicação principal do electron
 const isDev = !!process.env.ELECTRON_START_URL; // setado no script de dev
