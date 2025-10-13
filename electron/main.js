@@ -436,7 +436,7 @@ ipcMain.handle("receipt:generate-pdf", async (event, receiptId) => {
     let htmlTemplate = fs.readFileSync(path.join(__dirname, 'recibo-template.html'), 'utf-8');
 
     // Gerar QR Code e Logo em Base64 para embutir no HTML
-    const qrCodeBase64 = await gerarQrCodePixNode(receipt.totalLiquido, myInfo.pix, myInfo.name, myInfo.city);
+    const qrCodeBase64 = await gerarQrCodePixNode(receipt.totalLiquido*100, myInfo.pix, myInfo.name, myInfo.city);
     const logoPath = path.join(__dirname, 'assets', 'logo_newDataPrint.svg'); // Crie uma pasta 'assets' e coloque seu logo lá
     const logoBase64 = `data:image/svg+xml;base64,${fs.readFileSync(logoPath, 'base64')}`;
 
@@ -472,7 +472,7 @@ ipcMain.handle("receipt:generate-pdf", async (event, receiptId) => {
       '{{TOTAL_BRUTO}}': (receipt.totalBruto / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
       '{{DESCONTO}}': `${(receipt.desconto / 100).toFixed(2)} %`,
       '{{ACRESCIMO}}': `${(receipt.acrescimo / 100).toFixed(2)} %`,
-      '{{TOTAL_LIQUIDO}}': (receipt.totalLiquido / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
+      '{{TOTAL_LIQUIDO}}': (receipt.totalLiquido).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
       '{{QRCODE_BASE64}}': qrCodeBase64,
     };
     for (const key in replacements) {

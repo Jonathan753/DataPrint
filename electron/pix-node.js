@@ -1,9 +1,16 @@
 // pix-node.js
 const QRCode = require('qrcode');
-const { geraPayloadPix } = require('../src/service/pix.ts'); // Supondo que você tenha a lógica do payload separada
+// A linha mais importante: importa a lógica que acabamos de criar!
+const { geraPayloadPix } = require('./payloadPix'); 
 
 async function gerarQrCodePixNode(valor, chavePix, nome, cidade) {
-    const payload = geraPayloadPix(chavePix, nome, cidade, valor.toFixed(2));
+    // Converte o valor de centavos (ex: 1750) para formato monetário (ex: 17.50)
+    const valorFloat = valor / 100;
+    
+    const payload = geraPayloadPix(chavePix, nome, cidade, valorFloat);
+    console.log("Payload PIX Gerado:", payload); // Ótimo para debugar!
+
+    // Retorna o QR Code como uma imagem em Base64
     return await QRCode.toDataURL(payload);
 }
 
