@@ -184,7 +184,7 @@ const Template = () => {
                     </div>
                 </div>
 
-                <div className="template border bg-zinc-700 border-black border-1 p-2 mt-4">
+                {/* <div className="template border bg-zinc-700 border-black border-1 p-2 mt-4">
                     <div ref={notaRef} id="nota" style={{ width: '210mm', minHeight: '297mm' }} className="bg-white mx-auto p-8 shadow-lg">
                         <div className="grid grid-cols-3 gap-2">
                             <img className="my-auto" src={logo} alt="" />
@@ -309,9 +309,10 @@ const Template = () => {
                             </div>
                         </div>
                     </div>
-                </div>
-                {/* <ReceiptTemplate
-                    notaRef={notaRef}
+                </div> */}
+
+                <ReceiptTemplate
+                    ref={notaRef} // Passando a ref para o componente filho
                     logo={logo}
                     empresa_adress={empresa.adress}
                     empresa_city={empresa.city}
@@ -322,7 +323,7 @@ const Template = () => {
                     empresa_email={empresa.email}
                     empresa_cnpj={empresa.cnpj}
                     empresa_salesperson={empresa.salesperson}
-                    order={order}
+                    order={(order + 1).toString()}
                     hours={hours}
                     today={today}
                     minute={minute}
@@ -345,8 +346,9 @@ const Template = () => {
                     acrescimo={acrescimo}
                     totalLiquido={totalLiquido}
                     qrCode={qrCode}
-                    services={}
-                /> */}
+                    services={services} // Passando o array de serviços
+                />
+
                 <div className="flex p-4 justify-end">
                     <ButtonPrinter onClick={handleDownloadPDF} />
                     {/* <div className="col-start-6">

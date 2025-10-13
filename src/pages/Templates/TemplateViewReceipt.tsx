@@ -9,6 +9,7 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import Title from "../../components/Title";
 import type { Client, Enterprise, Receipt } from "../../types/global";
+import ReceiptTemplate from "../../layout/ReceiptTemplate";
 
 
 type Service = {
@@ -145,7 +146,7 @@ const TemplateViewReceipt = () => {
             <div style={{ minWidth: "210mm" }}>
 
 
-                <div className="template border bg-zinc-700 border-black border-1 p-2 mt-4">
+                {/* <div className="template border bg-zinc-700 border-black border-1 p-2 mt-4">
                     <div ref={notaRef} id="nota" style={{ width: '210mm', minHeight: '297mm' }} className="bg-white mx-auto p-8 shadow-lg">
                         <div className="grid grid-cols-3 gap-2">
                             <img className="my-auto" src={logo} alt="" />
@@ -272,7 +273,45 @@ const TemplateViewReceipt = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
+                <ReceiptTemplate
+                    ref={notaRef} // Passando a ref para o componente filho
+                    logo={logo}
+                    empresa_adress={empresa.adress}
+                    empresa_city={empresa.city}
+                    empresa_uf={empresa.uf}
+                    empresa_cep={empresa.cep}
+                    empresa_phone={empresa.phone}
+                    empresa_cell={empresa.cell}
+                    empresa_email={empresa.email}
+                    empresa_cnpj={empresa.cnpj}
+                    empresa_salesperson={empresa.salesperson}
+                    order={receiptView.receiptId.toString().padStart(4, "0")}
+                    hours={hours}
+                    today={today}
+                    minute={minute}
+                    obs={receiptView.obs}
+                    cnpj_cpf={cliente?.cnpj_cpf}
+                    name={cliente?.name}
+                    company={cliente?.company}
+                    email={cliente?.email}
+                    adress={cliente?.adress}
+                    number={cliente?.number}
+                    neighborhood={cliente?.neighborhood}
+                    city={cliente?.city}
+                    uf={cliente?.uf}
+                    cep={cliente?.cep}
+                    complement={cliente?.complement}
+                    phone={cliente?.phone}
+                    cell={cliente?.cell}
+                    totalBruto={receiptView.totalBruto}
+                    desconto={receiptView.desconto}
+                    acrescimo={receiptView.acrescimo}
+                    totalLiquido={receiptView.totalLiquido}
+                    qrCode={qrCode}
+                    services={services} // Passando o array de serviços
+                />
+
                 <div className="flex p-4 justify-end">
                     <ButtonPrinter onClick={handleDownloadPDF} />
                     {/* <div className="col-start-6">

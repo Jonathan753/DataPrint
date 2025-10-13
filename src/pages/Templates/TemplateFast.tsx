@@ -8,6 +8,7 @@ import { ButtonPrinter } from "../../components/Button";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import Title from "../../components/Title";
+import ReceiptTemplate from "../../layout/ReceiptTemplate";
 
 type Service = {
     serviceId: number,
@@ -159,7 +160,7 @@ const TemplateFast = () => {
                     </div>
                 </div>
 
-                <div className="template border bg-zinc-700 border-black border-1 p-2 mt-4">
+                {/* <div className="template border bg-zinc-700 border-black border-1 p-2 mt-4">
                     <div ref={notaRef} id="nota" style={{ width: '210mm', minHeight: '297mm' }} className="bg-white mx-auto p-8 shadow-lg">
                         <div className="grid grid-cols-3 gap-2">
                             <img className="my-auto" src={logo} alt="" />
@@ -284,7 +285,46 @@ const TemplateFast = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
+
+                <ReceiptTemplate
+                    ref={notaRef} // Passando a ref para o componente filho
+                    logo={logo}
+                    empresa_adress={empresa.adress}
+                    empresa_city={empresa.city}
+                    empresa_uf={empresa.uf}
+                    empresa_cep={empresa.cep}
+                    empresa_phone={empresa.phone}
+                    empresa_cell={empresa.cell}
+                    empresa_email={empresa.email}
+                    empresa_cnpj={empresa.cnpj}
+                    empresa_salesperson={empresa.salesperson}
+                    order="XXXX"
+                    hours={hours}
+                    today={today}
+                    minute={minute}
+                    obs={obs}
+                    cnpj_cpf={dadosRecebidos?.cnpj_cpf}
+                    name={dadosRecebidos?.name}
+                    company={dadosRecebidos?.company}
+                    email={dadosRecebidos?.email}
+                    adress={dadosRecebidos?.adress}
+                    number={dadosRecebidos?.number}
+                    neighborhood={dadosRecebidos?.neighborhood}
+                    city={dadosRecebidos?.city}
+                    uf={dadosRecebidos?.uf}
+                    cep={dadosRecebidos?.cep}
+                    complement={dadosRecebidos?.complement}
+                    phone={dadosRecebidos?.phone}
+                    cell={dadosRecebidos?.cell}
+                    totalBruto={totalBruto}
+                    desconto={desconto}
+                    acrescimo={acrescimo}
+                    totalLiquido={totalLiquido}
+                    qrCode={qrCode}
+                    services={services} // Passando o array de serviços
+                />
+                
                 <div className="grid grid-cols-6 p-4">
                     <ButtonPrinter onClick={handleDownloadPDF} />
                     <div className="col-start-6">
