@@ -18,58 +18,31 @@ const ITEMS_PER_PAGE = 10;
 const Receipt = () => {
     const navigate = useNavigate();
 
-    // const [receipts, setReceipts] = useState<Receipt[]>([]);
-    // const [searchTerm, setSearchTerm] = useState("");
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const [totalPages, setTotalPages] = useState(0);
-    // const [isLoading, setIsLoading] = useState(false);
-
-    // const fetchReceipts = useCallback(async (page: number, search: string) => {
-    //     setIsLoading(true);
-    //     try {
-    //         const result = await (window as any).receipt.paginated({
-    //             page: page,
-    //             limit: ITEMS_PER_PAGE,
-    //             searchTerm: search,
-    //         });
-
-    //         setReceipts(result.data);
-    //         setTotalPages(Math.ceil(result.totalItems / ITEMS_PER_PAGE));
-    //     } catch (error) {
-    //         console.error("Erro ao buscar notas:", error);
-    //     } finally {
-    //         setIsLoading(false);
-    //     }
-    // }, []);
-
-
-    // useEffect(() => {
-    //     const handler = setTimeout(() => {
-    //         fetchReceipts(currentPage, searchTerm);
-    //     }, 300);
-
-    //     return () => {
-    //         clearTimeout(handler);
-    //     };
-    // }, [currentPage, searchTerm, fetchReceipts]);
-
-    // const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setSearchTerm(event.target.value);
-    //     setCurrentPage(1);
-    // };
-
     const {
-        data: receipts, // Renomeamos 'data' para 'clients' para ficar mais claro
+        data: receipts,
         isLoading,
         totalPages,
         handleSearchChange,
         searchTerm,
         currentPage,
         setCurrentPage
-    } = useDatabaseQueryPage<Receipt>( // Especificamos que o item é do tipo 'Client'
-        (props) => (window as any).receipt.paginated(props), // A função que busca os clientes
+    } = useDatabaseQueryPage<Receipt>(
+        (props) => (window as any).receipt.paginated(props),
         ITEMS_PER_PAGE
     );
+
+    const handleConverteDate = (data: string) => {
+        let d = new Date(data)
+        return d.toLocaleString('pt-BR', {
+            timeZone: 'America/Sao_Paulo',
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+        })
+    }
+
 
     return (
         <>
@@ -77,19 +50,18 @@ const Receipt = () => {
             <div className="max-w-7xl mx-auto p-8">
                 <div className="mb-4">
 
-                    <Input type="text" onChange={handleSearchChange} value={searchTerm} label="Filtro" id="filtro" gridClass="w-96" placeholder="Buscar por nome do cliente..." />
+                    <Input type="text" onChange={handleSearchChange} value={searchTerm} label="Filtro" id="filtro" gridClass="max-w-96" placeholder="Buscar por nome do cliente..." />
                 </div>
 
                 <div className="bg-white rounded-lg shadow-md overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left text-gray-600">
-                            {/* ... seu thead continua o mesmo ... */}
                             <thead className="text-xs text-text-primary uppercase bg-accent-primary">
                                 <tr>
                                     <th scope="col" className="px-6 py-3">Código</th>
                                     <th scope="col" className="px-6 py-3">Cliente</th>
                                     <th scope="col" className="px-6 py-3">Valor Total</th>
-                                    <th scope="col" className="px-6 py-3">Data</th>
+                                    <th scope="col" className="px-6 py-3">Data/Hora</th>
                                     <th scope="col" className="px-6 py-3 text-center">Ações</th>
                                 </tr>
                             </thead>
@@ -102,14 +74,14 @@ const Receipt = () => {
                                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                                 {r.receiptId.toString().padStart(4, "0")}
                                             </td>
-                                            <td className="px-6 py-4">{r.clientName}</td>
+                                            <td className="px-6 py-4 text-nowrap">{r.clientName}</td>
                                             <td className="px-6 py-4">{
                                                 new Intl.NumberFormat("pt-BR", {
                                                     style: "currency",
                                                     currency: "BRL",
                                                 }).format(r.totalLiquido)
                                             }</td>
-                                            <td className="px-6 py-4">{r.date}</td>
+                                            <td className="px-6 py-4">{handleConverteDate(r.date)}</td>
                                             <td className="px-6 py-4">
                                                 <div className="flex justify-center items-center gap-4">
                                                     <ButtonView textMain="Informações da Nota" onClick={() => navigate(`/receipts/view/${r.receiptId}/${r.totalBruto}`)} />

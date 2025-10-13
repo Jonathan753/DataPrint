@@ -197,7 +197,7 @@ const TemplateViewReceipt = () => {
                             <p>CEP: {cliente?.cep}</p>
                         </div>
                         <div className="w-full">
-                            <p className="break-words">Obs.: vazio</p>
+                            <p className="break-words">Obs.:{receiptView.obs}</p>
                         </div>
                         <hr className="border-black border-collapse mt-2" />
                         <table className="w-full">

@@ -1,34 +1,28 @@
 import { useNavigate } from "react-router-dom";
-import { useCallback, useEffect, useState } from "react";
 import { ButtonReturn, ButtonUpdate } from "../../components/Button";
 import Title from "../../components/Title";
 import type { Service } from "../../types/global";
 import Input from "../../components/Input";
 import { useDatabaseQueryPage } from "../../hooks/useDatabaseQueryPage";
 
-
-let getId = 0;
 const ITEMS_PER_PAGE = 10;
 
 const ServiceList = () => {
 
-
-    const [modalOpen, setModalOpen] = useState(false);
-
     const navigate = useNavigate();
 
     const {
-            data: service, // Renomeamos 'data' para 'clients' para ficar mais claro
-            isLoading,
-            totalPages,
-            handleSearchChange,
-            searchTerm,
-            currentPage,
-            setCurrentPage
-        } = useDatabaseQueryPage<Service>( // Especificamos que o item é do tipo 'Client'
-            (props) => (window as any).services.all(props), // A função que busca os clientes
-            ITEMS_PER_PAGE
-        );
+        data: service,
+        isLoading,
+        totalPages,
+        handleSearchChange,
+        searchTerm,
+        currentPage,
+        setCurrentPage
+    } = useDatabaseQueryPage<Service>(
+        (props) => (window as any).services.all(props),
+        ITEMS_PER_PAGE
+    );
 
     return (
         <>
@@ -36,13 +30,11 @@ const ServiceList = () => {
             <Title title="Lista de Servicos" subtitle="Visualize e gerencie os serviços/produtos cadastrados." />
             <div className="max-w-7xl mx-auto p-8">
                 <div className="mb-4">
-
-                    <Input type="text" onChange={handleSearchChange} value={searchTerm} label="Filtro" id="filtro" gridClass="w-96" placeholder="Buscar por nome do cliente..." />
+                    <Input type="text" onChange={handleSearchChange} value={searchTerm} label="Filtro" id="filtro" gridClass="max-w-96" placeholder="Buscar por nome do cliente..." />
                 </div>
-                <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                <div className="bg-background-surface rounded-lg shadow-md overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left text-gray-600">
-                            {/* ... seu thead continua o mesmo ... */}
                             <thead className="text-xs text-text-primary uppercase bg-accent-primary">
                                 <tr>
                                     <th scope="col" className="px-6 py-3">Código</th>

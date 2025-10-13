@@ -37,7 +37,6 @@ const AddUser = () => {
         setModalOpen(true);
     }
 
-    console.log(form.uf)
     return (
         <>
             <ButtonReturn />

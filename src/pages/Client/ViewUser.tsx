@@ -4,16 +4,7 @@ import { ButtonNota, ButtonReturn, ButtonView } from "../../components/Button";
 import { useNavigate, useParams } from "react-router-dom";
 import ViewData from "../../components/ViewData";
 import type { Client, Receipt } from "../../types/global";
-import { useDatabaseQueryPage } from "../../hooks/useDatabaseQueryPage";
-import Input from "../../components/Input";
 
-// type Receipt = {
-//     receiptId: number,
-//     clientId: number,
-//     clientName: string,
-//     date: string,
-//     totalLiquido: number,
-// }
 const ITEMS_PER_PAGE = 3;
 
 const ViewUser = () => {
@@ -35,10 +26,6 @@ const ViewUser = () => {
             setReceipt(r);
         })();
     }, [id]);
-
-    ////
-    // const [receipts, setReceipts] = useState<Receipt[]>([]);
-    // const [searchTerm, setSearchTerm] = useState("");
 
     const fetchReceipts = useCallback(async (page: number, id: string | undefined) => {
         setIsLoading(true);
@@ -119,27 +106,26 @@ const ViewUser = () => {
                         </div>
                     </div>
                 </div>
-                <div className="w-3/5 mx-auto">
+                <div className="max-w-4xl mx-auto p-8">
                     <h2 className="text-2xl my-2">Notas do Cliente</h2>
-                    <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                        <div className="overflow-x-auto">
+                     <div className="bg-background-surface rounded-lg shadow-md overflow-hidden">
+                        <div className="w-full">
                             <table className="w-full text-sm text-left text-gray-600">
                                 <thead className="text-xs text-text-primary uppercase bg-accent-primary">
                                     <tr>
                                         <th scope="col" className="px-6 py-3">Código</th>
                                         <th scope="col" className="px-6 py-3">Total Bruto</th>
-                                        <th scope="col" className="px-6 py-3 text-center">Desconto</th>
+                                        <th scope="col" className="px-6 py-3">Desconto</th>
                                         <th scope="col" className="px-6 py-3">Acrescimo</th>
-                                        <th scope="col" className="px-6 py-3 text-center">Total Líquido</th>
-                                        <th scope="col" className="px-6 py-3 text-center">Data/Hora</th>
-                                        <th scope="col" className="px-6 py-3 text-center">Ações</th>
+                                        <th scope="col" className="px-6 py-3">Total Líquido</th>
+                                        <th scope="col" className="px-6 py-3">Data/Hora</th>
+                                        <th scope="col" className="px-6 py-3">Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200">
                                     {receipt.length > 0 ? (
                                         receipt.map((r) => (
                                             <tr key={r.receiptId} className="bg-white hover:bg-gray-200">
-
                                                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                                     {r.receiptId.toString().padStart(4, "0")}
                                                 </td>
@@ -171,10 +157,8 @@ const ViewUser = () => {
                                                 <td className="px-6 py-4">
                                                     <div className="flex justify-center items-center gap-4">
                                                         <ButtonNota textMain="Criar Nota" onClick={() => navigate(`/receipts/view/template/${r.clientId}/${r.receiptId}`)} />
-
                                                         <ButtonView textMain="Informações da Nota" onClick={() => navigate(`/receipts/view/${r.receiptId}/${r.totalBruto}`)} />
                                                     </div>
-
                                                 </td>
                                             </tr>
                                         ))

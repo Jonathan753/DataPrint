@@ -10,8 +10,8 @@ ipcMain.handle("clients:add", (e, data) => {
   const stmt = db.prepare(`
     INSERT INTO clients (
       cnpj_cpf, name, company, email, adress, number, neighborhood,
-      city, uf, cep, complement, phone, cell
-    ) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      city, uf, cep, complement, phone, cell, active
+    ) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, true)
   `);
 
   stmt.run(
@@ -39,11 +39,11 @@ ipcMain.handle("clients:all", (e, { page, limit, searchTerm }) => {
   const offset = (page - 1) * limit;
   const params = [];
 
-  let countSql = `SELECT COUNT(*) as total FROM clients`;
-  let dataSql = `SELECT * FROM clients`;
+  let countSql = `SELECT COUNT(*) as total FROM clients WHERE active = true`;
+  let dataSql = `SELECT * FROM clients WHERE active = true`;
 
   if (searchTerm) {
-    const whereClause = ` WHERE name LIKE ?`;
+    const whereClause = ` AND name LIKE ?`;
     countSql += whereClause;
     dataSql += whereClause;
     params.push(`%${searchTerm}%`);
@@ -65,7 +65,7 @@ ipcMain.handle("clients:all", (e, { page, limit, searchTerm }) => {
 
 // Mostro o tatal de clientes
 ipcMain.handle("clients:totalNumber", () => {
-  const stmt = db.prepare("SELECT COUNT(*) AS total FROM clients");
+  const stmt = db.prepare("SELECT COUNT(*) AS total FROM clients WHERE active = true");
   const result = stmt.get();
   return result.total;
 });
@@ -78,7 +78,7 @@ ipcMain.handle("clients:getById", (e, id) => {
 
 //Deleta o cliente
 ipcMain.handle("clients:delete", (e, id) => {
-  const stmt = db.prepare("DELETE FROM clients WHERE clientId = ?");
+  const stmt = db.prepare("UPDATE clients SET active = false WHERE clientId = ?");
   stmt.run(id);
   return { success: true }
 });
@@ -237,7 +237,6 @@ ipcMain.handle("services:update", (e, data) => {
     data.serviceId,
   );
 
-
   return { success: true };
 });
 
@@ -251,8 +250,8 @@ ipcMain.handle("services:getById", (e, id) => {
 ipcMain.handle("receipt:add", async (e, data) => {
 
   const insertReceipt = db.prepare(`
-      INSERT INTO receipts (clientId, date, totalBruto, desconto, acrescimo, totalLiquido)
-      VALUES (?, ?, ?, ?, ?, ?)
+      INSERT INTO receipts (clientId, date, totalBruto, desconto, acrescimo, totalLiquido, obs)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
     `);
 
   const result = insertReceipt.run(
@@ -261,7 +260,8 @@ ipcMain.handle("receipt:add", async (e, data) => {
     data.totalBruto,
     data.desconto,
     data.acrescimo,
-    data.totalLiquido
+    data.totalLiquido,
+    data.obs
   );
 
   const receiptId = result.lastInsertRowid;

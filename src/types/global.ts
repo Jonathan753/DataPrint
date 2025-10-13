@@ -46,6 +46,7 @@ export type Receipt = {
     desconto: number,
     acrescimo: number,
     totalLiquido: number,
+    obs: string;
 }
 
 export type ReceiptService = {

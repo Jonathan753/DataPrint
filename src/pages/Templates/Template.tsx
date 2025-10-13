@@ -9,6 +9,7 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import Title from "../../components/Title";
 import type { Client, Enterprise } from "../../types/global";
+import ReceiptTemplate from "../../layout/ReceiptTemplate";
 
 
 type Service = {
@@ -121,6 +122,7 @@ const Template = () => {
         totalBruto,
         desconto,
         acrescimo,
+        obs,
         totalLiquido: totalLiquido / 100,
         services: services.map(s => ({
             serviceId: s.serviceId,
@@ -308,6 +310,43 @@ const Template = () => {
                         </div>
                     </div>
                 </div>
+                {/* <ReceiptTemplate
+                    notaRef={notaRef}
+                    logo={logo}
+                    empresa_adress={empresa.adress}
+                    empresa_city={empresa.city}
+                    empresa_uf={empresa.uf}
+                    empresa_cep={empresa.cep}
+                    empresa_phone={empresa.phone}
+                    empresa_cell={empresa.cell}
+                    empresa_email={empresa.email}
+                    empresa_cnpj={empresa.cnpj}
+                    empresa_salesperson={empresa.salesperson}
+                    order={order}
+                    hours={hours}
+                    today={today}
+                    minute={minute}
+                    obs={obs}
+                    cnpj_cpf={cliente?.cnpj_cpf}
+                    name={cliente?.name}
+                    company={cliente?.company}
+                    email={cliente?.email}
+                    adress={cliente?.adress}
+                    number={cliente?.number}
+                    neighborhood={cliente?.neighborhood}
+                    city={cliente?.city}
+                    uf={cliente?.uf}
+                    cep={cliente?.cep}
+                    complement={cliente?.complement}
+                    phone={cliente?.phone}
+                    cell={cliente?.cell}
+                    totalBruto={totalBruto}
+                    desconto={desconto}
+                    acrescimo={acrescimo}
+                    totalLiquido={totalLiquido}
+                    qrCode={qrCode}
+                    services={}
+                /> */}
                 <div className="flex p-4 justify-end">
                     <ButtonPrinter onClick={handleDownloadPDF} />
                     {/* <div className="col-start-6">

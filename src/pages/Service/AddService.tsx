@@ -18,7 +18,6 @@ const AddService = () => {
         const { name, value } = e.target;
 
         if (name === "value") {
-            // tira vírgula, ponto etc.
             const numeric = value.replace(/\D/g, "");
             setForm((prev) => ({
                 ...prev,
@@ -41,7 +40,6 @@ const AddService = () => {
             <ButtonReturn />
             <Title title="Adicionar Serviço/Produto" subtitle="Adicione seu serviço/produto com seguintes dados." />
             <div className="p-8">
-
                 <form onSubmit={handleSubmit} >
                     <div className="grid grid-cols-1 md:grid-cols-5 gap-x-8 gap-y-6">
                         <Input
@@ -54,7 +52,6 @@ const AddService = () => {
                             type="text"
                             placeholder="Ex: Formatação de Notebook"
                         />
-
                         <Input
                             onChange={handleChange}
                             value={
@@ -74,7 +71,6 @@ const AddService = () => {
                             step="0.01"
                         />
                     </div>
-
                     <div className="mt-8 flex justify-end gap-4">
                         <ButtonReset onClick={
                             () => setForm({
@@ -86,7 +82,6 @@ const AddService = () => {
                         <ButtonSave />
                     </div>
                 </form>
-                {/* Modal */}
                 <Modal
                     isOpen={modalOpen}
                     onClose={() => setModalOpen(false)}
