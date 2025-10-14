@@ -63,16 +63,18 @@ const ReceiptTemplate = React.forwardRef<HTMLDivElement, Props>((props, ref) => 
             {/* A 'ref' que recebemos do componente pai é passada diretamente para esta div */}
             <div ref={ref} id="nota" style={{ width: '210mm', minHeight: '297mm' }} className="bg-white mx-auto p-8 shadow-lg">
                 {/* O restante do seu JSX continua exatamente o mesmo, usando 'props' */}
-                <div className="grid grid-cols-3 gap-2">
-                    <img className="my-auto" src={props.logo} alt="" />
+                <div className="px-6 grid grid-cols-3 gap-2">
+                    <img className="my-auto p-2" src={props.logo} alt="" />
                     <div className="grid grid-rows-5 col-span-2 p-2 px-4">
                         <p>Endereço: {props.empresa_adress}</p>
-                        <div className="grid grid-cols-3">
-                            <p>Cidade: {props.empresa_city}</p>
-                            <p>UF: {props.empresa_uf}</p>
-                            <p>CEP: {props.empresa_cep}</p>
+
+                        <div className="flex">
+                            <p className='w-2/5'>Cidade: {props.empresa_city}</p>
+                            <p className='w-1/6'>UF: {props.empresa_uf}</p>
+                            <p className='w-1/3'>CEP: {props.empresa_cep}</p>
                         </div>
-                        <div className="grid grid-cols-2">
+
+                        <div className="flex gap-4">
                             <p>Telefone: {props.empresa_phone}</p>
                             <p>Cel: {props.empresa_cell}</p>
                         </div>
@@ -81,15 +83,17 @@ const ReceiptTemplate = React.forwardRef<HTMLDivElement, Props>((props, ref) => 
                     </div>
                 </div>
                 <hr className="border-black border-collapse mt-2" />
-                <div className="grid grid-cols-4">
+
+                <div className="flex justify-center gap-20">
                     <p>Vendedor: {props.empresa_salesperson}</p>
                     <p>Pedido: {(props.order).toString().padStart(4, "0")}</p>
                     <p>Emissão: {props.today}</p>
                     <p>Hora: {props.hours}:{props.minute}</p>
                 </div>
+
                 <hr className="border-black border-collapse mt-2" />
                 {/* ... (o resto do seu JSX para cliente, etc. continua aqui) ... */}
-                 <div className="grid grid-cols-3">
+                <div className="grid grid-cols-3">
                     <p>Nome: {props.name}</p>
                     <p>Telefone: {props.phone}</p>
                     <p>Cel: {props.cell}</p>
@@ -102,11 +106,11 @@ const ReceiptTemplate = React.forwardRef<HTMLDivElement, Props>((props, ref) => 
                     <p>Email: {props.email}</p>
                     <p>Contato: {props.phone}</p>
                 </div>
-                <div className="grid grid-cols-4">
-                    <p>End: {props.adress}</p>
+                <div className="grid grid-cols-8">
+                    <p className='col-span-3'>End: {props.adress}</p>
                     <p>Nº: {props.number}</p>
-                    <p>Bairro: {props.neighborhood}</p>
-                    <p>Compl.: {props.complement}</p>
+                    <p className='col-span-2'>Bairro: {props.neighborhood}</p>
+                    <p className='col-span-2'>Compl.: {props.complement}</p>
                 </div>
                 <div className="grid grid-cols-3">
                     <p>Cidade: {props.city}</p>

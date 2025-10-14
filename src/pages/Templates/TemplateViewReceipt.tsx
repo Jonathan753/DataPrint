@@ -146,7 +146,7 @@ const TemplateViewReceipt = () => {
             <div style={{ minWidth: "210mm" }}>
 
 
-                {/* <div className="template border bg-zinc-700 border-black border-1 p-2 mt-4">
+                <div className="template border bg-zinc-700 border-black border-1 p-2 mt-4">
                     <div ref={notaRef} id="nota" style={{ width: '210mm', minHeight: '297mm' }} className="bg-white mx-auto p-8 shadow-lg">
                         <div className="grid grid-cols-3 gap-2">
                             <img className="my-auto" src={logo} alt="" />
@@ -273,8 +273,8 @@ const TemplateViewReceipt = () => {
                             </div>
                         </div>
                     </div>
-                </div> */}
-                <ReceiptTemplate
+                </div>
+                {/* <ReceiptTemplate
                     ref={notaRef} // Passando a ref para o componente filho
                     logo={logo}
                     empresa_adress={empresa.adress}
@@ -310,7 +310,7 @@ const TemplateViewReceipt = () => {
                     totalLiquido={receiptView.totalLiquido}
                     qrCode={qrCode}
                     services={services} // Passando o array de serviços
-                />
+                /> */}
 
                 <div className="flex p-4 justify-end">
                     <ButtonPrinter onClick={handleDownloadPDF} />
