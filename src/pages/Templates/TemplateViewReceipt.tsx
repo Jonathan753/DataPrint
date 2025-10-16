@@ -1,15 +1,13 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import logo from "../../assets/logo_newDataPrint.svg"
-import SearchService from "../../components/SearchService";
-import Input from "../../components/Input";
 import { gerarQrCodePix } from "../../service/pix";
 import { ButtonPrinter, ButtonReturn } from "../../components/Button";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import Title from "../../components/Title";
 import type { Client, Enterprise, Receipt } from "../../types/global";
-import ReceiptTemplate from "../../layout/ReceiptTemplate";
+import ReceiptTemplateV2 from "../../layout/ReceiptTemplateV2";
 
 
 type Service = {
@@ -63,6 +61,8 @@ const TemplateViewReceipt = () => {
                 month: '2-digit',
                 year: 'numeric',
             })
+        }{
+            return ""
         }
     }
     const handleHoursMinute = (data: string) => {
@@ -73,6 +73,8 @@ const TemplateViewReceipt = () => {
                 hour: '2-digit',
                 minute: '2-digit',
             })
+        }else {
+            return ""
         }
     }
 
@@ -146,7 +148,7 @@ const TemplateViewReceipt = () => {
             <div style={{ minWidth: "210mm" }}>
 
 
-                <div className="template border bg-zinc-700 border-black border-1 p-2 mt-4">
+                {/* <div className="template border bg-zinc-700 border-black border-1 p-2 mt-4">
                     <div ref={notaRef} id="nota" style={{ width: '210mm', minHeight: '297mm' }} className="bg-white mx-auto p-8 shadow-lg">
                         <div className="grid grid-cols-3 gap-2">
                             <img className="my-auto" src={logo} alt="" />
@@ -215,7 +217,7 @@ const TemplateViewReceipt = () => {
                                 {services.map((s, idx) => (
                                     <tr key={idx}>
                                         <td >{s.serviceId}</td>
-                                        <td>{s.serviceId}</td>
+                                        <td>{s.service}</td>
                                         <td> {s.qtd} </td>
                                         <td>{
                                             new Intl.NumberFormat("pt-BR", {
@@ -273,8 +275,8 @@ const TemplateViewReceipt = () => {
                             </div>
                         </div>
                     </div>
-                </div>
-                {/* <ReceiptTemplate
+                </div>*/}
+                <ReceiptTemplateV2
                     ref={notaRef} // Passando a ref para o componente filho
                     logo={logo}
                     empresa_adress={empresa.adress}
@@ -287,9 +289,7 @@ const TemplateViewReceipt = () => {
                     empresa_cnpj={empresa.cnpj}
                     empresa_salesperson={empresa.salesperson}
                     order={receiptView.receiptId.toString().padStart(4, "0")}
-                    hours={hours}
-                    today={today}
-                    minute={minute}
+                    hours={handleHoursMinute(receiptView.date)}
                     obs={receiptView.obs}
                     cnpj_cpf={cliente?.cnpj_cpf}
                     name={cliente?.name}
@@ -310,7 +310,10 @@ const TemplateViewReceipt = () => {
                     totalLiquido={receiptView.totalLiquido}
                     qrCode={qrCode}
                     services={services} // Passando o array de serviços
-                /> */}
+                    clientId={cliente?.clientId??0}
+                    receiptId={receiptView.receiptId}
+                    date={handleDate(receiptView.date)}
+                /> 
 
                 <div className="flex p-4 justify-end">
                     <ButtonPrinter onClick={handleDownloadPDF} />

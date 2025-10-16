@@ -123,7 +123,7 @@ const TemplateFast = () => {
             <Title title="Criaçao da nota" subtitle={"Nota de " + subtitle} />
             <div style={{ minWidth: "210mm" }}>
                 <div className="p-4">
-                    <label className="block text-sm font-medium text-white mb-1" htmlFor="">Adição de Serviços</label>
+                    <label className="block text-sm font-medium text-text-primary mb-1" htmlFor="">Adição de Serviços</label>
                     <SearchService onAdd={addService} />
                     <h3>Produtos na Nota</h3>
                     <ul className="mb-4">
@@ -161,7 +161,7 @@ const TemplateFast = () => {
                 </div>
 
                 <ReceiptTemplate
-                    ref={notaRef} // Passando a ref para o componente filho
+                    ref={notaRef}
                     logo={logo}
                     empresa_adress={empresa.adress}
                     empresa_city={empresa.city}
@@ -195,9 +195,9 @@ const TemplateFast = () => {
                     acrescimo={acrescimo}
                     totalLiquido={totalLiquido}
                     qrCode={qrCode}
-                    services={services} // Passando o array de serviços
+                    services={services}
                 />
-                
+
                 <div className="grid grid-cols-6 p-4">
                     <ButtonPrinter onClick={handleDownloadPDF} />
                     <div className="col-start-6">
