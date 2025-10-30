@@ -168,7 +168,7 @@ const TemplateViewReceipt = () => {
                         <div className="grid grid-cols-4">
                             <p>Vendedor: {empresa.salesperson}</p>
                             <p>Pedido: {(receiptView.receiptId).toString().padStart(4, "0")}</p>
-                            <p>Emissão: {handleDate(receiptView.date)}</p>
+                            <p>Emissão: {receiptView.date}</p>
                             <p>Hora: {handleHoursMinute(receiptView.date)}</p>
                         </div>
                         <hr className="border-black border-collapse mt-2" />

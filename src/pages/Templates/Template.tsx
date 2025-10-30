@@ -121,6 +121,8 @@ const Template = () => {
                 valueTotal: s.qtd * s.value
             }))
         };
+
+        console.log(receiptData)
         
         try {
             console.log("1. Salvando os dados do recibo...");

@@ -12,8 +12,8 @@ ipcMain.handle("clients:add", (e, data) => {
   const stmt = db.prepare(`
     INSERT INTO clients (
       cnpj_cpf, name, company, email, adress, number, neighborhood,
-      city, uf, cep, complement, phone, cell
-    ) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      city, uf, cep, complement, phone, cell, active
+    ) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, true)
   `);
 
   stmt.run(
@@ -253,8 +253,8 @@ ipcMain.handle("services:getById", (e, id) => {
 ipcMain.handle("receipt:add", async (e, data) => {
 
   const insertReceipt = db.prepare(`
-      INSERT INTO receipts (clientId, date, totalBruto, desconto, acrescimo, totalLiquido)
-      VALUES (?, ?, ?, ?, ?, ?)
+      INSERT INTO receipts (clientId, date, totalBruto, desconto, acrescimo, obs, totalLiquido)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
     `);
 
   const result = insertReceipt.run(
@@ -263,6 +263,7 @@ ipcMain.handle("receipt:add", async (e, data) => {
     data.totalBruto,
     data.desconto,
     data.acrescimo,
+    data.obs,
     data.totalLiquido
   );
 
@@ -442,6 +443,8 @@ ipcMain.handle("receipt:generate-pdf", async (event, receiptId) => {
 
     // Substituir os placeholders
     const dataEmissao = new Date(receipt.date);
+    console.log(dataEmissao)
+    console.log(receipt.date)
     const replacements = {
       '{{LOGO_BASE64}}': logoBase64,
       '{{EMPRESA_NOME}}': myInfo.name || '',
