@@ -47,7 +47,7 @@ const MyInfo = () => {
                         <Input disabled={edit} gridClass="md:col-span-1" onChange={handleChange} value={form.phone} mask="(00) 00000-0000" label="Telefone" id="telefone" name="phone" type="text" placeholder="(11) 2345-6789" />
                         <Input disabled={edit} gridClass="md:col-span-1" onChange={handleChange} value={form.cell} mask="(00) 00000-0000" label="Celular" id="celular" name="cell" type="text" placeholder="(11) 98765-4321" />
                         <Input disabled={edit} gridClass="md:col-span-1" onChange={handleChange} value={form.pix} label="Chave PIX" id="pix" name="pix" type="text" placeholder="key pix" />
-                        <Input disabled={edit} gridClass="md:col-span-1" label="Logo" id="celular" name="cell" type="file" />
+                        {/* <Input disabled={edit} gridClass="md:col-span-1" label="Logo" id="celular" name="cell" type="file" /> */}
                     </div>
                     <div className="mt-8 flex justify-end gap-4">
                         {edit ? <ButtonEdit onClick={() => setEdit(false)} /> : <ButtonSave />}

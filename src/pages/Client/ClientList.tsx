@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { ButtonDelete, ButtonNota, ButtonReturn, ButtonUpdate, ButtonView } from "../../components/Button";
 import Title from "../../components/Title"
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { ModalDelete } from "../../components/Modal";
 import type { Client } from "../../types/global";
 import Input from "../../components/Input";
@@ -14,51 +14,11 @@ const ITEMS_PER_PAGE = 10;
 
 const ClientList = () => {
 
-    // const [clients, setClients] = useState<Client[]>([]);
     const [modalOpen, setModalOpen] = useState(false);
-    // const [searchTerm, setSearchTerm] = useState("");
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const [totalPages, setTotalPages] = useState(0);
-    // const [isLoading, setIsLoading] = useState(false);
-
     const navigate = useNavigate();
 
-    // const fetchClients = useCallback(async (page: number, search: string) => {
-    //     setIsLoading(true);
-    //     try {
-    //         const result = await (window as any).clients.all({
-    //             page: page,
-    //             limit: ITEMS_PER_PAGE,
-    //             searchTerm: search,
-    //         });
-
-    //         setClients(result.data);
-    //         setTotalPages(Math.ceil(result.totalItems / ITEMS_PER_PAGE));
-    //     } catch (error) {
-    //         console.error("Erro ao buscar clientes:", error);
-    //     } finally {
-    //         setIsLoading(false);
-    //     }
-    // }, []);
-
-    // useEffect(() => {
-
-    //     const handler = setTimeout(() => {
-    //         fetchClients(currentPage, searchTerm);
-    //     }, 300);
-
-    //     return () => {
-    //         clearTimeout(handler);
-    //     };
-    // }, [currentPage, searchTerm, fetchClients]);
-
-    // const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setSearchTerm(event.target.value);
-    //     setCurrentPage(1);
-    // };
-
     const {
-        data: clients, // Renomeamos 'data' para 'clients' para ficar mais claro
+        data: clients,
         isLoading,
         totalPages,
         handleSearchChange,
@@ -66,8 +26,8 @@ const ClientList = () => {
         currentPage,
         setCurrentPage,
         setData
-    } = useDatabaseQueryPage<Client>( // Especificamos que o item é do tipo 'Client'
-        (props) => (window as any).clients.all(props), // A função que busca os clientes
+    } = useDatabaseQueryPage<Client>(
+        (props) => (window as any).clients.all(props),
         ITEMS_PER_PAGE
     );
 
@@ -116,11 +76,11 @@ const ClientList = () => {
                                                     <ButtonView textMain="Ver dados do cliente" onClick={() => navigate(`/client/view/${c.clientId}`)} />
                                                     <ButtonNota textMain="Criar Nota" onClick={() => navigate(`/template/${c.clientId}`)} />
                                                     <ButtonDelete textMain="Excluir CLiente" onClick={
-                                                    () => {
-                                                        setModalOpen(true)
-                                                        getId = c.clientId
-                                                    }
-                                                } />
+                                                        () => {
+                                                            setModalOpen(true)
+                                                            getId = c.clientId
+                                                        }
+                                                    } />
                                                     <ButtonUpdate textMain="Editar Cliente" onClick={() => navigate(`/client/edit/${c.clientId}`)} />
                                                 </div>
                                             </td>

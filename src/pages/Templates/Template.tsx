@@ -108,19 +108,21 @@ const Template = () => {
         // Monta o objeto final com os dados da tela
         const receiptData = {
             clientId: cliente?.clientId,
-            date: new Date().toISOString(),
+            dataEmissao: new Date().toISOString(),
             totalBruto: totalBruto,
             desconto: desconto,
             acrescimo: acrescimo,
             totalLiquido: totalLiquido/100, // Usando sua variável de resultado que já calcula tudo
             obs: obs,
             services: services.map(s => ({
-                serviceId: s.serviceId,
-                qtd: s.qtd,
-                valueUnitario: s.value,
-                valueTotal: s.qtd * s.value
-            }))
+            serviceId: s.serviceId,
+            qtd: s.qtd,
+            valueUnitario: s.value,
+            valueTotal: s.qtd * s.value
+        }))
         };
+
+        console.log(receiptData)
         
         try {
             console.log("1. Salvando os dados do recibo...");

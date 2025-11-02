@@ -18,56 +18,16 @@ const ITEMS_PER_PAGE = 10;
 const Receipt = () => {
     const navigate = useNavigate();
 
-    // const [receipts, setReceipts] = useState<Receipt[]>([]);
-    // const [searchTerm, setSearchTerm] = useState("");
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const [totalPages, setTotalPages] = useState(0);
-    // const [isLoading, setIsLoading] = useState(false);
-
-    // const fetchReceipts = useCallback(async (page: number, search: string) => {
-    //     setIsLoading(true);
-    //     try {
-    //         const result = await (window as any).receipt.paginated({
-    //             page: page,
-    //             limit: ITEMS_PER_PAGE,
-    //             searchTerm: search,
-    //         });
-
-    //         setReceipts(result.data);
-    //         setTotalPages(Math.ceil(result.totalItems / ITEMS_PER_PAGE));
-    //     } catch (error) {
-    //         console.error("Erro ao buscar notas:", error);
-    //     } finally {
-    //         setIsLoading(false);
-    //     }
-    // }, []);
-
-
-    // useEffect(() => {
-    //     const handler = setTimeout(() => {
-    //         fetchReceipts(currentPage, searchTerm);
-    //     }, 300);
-
-    //     return () => {
-    //         clearTimeout(handler);
-    //     };
-    // }, [currentPage, searchTerm, fetchReceipts]);
-
-    // const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setSearchTerm(event.target.value);
-    //     setCurrentPage(1);
-    // };
-
     const {
-        data: receipts, // Renomeamos 'data' para 'clients' para ficar mais claro
+        data: receipts, 
         isLoading,
         totalPages,
         handleSearchChange,
         searchTerm,
         currentPage,
         setCurrentPage
-    } = useDatabaseQueryPage<Receipt>( // Especificamos que o item é do tipo 'Client'
-        (props) => (window as any).receipt.paginated(props), // A função que busca os clientes
+    } = useDatabaseQueryPage<Receipt>(
+        (props) => (window as any).receipt.paginated(props),
         ITEMS_PER_PAGE
     );
 

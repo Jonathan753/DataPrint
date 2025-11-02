@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { useCallback, useEffect, useState } from "react";
 import { ButtonReturn, ButtonUpdate } from "../../components/Button";
 import Title from "../../components/Title";
 import type { Service } from "../../types/global";
@@ -7,26 +6,22 @@ import Input from "../../components/Input";
 import { useDatabaseQueryPage } from "../../hooks/useDatabaseQueryPage";
 
 
-let getId = 0;
 const ITEMS_PER_PAGE = 10;
 
 const ServiceList = () => {
 
-
-    const [modalOpen, setModalOpen] = useState(false);
-
     const navigate = useNavigate();
 
     const {
-            data: service, // Renomeamos 'data' para 'clients' para ficar mais claro
+            data: service,
             isLoading,
             totalPages,
             handleSearchChange,
             searchTerm,
             currentPage,
             setCurrentPage
-        } = useDatabaseQueryPage<Service>( // Especificamos que o item é do tipo 'Client'
-            (props) => (window as any).services.all(props), // A função que busca os clientes
+        } = useDatabaseQueryPage<Service>(
+            (props) => (window as any).services.all(props),
             ITEMS_PER_PAGE
         );
 

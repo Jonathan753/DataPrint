@@ -61,40 +61,6 @@ const TemplateFast = () => {
     if (!empresa) return <p>Necessita dos dados da empresa</p>;
 
     /////////////////
-
-    async function handleDownloadPDF() {
-        if (!notaRef.current) return;
-
-        const canvas = await html2canvas(notaRef.current, { scale: 2 });
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF("p", "mm", "a4");
-
-        const pageWidth = pdf.internal.pageSize.getWidth();
-        // const pageHeight = pdf.internal.pageSize.getHeight();
-        const imgProps = pdf.getImageProperties(imgData);
-        const imgHeight = (imgProps.height * pageWidth) / imgProps.width;
-
-        pdf.addImage(imgData, "PNG", 0, 0, pageWidth, imgHeight);
-        pdf.save("nota.pdf");
-
-    }
-
-    // Imprimir direto
-    async function handlePrint() {
-        if (!notaRef.current) return;
-
-        const canvas = await html2canvas(notaRef.current, { scale: 2 });
-        const imgData = canvas.toDataURL("image/png");
-
-        // Abre em nova aba para o navegador imprimir
-        const win = window.open("");
-        if (win) {
-            win.document.write(`<img src="${imgData}" style="width:100%">`);
-            win.document.close();
-            win.print();
-        }
-    }
-    /////////////
     function addService(service: Service) {
         setServices((prev) => [...prev, service]);
     }
@@ -110,6 +76,85 @@ const TemplateFast = () => {
         const numeric = e.target.value.replace(/\D/g, "");
         setDesconto(numeric ? parseInt(numeric, 10) : 0);
     };
+
+    const data = {
+        dataEmissao: new Date().toISOString(),
+        pedido: "XXXX",
+        totalBruto: totalBruto,
+        totalLiquido: totalLiquido,
+        acrescimo: acrescimo,
+        desconto: desconto,
+        obs: obs,
+        services: services.map(s => ({
+            serviceId: s.serviceId,
+            service: s.service,
+            qtd: s.qtd,
+            valueUnitario: s.value,
+            valueTotal: s.qtd * s.value
+        }))
+    }
+
+    console.log(data)
+
+    async function handleSaveAndGeneratePDF() {
+
+
+        console.log(data)
+
+        try {
+
+            if (true) {
+
+                const pdfResponse = await (window as any).receipt.generatePdfFast(data, dadosRecebidos);
+
+                if (pdfResponse && pdfResponse.success) {
+                    alert(`PDF gerado com sucesso!\nSalvo em: ${pdfResponse.path}`);
+                } else {
+                    alert(`Ocorreu um erro ao gerar o PDF: ${pdfResponse?.error || 'Erro desconhecido'}`);
+                }
+            } else {
+            }
+        } catch (error) {
+            console.error("Erro crítico no processo de salvar e gerar PDF:", error);
+            alert("Ocorreu um erro inesperado. Verifique o console para mais detalhes.");
+        }
+    }
+
+
+    // async function handleDownloadPDF() {
+    //     if (!notaRef.current) return;
+
+    //     const canvas = await html2canvas(notaRef.current, { scale: 2 });
+    //     const imgData = canvas.toDataURL("image/png");
+    //     const pdf = new jsPDF("p", "mm", "a4");
+
+    //     const pageWidth = pdf.internal.pageSize.getWidth();
+    //     // const pageHeight = pdf.internal.pageSize.getHeight();
+    //     const imgProps = pdf.getImageProperties(imgData);
+    //     const imgHeight = (imgProps.height * pageWidth) / imgProps.width;
+
+    //     pdf.addImage(imgData, "PNG", 0, 0, pageWidth, imgHeight);
+    //     pdf.save("nota.pdf");
+
+    // }
+
+    // // Imprimir direto
+    // async function handlePrint() {
+    //     if (!notaRef.current) return;
+
+    //     const canvas = await html2canvas(notaRef.current, { scale: 2 });
+    //     const imgData = canvas.toDataURL("image/png");
+
+    //     // Abre em nova aba para o navegador imprimir
+    //     const win = window.open("");
+    //     if (win) {
+    //         win.document.write(`<img src="${imgData}" style="width:100%">`);
+    //         win.document.close();
+    //         win.print();
+    //     }
+    // }
+    /////////////
+
 
 
 
@@ -286,10 +331,7 @@ const TemplateFast = () => {
                     </div>
                 </div>
                 <div className="grid grid-cols-6 p-4">
-                    <ButtonPrinter onClick={handleDownloadPDF} />
-                    <div className="col-start-6">
-                        <ButtonPrinter onClick={handlePrint} />
-                    </div>
+                    <ButtonPrinter onClick={handleSaveAndGeneratePDF} />
                 </div>
             </div>
         </>

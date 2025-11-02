@@ -93,22 +93,47 @@ const TemplateViewReceipt = () => {
 
     /////////////////
 
-    async function handleDownloadPDF() {
-        if (!notaRef.current) return;
+    async function handleSaveAndGeneratePDF() {
+        if (!cliente) {
+            alert("Por favor, selecione um cliente antes de continuar.");
+            return;
+        }
 
-        const canvas = await html2canvas(notaRef.current, { scale: 2 });
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF("p", "mm", "a4");
+        try {
 
-        const pageWidth = pdf.internal.pageSize.getWidth();
-        // const pageHeight = pdf.internal.pageSize.getHeight();
-        const imgProps = pdf.getImageProperties(imgData);
-        const imgHeight = (imgProps.height * pageWidth) / imgProps.width;
+            if (true) {
+                const pdfResponse = await (window as any).receipt.generatePdf(Number(receipt));
 
-        pdf.addImage(imgData, "PNG", 0, 0, pageWidth, imgHeight);
-        pdf.save("nota.pdf");
-
+                if (pdfResponse && pdfResponse.success) {
+                    alert(`PDF gerado com sucesso!\nSalvo em: ${pdfResponse.path}`);
+                } else {
+                    alert(`Ocorreu um erro ao gerar o PDF: ${pdfResponse?.error || 'Erro desconhecido'}`);
+                }
+            } else {
+                // alert(`Ocorreu um erro ao salvar o recibo: ${receipt?.error || 'Erro desconhecido'}`);
+            }
+        } catch (error) {
+            console.error("Erro crítico no processo de salvar e gerar PDF:", error);
+            alert("Ocorreu um erro inesperado. Verifique o console para mais detalhes.");
+        }
     }
+
+    // async function handleDownloadPDF() {
+    //     if (!notaRef.current) return;
+
+    //     const canvas = await html2canvas(notaRef.current, { scale: 2 });
+    //     const imgData = canvas.toDataURL("image/png");
+    //     const pdf = new jsPDF("p", "mm", "a4");
+
+    //     const pageWidth = pdf.internal.pageSize.getWidth();
+    //     // const pageHeight = pdf.internal.pageSize.getHeight();
+    //     const imgProps = pdf.getImageProperties(imgData);
+    //     const imgHeight = (imgProps.height * pageWidth) / imgProps.width;
+
+    //     pdf.addImage(imgData, "PNG", 0, 0, pageWidth, imgHeight);
+    //     pdf.save("nota.pdf");
+
+    // }
 
 
     // Imprimir direto
@@ -168,7 +193,7 @@ const TemplateViewReceipt = () => {
                         <div className="grid grid-cols-4">
                             <p>Vendedor: {empresa.salesperson}</p>
                             <p>Pedido: {(receiptView.receiptId).toString().padStart(4, "0")}</p>
-                            <p>Emissão: {handleDate(receiptView.date)}</p>
+                            <p>Emissão: {receiptView.date}</p>
                             <p>Hora: {handleHoursMinute(receiptView.date)}</p>
                         </div>
                         <hr className="border-black border-collapse mt-2" />
@@ -274,7 +299,7 @@ const TemplateViewReceipt = () => {
                     </div>
                 </div>
                 <div className="flex p-4 justify-end">
-                    <ButtonPrinter onClick={handleDownloadPDF} />
+                    <ButtonPrinter onClick={handleSaveAndGeneratePDF} />
                     {/* <div className="col-start-6">
                         <ButtonPrinter onClick={handlePrint} />
                     </div> */}

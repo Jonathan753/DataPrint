@@ -27,14 +27,9 @@ const EditService = () => {
         const { name, value } = e.target;
 
         setForm((prev) => {
-            // A guarda de proteção unificada! Fica aqui no topo.
-            // Se o estado anterior for nulo, a gente para a execução aqui mesmo.
             if (!prev) {
-                return prev; // Retorna null e não faz mais nada.
+                return prev;
             }
-
-            // Se o código chegou até aqui, temos 100% de certeza que 'prev' NÃO é null.
-            // Agora podemos fazer nossa lógica com segurança.
             if (name === "value") {
                 const numeric = value.replace(/\D/g, "");
                 return {
@@ -43,7 +38,7 @@ const EditService = () => {
                 };
             } else {
                 return {
-                    ...prev, // Operação segura!
+                    ...prev,
                     [name]: value
                 };
             }

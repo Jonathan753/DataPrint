@@ -7,7 +7,7 @@ type ModalProps = {
 };
 
 const Modal = ({ isOpen, onClose, title, message }: ModalProps) => {
-    if (!isOpen) return null; // se não estiver aberto, não renderiza
+    if (!isOpen) return null;
 
     return (
         <>
@@ -33,7 +33,7 @@ const Modal = ({ isOpen, onClose, title, message }: ModalProps) => {
 export { Modal };
 
 const ModalDelete = ({ isOpen, onClose, onDelete, title, message }: ModalProps) => {
-    if (!isOpen) return null; // se não estiver aberto, não renderiza
+    if (!isOpen) return null;
 
     return (
         <>

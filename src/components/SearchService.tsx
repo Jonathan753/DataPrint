@@ -63,9 +63,9 @@ const SearchService = ({ onAdd }: { onAdd: (p: SelectService) => void }) => {
                             <button
                                 onClick={() => {
                                     onAdd({ ...p, qtd: quantidade[p.serviceId] || 1 });
-                                    setTermo("");       // limpa o campo
-                                    setServices([]);  // limpa resultados
-                                    setQuantidade({}); // reseta quantidades
+                                    setTermo("");
+                                    setServices([]);
+                                    setQuantidade({});
                                 }}
                                 className="bg-green-500 text-white px-3 py-1 rounded"
                             >
@@ -74,9 +74,7 @@ const SearchService = ({ onAdd }: { onAdd: (p: SelectService) => void }) => {
                         </li>
                     ))}
                 </ul>
-
             )}
-
         </>
     )
 }

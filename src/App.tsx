@@ -1,5 +1,5 @@
 import './style/index.css'
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 import AddUser from './pages/Client/AddUser';
 import AddService from './pages/Service/AddService';
 import Sidebar from './layout/Sidebar';
@@ -30,7 +30,7 @@ function App() {
     <>
       <div className="flex flex-col h-dvh">
         <TitleBar />
-        <BrowserRouter>
+        <HashRouter>
           <main className="flex flex-1 overflow-hidden bg-background-main">
             <Sidebar>
               <SidebarItem onClick={() => setActivePage("/")} active={activePage === "/"} to="/" icon={<HomeIcon size={20} />} text="Home" />
@@ -42,7 +42,6 @@ function App() {
               <SidebarItem onClick={() => setActivePage("receipts")} active={activePage === "receipts"} to="receipts" icon={<Receipt size={20} />} text="Notas" />
               <hr className="my-3" />
               <SidebarItem to="my-info" onClick={() => setActivePage("my-info")} active={activePage === "my-info"} icon={<Info size={20} />} text="Meus Dados" />
-              {/* <SidebarItem to="nota" icon={<Info size={20} />} text="Teste" /> */}
             </Sidebar>
             <div className='flex-1 overflow-y-auto p-10 border border-zinc-700'>
               <Routes>
@@ -64,7 +63,7 @@ function App() {
               </Routes>
             </div>
           </main>
-        </BrowserRouter>
+        </HashRouter>
       </div>
     </>
   )

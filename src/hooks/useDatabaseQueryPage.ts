@@ -1,14 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 
-// <--- 1. Definimos os tipos que o hook vai usar internamente
-// A função de busca receberá estes parâmetros
 type QueryProps = {
     page: number;
     limit: number;
     searchTerm: string;
 }
 
-// A função de busca DEVE retornar uma Promise com este formato
 type PaginatedResult<TItem> = {
     data: TItem[];
     totalItems: number;

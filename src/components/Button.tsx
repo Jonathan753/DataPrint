@@ -20,7 +20,6 @@ const ButtonSave = () => {
     )
 }
 
-
 const ButtonEdit = ({ onClick }: Props) => {
     return (
         <>
@@ -34,7 +33,6 @@ const ButtonEdit = ({ onClick }: Props) => {
     )
 }
 
-
 const ButtonNext = () => {
     return (
         <>
@@ -47,7 +45,6 @@ const ButtonNext = () => {
         </>
     )
 }
-
 
 const ButtonReset = ({ onClick }: Props) => {
     return (
@@ -79,7 +76,6 @@ const ButtonPrinter = ({ onClick }: Props) => {
     )
 }
 
-
 const ButtonNota = ({ onClick, textMain }: Props) => {
     return (
         <>
@@ -97,7 +93,6 @@ const ButtonNota = ({ onClick, textMain }: Props) => {
     )
 }
 
-
 const ButtonDelete = ({ onClick, textMain }: Props) => {
     return (
         <>
@@ -114,7 +109,6 @@ const ButtonDelete = ({ onClick, textMain }: Props) => {
         </>
     )
 }
-
 
 const ButtonUpdate = ({ onClick, textMain }: Props) => {
     return (
@@ -152,9 +146,7 @@ const ButtonView = ({ onClick, textMain }: Props) => {
 }
 
 
-
 const ButtonReturn = () => {
-
     const navigate = useNavigate()
     return (
         <>

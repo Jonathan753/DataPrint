@@ -4,16 +4,7 @@ import { ButtonNota, ButtonReturn, ButtonView } from "../../components/Button";
 import { useNavigate, useParams } from "react-router-dom";
 import ViewData from "../../components/ViewData";
 import type { Client, Receipt } from "../../types/global";
-import { useDatabaseQueryPage } from "../../hooks/useDatabaseQueryPage";
-import Input from "../../components/Input";
 
-// type Receipt = {
-//     receiptId: number,
-//     clientId: number,
-//     clientName: string,
-//     date: string,
-//     totalLiquido: number,
-// }
 const ITEMS_PER_PAGE = 3;
 
 const ViewUser = () => {
@@ -35,10 +26,6 @@ const ViewUser = () => {
             setReceipt(r);
         })();
     }, [id]);
-
-    ////
-    // const [receipts, setReceipts] = useState<Receipt[]>([]);
-    // const [searchTerm, setSearchTerm] = useState("");
 
     const fetchReceipts = useCallback(async (page: number, id: string | undefined) => {
         setIsLoading(true);

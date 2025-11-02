@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Input from "../../components/Input";
 import Title from "../../components/Title";
-import { ButtonReset, ButtonReturn, ButtonSave } from "../../components/Button";
+import { ButtonReturn, ButtonSave } from "../../components/Button";
 import { useParams, useNavigate } from "react-router-dom";
 import type { Client } from "../../types/global";
 import { Modal } from "../../components/Modal";
@@ -61,7 +61,6 @@ const EditUser = () => {
                         <Input gridClass="md:col-span-1" onChange={handleChange} value={form.cell} mask="(00) 00000-0000" label="Celular" id="celular" name="cell" type="tel" placeholder="(11) 98765-4321" />
                     </div>
                     <div className="mt-8 flex justify-end gap-4">
-                        {/* <ButtonReset /> */}
                         <ButtonSave />
                     </div>
                 </form>
