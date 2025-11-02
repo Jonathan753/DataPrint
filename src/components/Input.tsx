@@ -8,12 +8,10 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const lettersUfMask = {
-    // mask: /^[a-zA-Z\s]*$/, // RegExp que aceita apenas letras e espaços
-    mask: 'aa', // RegExp que aceita apenas letras e espaços
-    prepare: (str: string) => str.toUpperCase(), // Função que converte para maiúsculas
+    mask: 'aa',
+    prepare: (str: string) => str.toUpperCase(),
 };
 
-// NOVO: Definição da máscara dinâmica para CPF/CNPJ
 const cpfCnpjMask = [
     { mask: '000.000.000-00', maxLength: 11 },
     { mask: '00.000.000/0000-00' }
@@ -44,19 +42,15 @@ const Input = ({ label, id, gridClass = "", onChange, mask, ...props }: InputPro
         : mask === "letters-uf" ? lettersUfMask
             : mask;
 
-
-    // NOVO: Handler para o evento onAccept
     const handleAccept = (value: any) => {
-        // Se a função onChange foi passada pelo componente pai...
         if (onChange) {
-            // ...criamos um "evento sintético" que imita a estrutura de um evento real...
             const syntheticEvent = {
                 target: {
-                    name: props.name || '', // Usamos o name que já veio nas props
-                    value: value,           // O valor limpo que recebemos do onAccept!
+                    name: props.name || '',
+                    value: value,
                 },
             };
-            // ...e chamamos a função onChange do pai com nosso evento falso.
+
             onChange(syntheticEvent as React.ChangeEvent<HTMLInputElement>);
         }
     };
@@ -70,11 +64,11 @@ const Input = ({ label, id, gridClass = "", onChange, mask, ...props }: InputPro
                 <IMaskInput
                     {...commonProps}
                     {...(typeof maskConfig === 'string' ? { mask: maskConfig } : maskConfig)}
-                    // TROCAMOS: Em vez de passar o onChange diretamente, usamos o onAccept com nosso handler
+
                     onAccept={handleAccept}
                 />
             ) : (
-                // O input normal continua usando o onChange original, sem problemas.
+
                 <input {...commonProps} onChange={onChange} />
             )}
         </div>

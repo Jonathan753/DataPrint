@@ -18,7 +18,6 @@ const AddService = () => {
         const { name, value } = e.target;
 
         if (name === "value") {
-            // tira vírgula, ponto etc.
             const numeric = value.replace(/\D/g, "");
             setForm((prev) => ({
                 ...prev,

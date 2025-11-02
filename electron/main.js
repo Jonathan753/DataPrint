@@ -5,6 +5,8 @@ const fs = require('node:fs');
 const puppeteer = require('puppeteer');
 const { gerarQrCodePixNode } = require('./pix-node');
 
+app.setName("Data Print");
+
 //////////////////////////// CLIENT /////////////////////////////
 
 // Adicionar CLient
@@ -35,17 +37,17 @@ ipcMain.handle("clients:add", (e, data) => {
   return { success: true };
 });
 
-//Listar CLient com paginação e filtro
+//Listar Client com paginação e filtro
 ipcMain.handle("clients:all", (e, { page, limit, searchTerm }) => {
 
   const offset = (page - 1) * limit;
   const params = [];
 
-  let countSql = `SELECT COUNT(*) as total FROM clients`;
-  let dataSql = `SELECT * FROM clients`;
+  let countSql = `SELECT COUNT(*) as total FROM clients WHERE active = true`;
+  let dataSql = `SELECT * FROM clients WHERE active = true`;
 
   if (searchTerm) {
-    const whereClause = ` WHERE name LIKE ?`;
+    const whereClause = ` AND name LIKE ?`;
     countSql += whereClause;
     dataSql += whereClause;
     params.push(`%${searchTerm}%`);
@@ -65,7 +67,8 @@ ipcMain.handle("clients:all", (e, { page, limit, searchTerm }) => {
   return { data, totalItems: total };
 });
 
-// Mostro o tatal de clientes
+
+// Mostro o número total de clientes
 ipcMain.handle("clients:totalNumber", () => {
   const stmt = db.prepare("SELECT COUNT(*) AS total FROM clients");
   const result = stmt.get();
@@ -80,7 +83,7 @@ ipcMain.handle("clients:getById", (e, id) => {
 
 //Deleta o cliente
 ipcMain.handle("clients:delete", (e, id) => {
-  const stmt = db.prepare("DELETE FROM clients WHERE clientId = ?");
+  const stmt = db.prepare("UPDATE clients SET active = false WHERE clientId = ?");
   stmt.run(id);
   return { success: true }
 });
@@ -248,7 +251,9 @@ ipcMain.handle("services:getById", (e, id) => {
   const stmt = db.prepare("SELECT * FROM services WHERE serviceId = ?");
   return stmt.get(id);
 });
+
 /////////////////////////////// RECEIPT //////////
+
 //Adiona a nota no BD
 ipcMain.handle("receipt:add", async (e, data) => {
 
@@ -289,7 +294,6 @@ ipcMain.handle("receipt:add", async (e, data) => {
 
 //Apresenta lista de Nota
 ipcMain.handle("receipt:getReceipt", (e, id) => {
-
   const stmt = db.prepare(` SELECT * FROM receipts WHERE receiptId = ?`);
   return stmt.get(id);
 });
@@ -307,22 +311,18 @@ ipcMain.handle("receipt:getMaxNumber", () => {
   return result?.maxId || 0;
 });
 
-
+// Apresentar notas com paginação
 ipcMain.handle("receipt:paginated", (e, { page, limit, searchTerm }) => {
-  // Calcula o OFFSET para pular os itens das páginas anteriores
-  const offset = (page - 1) * limit;
 
-  // Parâmetros para a query SQL. Usamos um array para construir de forma segura.
+  const offset = (page - 1) * limit;
   const params = [];
 
-  // Base da query para buscar o total de itens (para calcular o total de páginas)
   let countSql = `
     SELECT COUNT(*) as total
     FROM receipts n
     JOIN clients c ON c.clientId = n.clientId
   `;
 
-  // Base da query para buscar os dados da página atual
   let dataSql = `
     SELECT 
       n.receiptId,
@@ -335,31 +335,26 @@ ipcMain.handle("receipt:paginated", (e, { page, limit, searchTerm }) => {
     JOIN clients c ON c.clientId = n.clientId
   `;
 
-  // Se um termo de busca for fornecido, adiciona a condição WHERE
   if (searchTerm) {
     const whereClause = ` WHERE c.name LIKE ?`;
     countSql += whereClause;
     dataSql += whereClause;
-    params.push(`%${searchTerm}%`); // O '%' é o coringa para o LIKE
+    params.push(`%${searchTerm}%`);
   }
 
-  // Ordena os resultados
   dataSql += ` ORDER BY n.receiptId DESC`;
 
-  // Adiciona a paginação (LIMIT e OFFSET) na query de dados
   dataSql += ` LIMIT ? OFFSET ?`;
 
-  // Adiciona os parâmetros de paginação
   const dataParams = [...params, limit, offset];
 
-  // Executa as queries
   const countStmt = db.prepare(countSql);
-  const { total } = countStmt.get(params); // Conta o total de itens que correspondem ao filtro
+  const { total } = countStmt.get(params);
 
   const dataStmt = db.prepare(dataSql);
-  const data = dataStmt.all(dataParams); // Busca os itens da página atual
+  const data = dataStmt.all(dataParams);
 
-  return { data, totalItems: total }; // Retorna os dados e o total de itens
+  return { data, totalItems: total };
 });
 
 //Lista de Notas de um cliente
@@ -385,7 +380,8 @@ ipcMain.handle("receipt:client", (e, { page, limit, id }) => {
   const data = dataStmt.all(clientId, limit, offset); // Busca os itens da página atual
   return { data, totalItems: total }; // Retorna os dados e o total de itens
 });
-/////////////////////////
+
+///////////////////////// RECEIPT SERVICE /////////
 ipcMain.handle("receipt_services:getById", (e, id) => {
   const stmt = db.prepare("SELECT * FROM receipt_services WHERE receiptId = ?");
   return stmt.all(id);
@@ -412,7 +408,7 @@ ipcMain.handle("receipt_services:all", () => {
 });
 
 
-/////////////// PDF
+/////////////// Geração de PDF  ////////////
 
 // Importe a função de gerar QR Code para o Node.js
 
@@ -518,7 +514,6 @@ ipcMain.handle("receipt:generate-pdf", async (event, receiptId) => {
 ipcMain.handle("receipt:generate-pdf-fast", async (event, data, client) => {
   try {
 
-    // ETAPA 1: Buscar TODOS os dados necessários
     const myInfo = db.prepare("SELECT * FROM myInfo WHERE myInfoId = 1").get();
     client = {
       clientId: client.clientId,
@@ -548,18 +543,12 @@ ipcMain.handle("receipt:generate-pdf-fast", async (event, data, client) => {
       services: data.services
     }
 
-    console.log(client);
-    console.log(data);
-
-    // ETAPA 2: Preparar o HTML
     let htmlTemplate = fs.readFileSync(path.join(__dirname, 'recibo-template.html'), 'utf-8');
 
-    // Gerar QR Code e Logo em Base64 para embutir no HTML
     const qrCodeBase64 = await gerarQrCodePixNode(data.totalLiquido * 100, myInfo.pix, myInfo.name, myInfo.city);
     const logoPath = path.join(__dirname, 'assets', 'logo_newDataPrint.svg'); // Crie uma pasta 'assets' e coloque seu logo lá
     const logoBase64 = `data:image/svg+xml;base64,${fs.readFileSync(logoPath, 'base64')}`;
 
-    // Substituir os placeholders
     const dataEmissao = new Date(data.dataEmissao);
 
     const replacements = {
@@ -599,7 +588,6 @@ ipcMain.handle("receipt:generate-pdf-fast", async (event, data, client) => {
       htmlTemplate = htmlTemplate.replace(new RegExp(key, 'g'), replacements[key]);
     }
 
-    // Montar as linhas da tabela
     const servicesRows = data.services.map(s => `
             <tr>
                 <td>${s.serviceId}</td>
@@ -611,14 +599,12 @@ ipcMain.handle("receipt:generate-pdf-fast", async (event, data, client) => {
         `).join('');
     htmlTemplate = htmlTemplate.replace('{{SERVICOS_ROWS}}', servicesRows);
 
-    // ETAPA 3: Usar o Puppeteer
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     await page.setContent(htmlTemplate, { waitUntil: 'networkidle0' });
     const pdfBuffer = await page.pdf({ format: 'A4', printBackground: true, margin: { top: '0', right: '0', bottom: '0', left: '0' } });
     await browser.close();
 
-    // ETAPA 4: Salvar o arquivo
     const { filePath } = await dialog.showSaveDialog({ title: 'Salvar Recibo', defaultPath: `recibo-X.pdf`, filters: [{ name: 'Arquivos PDF', extensions: ['pdf'] }] });
     if (filePath) {
       fs.writeFileSync(filePath, pdfBuffer);
@@ -632,15 +618,18 @@ ipcMain.handle("receipt:generate-pdf-fast", async (event, data, client) => {
   }
 });
 
-//////////////////// Aplicação principal do electron
+//////////////////// Aplicação principal do electron /////////////////////
 const isDev = !!process.env.ELECTRON_START_URL; // setado no script de dev
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 1000,
+    width: 1200,
     height: 800,
+    minHeight: 700,
+    minWidth: 1200,
+    title: "Data Print -  Emissor de Notas",
+    icon: path.join(__dirname, "assets/icon.png"),
     frame: false,
-    // titleBarStyle: 'hiddenInset',
     titleBarStyle: 'hidden',
     webPreferences: {
       contextIsolation: true,
@@ -671,14 +660,13 @@ function createWindow() {
     win.loadURL(process.env.ELECTRON_START_URL);
     win.webContents.openDevTools();
   } else {
-    // IMPORTANTÍSSIMO: com Vite, use base './' (ver passo 4)
     win.loadFile(path.join(__dirname, '../dist/index.html'));
   }
 
-  // exemplo de IPC (só pra provar que o preload funciona)
   ipcMain.handle('ping', () => 'pong');
 
 }
+
 app.whenReady().then(createWindow);
 app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit(); });
 app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });

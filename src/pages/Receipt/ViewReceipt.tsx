@@ -10,8 +10,6 @@ const ViewReceipt = () => {
 
     const { id, value } = useParams();
 
-
-    // const [receipt, setReceipt] = useState<Receipt | null>(null)
     const [receiptService, setReceiptService] = useState<ReceiptService[]>([])
 
     useEffect(() => {

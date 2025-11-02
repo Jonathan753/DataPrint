@@ -19,7 +19,6 @@ const ButtonSave = () => {
         </>
     )
 }
-export { ButtonSave };
 
 const ButtonEdit = ({ onClick }: Props) => {
     return (
@@ -33,7 +32,6 @@ const ButtonEdit = ({ onClick }: Props) => {
         </>
     )
 }
-export { ButtonEdit };
 
 const ButtonNext = () => {
     return (
@@ -47,7 +45,6 @@ const ButtonNext = () => {
         </>
     )
 }
-export { ButtonNext };
 
 const ButtonReset = ({ onClick }: Props) => {
     return (
@@ -62,8 +59,6 @@ const ButtonReset = ({ onClick }: Props) => {
         </>
     )
 }
-export { ButtonReset };
-
 
 const ButtonPrinter = ({ onClick }: Props) => {
     return (
@@ -78,7 +73,6 @@ const ButtonPrinter = ({ onClick }: Props) => {
         </>
     )
 }
-export { ButtonPrinter };
 
 const ButtonNota = ({ onClick, textMain }: Props) => {
     return (
@@ -96,7 +90,6 @@ const ButtonNota = ({ onClick, textMain }: Props) => {
         </>
     )
 }
-export { ButtonNota };
 
 const ButtonDelete = ({ onClick, textMain }: Props) => {
     return (
@@ -114,7 +107,6 @@ const ButtonDelete = ({ onClick, textMain }: Props) => {
         </>
     )
 }
-export { ButtonDelete };
 
 const ButtonUpdate = ({ onClick, textMain }: Props) => {
     return (
@@ -132,7 +124,7 @@ const ButtonUpdate = ({ onClick, textMain }: Props) => {
         </>
     )
 }
-export { ButtonUpdate };
+
 
 const ButtonView = ({ onClick, textMain }: Props) => {
     return (
@@ -150,11 +142,9 @@ const ButtonView = ({ onClick, textMain }: Props) => {
         </>
     )
 }
-export { ButtonView };
 
 
 const ButtonReturn = () => {
-
     const navigate = useNavigate()
     return (
         <>
@@ -164,5 +154,5 @@ const ButtonReturn = () => {
         </>
     )
 }
-export { ButtonReturn };
+export { ButtonReturn, ButtonDelete, ButtonEdit, ButtonNext, ButtonNota, ButtonPrinter, ButtonReset, ButtonSave, ButtonUpdate, ButtonView };
 
