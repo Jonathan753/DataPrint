@@ -65,40 +65,6 @@ const Template = () => {
 
     /////////////////
 
-    // async function handleDownloadPDF() {
-    //     if (!notaRef.current) return;
-
-    //     const canvas = await html2canvas(notaRef.current, { scale: 2 });
-    //     const imgData = canvas.toDataURL("image/png");
-    //     const pdf = new jsPDF("p", "mm", "a4");
-
-    //     const pageWidth = pdf.internal.pageSize.getWidth();
-    //     // const pageHeight = pdf.internal.pageSize.getHeight();
-    //     const imgProps = pdf.getImageProperties(imgData);
-    //     const imgHeight = (imgProps.height * pageWidth) / imgProps.width;
-
-    //     pdf.addImage(imgData, "PNG", 0, 0, pageWidth, imgHeight);
-    //     pdf.save("nota.pdf");
-
-    //     await (window as any).receipt.add(receipt);
-    // }
-
-    // Imprimir direto
-    // async function handlePrint() {
-    //     if (!notaRef.current) return;
-
-    //     const canvas = await html2canvas(notaRef.current, { scale: 2 });
-    //     const imgData = canvas.toDataURL("image/png");
-
-    //     // Abre em nova aba para o navegador imprimir
-    //     const win = window.open("");
-    //     if (win) {
-    //         win.document.write(`<img src="${imgData}" style="width:100%">`);
-    //         win.document.close();
-    //         win.print();
-    //     }
-    // }
-
     async function handleSaveAndGeneratePDF() {
         if (!cliente) {
             alert("Por favor, selecione um cliente antes de continuar.");

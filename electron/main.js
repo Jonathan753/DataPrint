@@ -497,7 +497,7 @@ ipcMain.handle("receipt:generate-pdf", async (event, receiptId) => {
     await browser.close();
 
     // ETAPA 4: Salvar o arquivo
-    const { filePath } = await dialog.showSaveDialog({ title: 'Salvar Recibo', defaultPath: `recibo-${receiptId}.pdf`, filters: [{ name: 'Arquivos PDF', extensions: ['pdf'] }] });
+    const { filePath } = await dialog.showSaveDialog({ title: 'Salvar Recibo', defaultPath: `recibo-${receiptId}-${client.name}.pdf`, filters: [{ name: 'Arquivos PDF', extensions: ['pdf'] }] });
     if (filePath) {
       fs.writeFileSync(filePath, pdfBuffer);
       return { success: true, path: filePath };
