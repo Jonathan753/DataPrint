@@ -5,8 +5,8 @@ import SearchService from "../../components/SearchService";
 import Input from "../../components/Input";
 import { gerarQrCodePix } from "../../service/pix";
 import { ButtonPrinter, ButtonReturn } from "../../components/Button";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
+// import jsPDF from "jspdf";
+// import html2canvas from "html2canvas";
 import Title from "../../components/Title";
 import type { Client, Enterprise } from "../../types/global";
 
@@ -131,20 +131,20 @@ const Template = () => {
         setDesconto(numeric ? parseInt(numeric, 10) : 0);
     };
 
-    const receipt = {
-        clientId: cliente?.clientId,
-        dataEmissao: new Date().toISOString(),
-        totalBruto,
-        desconto,
-        acrescimo,
-        totalLiquido: totalLiquido / 100,
-        services: services.map(s => ({
-            serviceId: s.serviceId,
-            qtd: s.qtd,
-            valueUnitario: s.value,
-            valueTotal: s.qtd * s.value
-        }))
-    };
+    // const receipt = {
+    //     clientId: cliente?.clientId,
+    //     dataEmissao: new Date().toISOString(),
+    //     totalBruto,
+    //     desconto,
+    //     acrescimo,
+    //     totalLiquido: totalLiquido / 100,
+    //     services: services.map(s => ({
+    //         serviceId: s.serviceId,
+    //         qtd: s.qtd,
+    //         valueUnitario: s.value,
+    //         valueTotal: s.qtd * s.value
+    //     }))
+    // };
 
 
 
