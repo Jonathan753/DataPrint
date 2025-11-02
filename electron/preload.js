@@ -22,6 +22,7 @@ contextBridge.exposeInMainWorld("receipt", {
     client: (options) => ipcRenderer.invoke("receipt:client", options),
     getReceipt: (id) => ipcRenderer.invoke("receipt:getReceipt", id),
     generatePdf: (receiptId) => ipcRenderer.invoke("receipt:generate-pdf", receiptId), // <-- ADICIONE ESTA LINHA
+    generatePdfFast: (client, data) => ipcRenderer.invoke("receipt:generate-pdf-fast", client, data), // <-- ADICIONE ESTA LINHA
 });
 
 contextBridge.exposeInMainWorld("receipt_services", {

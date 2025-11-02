@@ -414,7 +414,7 @@ ipcMain.handle("receipt_services:all", () => {
 
 /////////////// PDF
 
- // Importe a função de gerar QR Code para o Node.js
+// Importe a função de gerar QR Code para o Node.js
 
 ipcMain.handle("receipt:generate-pdf", async (event, receiptId) => {
   try {
@@ -437,14 +437,13 @@ ipcMain.handle("receipt:generate-pdf", async (event, receiptId) => {
     let htmlTemplate = fs.readFileSync(path.join(__dirname, 'recibo-template.html'), 'utf-8');
 
     // Gerar QR Code e Logo em Base64 para embutir no HTML
-    const qrCodeBase64 = await gerarQrCodePixNode(receipt.totalLiquido*100, myInfo.pix, myInfo.name, myInfo.city);
+    const qrCodeBase64 = await gerarQrCodePixNode(receipt.totalLiquido * 100, myInfo.pix, myInfo.name, myInfo.city);
     const logoPath = path.join(__dirname, 'assets', 'logo_newDataPrint.svg'); // Crie uma pasta 'assets' e coloque seu logo lá
     const logoBase64 = `data:image/svg+xml;base64,${fs.readFileSync(logoPath, 'base64')}`;
 
     // Substituir os placeholders
     const dataEmissao = new Date(receipt.date);
-    console.log(dataEmissao)
-    console.log(receipt.date)
+
     const replacements = {
       '{{LOGO_BASE64}}': logoBase64,
       '{{EMPRESA_NOME}}': myInfo.name || '',
@@ -503,6 +502,124 @@ ipcMain.handle("receipt:generate-pdf", async (event, receiptId) => {
 
     // ETAPA 4: Salvar o arquivo
     const { filePath } = await dialog.showSaveDialog({ title: 'Salvar Recibo', defaultPath: `recibo-${receiptId}.pdf`, filters: [{ name: 'Arquivos PDF', extensions: ['pdf'] }] });
+    if (filePath) {
+      fs.writeFileSync(filePath, pdfBuffer);
+      return { success: true, path: filePath };
+    }
+    return { success: false, error: 'Salvamento cancelado' };
+
+  } catch (err) {
+    console.error("Erro ao gerar PDF:", err);
+    return { success: false, error: err.message };
+  }
+});
+
+
+ipcMain.handle("receipt:generate-pdf-fast", async (event, data, client) => {
+  try {
+
+    // ETAPA 1: Buscar TODOS os dados necessários
+    const myInfo = db.prepare("SELECT * FROM myInfo WHERE myInfoId = 1").get();
+    client = {
+      clientId: client.clientId,
+      cnpj_cpf: client.cnpj_cpf,
+      name: client.name,
+      company: client.company,
+      email: client.email,
+      adress: client.adress,
+      number: client.number,
+      neighborhood: client.neighborhood,
+      city: client.city,
+      uf: client.uf,
+      cep: client.cep,
+      complement: client.complement,
+      phone: client.phone,
+      cell: client.cell,
+    }
+
+    data = {
+      dataEmissao: data.dataEmissao,
+      pedido: data.pedido,
+      totalBruto: data.totalBruto,
+      totalLiquido: data.totalLiquido,
+      acrescimo: data.acrescimo,
+      desconto: data.desconto,
+      obs: data.obs,
+      services: data.services
+    }
+
+    console.log(client);
+    console.log(data);
+
+    // ETAPA 2: Preparar o HTML
+    let htmlTemplate = fs.readFileSync(path.join(__dirname, 'recibo-template.html'), 'utf-8');
+
+    // Gerar QR Code e Logo em Base64 para embutir no HTML
+    const qrCodeBase64 = await gerarQrCodePixNode(data.totalLiquido * 100, myInfo.pix, myInfo.name, myInfo.city);
+    const logoPath = path.join(__dirname, 'assets', 'logo_newDataPrint.svg'); // Crie uma pasta 'assets' e coloque seu logo lá
+    const logoBase64 = `data:image/svg+xml;base64,${fs.readFileSync(logoPath, 'base64')}`;
+
+    // Substituir os placeholders
+    const dataEmissao = new Date(data.dataEmissao);
+
+    const replacements = {
+      '{{LOGO_BASE64}}': logoBase64,
+      '{{EMPRESA_NOME}}': myInfo.name || '',
+      '{{EMPRESA_ENDERECO}}': `${myInfo.adress || ''}, ${myInfo.number || ''}`,
+      '{{EMPRESA_CIDADE}}': myInfo.city || '',
+      '{{EMPRESA_UF}}': myInfo.uf || '',
+      '{{EMPRESA_CEP}}': myInfo.cep || '',
+      '{{EMPRESA_TELEFONE}}': myInfo.phone || '',
+      '{{EMPRESA_CELULAR}}': myInfo.cell || '',
+      '{{EMPRESA_EMAIL}}': myInfo.email || '',
+      '{{EMPRESA_CNPJ}}': myInfo.cnpj || '',
+      '{{VENDEDOR}}': myInfo.salesperson || '',
+      '{{PEDIDO_ID}}': data.pedido,
+      '{{DATA_EMISSAO}}': dataEmissao.toLocaleDateString('pt-BR'),
+      '{{HORA_EMISSAO}}': dataEmissao.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
+      '{{CLIENTE_NOME}}': client.name || '',
+      '{{CLIENTE_RAZAO}}': client.company || '',
+      '{{CLIENTE_CNPJ_CPF}}': client.cnpj_cpf || '',
+      '{{CLIENTE_ENDERECO}}': client.adress || '',
+      '{{CLIENTE_NUMERO}}': client.number || '',
+      '{{CLIENTE_BAIRRO}}': client.neighborhood || '',
+      '{{CLIENTE_COMPLEMENTO}}': client.complement || '',
+      '{{CLIENTE_CIDADE}}': client.city || '',
+      '{{CLIENTE_UF}}': client.uf || '',
+      '{{CLIENTE_CEP}}': client.cep || '',
+      '{{CLIENTE_EMAIL}}': client.email || '',
+      '{{OBSERVACOES}}': data.obs || 'Sem observações.',
+      '{{TOTAL_BRUTO}}': (data.totalBruto / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
+      '{{DESCONTO}}': `${(data.desconto / 100).toFixed(2)} %`,
+      '{{ACRESCIMO}}': `${(data.acrescimo / 100).toFixed(2)} %`,
+      '{{TOTAL_LIQUIDO}}': (data.totalLiquido).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
+      '{{QRCODE_BASE64}}': qrCodeBase64,
+    };
+    for (const key in replacements) {
+      htmlTemplate = htmlTemplate.replace(new RegExp(key, 'g'), replacements[key]);
+    }
+
+    // Montar as linhas da tabela
+    const servicesRows = data.services.map(s => `
+            <tr>
+                <td>${s.serviceId}</td>
+                <td>${s.service}</td>
+                <td>${s.qtd}</td>
+                <td>${(s.valueUnitario / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                <td class="text-right">${(s.valueTotal / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+            </tr>
+        `).join('');
+    htmlTemplate = htmlTemplate.replace('{{SERVICOS_ROWS}}', servicesRows);
+
+    // ETAPA 3: Usar o Puppeteer
+    const browser = await puppeteer.launch({ headless: true });
+    const page = await browser.newPage();
+    await page.setContent(htmlTemplate, { waitUntil: 'networkidle0' });
+    const pdfBuffer = await page.pdf({ format: 'A4', printBackground: true, margin: { top: '0', right: '0', bottom: '0', left: '0' } });
+    await browser.close();
+
+    // ETAPA 4: Salvar o arquivo
+    const { filePath } = await dialog.showSaveDialog({ title: 'Salvar Recibo', defaultPath: `recibo-X.pdf`, filters: [{ name: 'Arquivos PDF', extensions: ['pdf'] }] });
     if (filePath) {
       fs.writeFileSync(filePath, pdfBuffer);
       return { success: true, path: filePath };
