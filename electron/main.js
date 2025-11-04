@@ -452,7 +452,7 @@ ipcMain.handle("receipt:generate-pdf", async (event, receiptId) => {
       '{{EMPRESA_EMAIL}}': myInfo.email || '',
       '{{EMPRESA_CNPJ}}': myInfo.cnpj || '',
       '{{VENDEDOR}}': myInfo.salesperson || '',
-      '{{PEDIDO_ID}}': receiptId,
+      '{{PEDIDO_ID}}': receiptId.toString().padStart(4, "0"),
       '{{DATA_EMISSAO}}': dataEmissao.toLocaleDateString('pt-BR'),
       '{{HORA_EMISSAO}}': dataEmissao.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
       '{{CLIENTE_NOME}}': client.name || '',
@@ -480,7 +480,7 @@ ipcMain.handle("receipt:generate-pdf", async (event, receiptId) => {
     // Montar as linhas da tabela
     const servicesRows = services.map(s => `
             <tr>
-                <td>${s.serviceId}</td>
+                <td>${s.serviceId.toString().padStart(4, "0")}</td>
                 <td>${s.service}</td>
                 <td>${s.qtd}</td>
                 <td>${(s.valueUnitario / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
@@ -590,7 +590,7 @@ ipcMain.handle("receipt:generate-pdf-fast", async (event, data, client) => {
 
     const servicesRows = data.services.map(s => `
             <tr>
-                <td>${s.serviceId}</td>
+                <td>${s.serviceId.toString().padStart(4, "0")}</td>
                 <td>${s.service}</td>
                 <td>${s.qtd}</td>
                 <td>${(s.valueUnitario / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>

@@ -8,6 +8,7 @@ import { ButtonPrinter } from "../../components/Button";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import Title from "../../components/Title";
+import Resum from "../../layout/Resum"
 
 type Service = {
     serviceId: number,
@@ -204,7 +205,7 @@ const TemplateFast = () => {
                     </div>
                 </div>
 
-                <div className="template border bg-zinc-700 border-black border-1 p-2 mt-4">
+                {/* <div className="template border bg-zinc-700 border-black border-1 p-2 mt-4">
                     <div ref={notaRef} id="nota" style={{ width: '210mm', minHeight: '297mm' }} className="bg-white mx-auto p-8 shadow-lg">
                         <div className="grid grid-cols-3 gap-2">
                             <img className="my-auto" src={logo} alt="" />
@@ -329,7 +330,8 @@ const TemplateFast = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
+                <Resum totalBruto={totalBruto} totalLiquido={totalLiquido} services={services}/>
                 <div className="grid grid-cols-6 p-4">
                     <ButtonPrinter onClick={handleSaveAndGeneratePDF} />
                 </div>

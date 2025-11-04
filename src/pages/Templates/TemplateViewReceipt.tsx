@@ -8,6 +8,7 @@ import { ButtonPrinter, ButtonReturn } from "../../components/Button";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import Title from "../../components/Title";
+import Resum from "../../layout/Resum";
 import type { Client, Enterprise, Receipt } from "../../types/global";
 
 
@@ -298,6 +299,9 @@ const TemplateViewReceipt = () => {
                         </div>
                     </div>
                 </div>
+
+                {/* <Resum totalBruto={receiptView.totalBruto} totalLiquido={receiptView.totalLiquido} services={services} /> */}
+
                 <div className="flex p-4 justify-end">
                     <ButtonPrinter onClick={handleSaveAndGeneratePDF} />
                     {/* <div className="col-start-6">

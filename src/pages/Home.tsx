@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import Card from "../components/Card";
 import Title from "../components/Title";
 import { useDatabaseQueryPage } from "../hooks/useDatabaseQueryPage";
+import { ConvertDate } from "../service/convertDate";
+
 
 type Receipt = {
     receiptId: number,
@@ -83,7 +85,7 @@ const Home = () => {
                                                                 currency: "BRL",
                                                             }).format(r.totalLiquido)
                                                         }</td>
-                                                        <td className="px-6 py-4">{r.date}</td>
+                                                        <td className="px-6 py-4">{ConvertDate(r.date)}</td>
                                                         <td className="px-6 py-4">
                                                             <div className="flex justify-center items-center gap-4">
                                                                 <ButtonView textMain="Informações da Nota" onClick={() => navigate(`/receipts/view/${r.receiptId}/${r.totalBruto}`)} />

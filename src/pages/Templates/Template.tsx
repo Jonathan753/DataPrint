@@ -9,6 +9,7 @@ import { ButtonPrinter, ButtonReturn } from "../../components/Button";
 // import html2canvas from "html2canvas";
 import Title from "../../components/Title";
 import type { Client, Enterprise } from "../../types/global";
+import Resum from "../../layout/Resum"
 
 
 type Service = {
@@ -78,18 +79,18 @@ const Template = () => {
             totalBruto: totalBruto,
             desconto: desconto,
             acrescimo: acrescimo,
-            totalLiquido: totalLiquido/100, // Usando sua variável de resultado que já calcula tudo
+            totalLiquido: totalLiquido / 100, // Usando sua variável de resultado que já calcula tudo
             obs: obs,
             services: services.map(s => ({
-            serviceId: s.serviceId,
-            qtd: s.qtd,
-            valueUnitario: s.value,
-            valueTotal: s.qtd * s.value
-        }))
+                serviceId: s.serviceId,
+                qtd: s.qtd,
+                valueUnitario: s.value,
+                valueTotal: s.qtd * s.value
+            }))
         };
 
         console.log(receiptData)
-        
+
         try {
             console.log("1. Salvando os dados do recibo...");
             const response = await (window as any).receipt.add(receiptData);
@@ -97,9 +98,9 @@ const Template = () => {
             if (response && response.success) {
                 const receiptId = response.receiptId;
                 console.log(`2. Recibo salvo com ID: ${receiptId}. Solicitando PDF...`);
-                
+
                 const pdfResponse = await (window as any).receipt.generatePdf(receiptId);
-                
+
                 if (pdfResponse && pdfResponse.success) {
                     alert(`PDF gerado com sucesso!\nSalvo em: ${pdfResponse.path}`);
                 } else {
@@ -161,21 +162,6 @@ const Template = () => {
                     <label className="block text-sm font-medium text-text-primary mb-1" htmlFor="">Adição de Serviços</label>
                     <SearchService onAdd={addService} />
 
-                    <div className="p-4">
-                        <h3 className="font-medium">Produtos na Nota:</h3>
-                        <ul className="mb-4">
-                            {services.map((s, idx) => (
-                                <li key={idx}>
-                                    {s.service} - {
-                                        new Intl.NumberFormat("pt-BR", {
-                                            style: "currency",
-                                            currency: "BRL",
-                                        }).format(s.value / 100)
-                                    }
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
 
                     <div className="grid grid-cols-4 gap-2">
                         <Input gridClass="md:col-span-4" onChange={handleChangeObs} value={obs} label="OBS" id="obs" name="obs" type="text" placeholder="Uma Observação" />
@@ -198,7 +184,7 @@ const Template = () => {
                     </div>
                 </div>
 
-                <div className="template border bg-zinc-700 border-black border-1 p-2 mt-4">
+                {/* <div className="template border bg-zinc-700 border-black border-1 p-2 mt-4">
                     <div ref={notaRef} id="nota" style={{ width: '210mm', minHeight: '297mm' }} className="bg-white mx-auto p-8 shadow-lg">
                         <div className="grid grid-cols-3 gap-2">
                             <img className="my-auto" src={logo} alt="" />
@@ -323,12 +309,64 @@ const Template = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
+
+                {/* <div className="p-4 bg-background-surface w-3/4 mx-auto rounded-md shadow-md">
+                    <h3 className="font-medium">Produtos na Nota:</h3>
+                    <table className="w-full mb-8">
+                        <thead>
+                            <tr className="text-left">
+                                <th>Código</th>
+                                <th>Descrição</th>
+                                <th>Qtd</th>
+                                <th>Preço</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {services.map((s, idx) => (
+                                <tr key={idx}>
+                                    <td >{s.serviceId}</td>
+                                    <td>{s.service}</td>
+                                    <td> {s.qtd} </td>
+                                    <td>{
+                                        new Intl.NumberFormat("pt-BR", {
+                                            style: "currency",
+                                            currency: "BRL",
+                                        }).format(s.value / 100)
+                                    }</td>
+                                    <td>{
+
+                                        new Intl.NumberFormat("pt-BR", {
+                                            style: "currency",
+                                            currency: "BRL",
+                                        }).format((s.value / 100) * s.qtd)
+                                    }</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+
+                    <h2>Total Bruto:
+                        {
+                            new Intl.NumberFormat("pt-BR", {
+                                style: "currency",
+                                currency: "BRL",
+                            }).format(totalBruto / 100)
+                        }
+                    </h2>
+                    <h1 className="text-3xl">Total Liq: {
+                        new Intl.NumberFormat("pt-BR", {
+                            style: "currency",
+                            currency: "BRL",
+                        }).format(totalLiquido / 100)
+                    }</h1>
+                </div> */}
+
+                <Resum totalBruto={totalBruto} totalLiquido={totalLiquido} services={services}/>
+
                 <div className="flex p-4 justify-end">
                     <ButtonPrinter onClick={handleSaveAndGeneratePDF} />
-                    {/* <div className="col-start-6">
-                        <ButtonPrinter onClick={handlePrint} />
-                    </div> */}
                 </div>
             </div>
         </>
