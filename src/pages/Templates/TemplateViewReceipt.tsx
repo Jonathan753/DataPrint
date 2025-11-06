@@ -1,6 +1,5 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState} from "react";
 import { useParams } from "react-router-dom";
-import { gerarQrCodePix } from "../../service/pix";
 import { ButtonPrinter, ButtonReturn } from "../../components/Button";
 import Title from "../../components/Title";
 import { Resum2 } from "../../layout/Resum";

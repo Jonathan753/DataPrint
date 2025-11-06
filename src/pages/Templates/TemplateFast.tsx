@@ -1,8 +1,7 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState} from "react";
 import { useLocation } from "react-router-dom";
 import SearchService from "../../components/SearchService";
 import Input from "../../components/Input";
-import { gerarQrCodePix } from "../../service/pix";
 import { ButtonPrinter } from "../../components/Button";
 import Title from "../../components/Title";
 import { Resum } from "../../layout/Resum"
@@ -33,7 +32,7 @@ const TemplateFast = () => {
     const location = useLocation();
     const dadosRecebidos = location.state?.dadosDoFormulario || null
 
-    let result = (totalBruto) - (totalBruto * (desconto / 10000)) + (totalBruto * (acrescimo / 10000));
+    // let result = (totalBruto) - (totalBruto * (desconto / 10000)) + (totalBruto * (acrescimo / 10000));
     let totalLiquido = (totalBruto / 100) - (((totalBruto / 100) * desconto / 100) / 100) + (((totalBruto / 100) * acrescimo / 100) / 100)
 
 
