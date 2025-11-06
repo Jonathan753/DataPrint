@@ -8,7 +8,7 @@ import { ButtonPrinter } from "../../components/Button";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import Title from "../../components/Title";
-import Resum from "../../layout/Resum"
+import {Resum} from "../../layout/Resum"
 
 type Service = {
     serviceId: number,

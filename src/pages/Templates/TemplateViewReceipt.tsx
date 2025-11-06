@@ -8,7 +8,7 @@ import { ButtonPrinter, ButtonReturn } from "../../components/Button";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import Title from "../../components/Title";
-import Resum from "../../layout/Resum";
+import { Resum2 } from "../../layout/Resum";
 import type { Client, Enterprise, Receipt } from "../../types/global";
 
 
@@ -171,7 +171,7 @@ const TemplateViewReceipt = () => {
             <div style={{ minWidth: "210mm" }}>
 
 
-                <div className="template border bg-zinc-700 border-black border-1 p-2 mt-4">
+                {/* <div className="template border bg-zinc-700 border-black border-1 p-2 mt-4">
                     <div ref={notaRef} id="nota" style={{ width: '210mm', minHeight: '297mm' }} className="bg-white mx-auto p-8 shadow-lg">
                         <div className="grid grid-cols-3 gap-2">
                             <img className="my-auto" src={logo} alt="" />
@@ -298,9 +298,9 @@ const TemplateViewReceipt = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
-                {/* <Resum totalBruto={receiptView.totalBruto} totalLiquido={receiptView.totalLiquido} services={services} /> */}
+                <Resum2 totalBruto={receiptView.totalBruto} totalLiquido={receiptView.totalLiquido} services2={services} desconto={receiptView.desconto} acrescimo={receiptView.acrescimo} />
 
                 <div className="flex p-4 justify-end">
                     <ButtonPrinter onClick={handleSaveAndGeneratePDF} />

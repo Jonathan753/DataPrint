@@ -9,7 +9,7 @@ import { ButtonPrinter, ButtonReturn } from "../../components/Button";
 // import html2canvas from "html2canvas";
 import Title from "../../components/Title";
 import type { Client, Enterprise } from "../../types/global";
-import Resum from "../../layout/Resum"
+import {Resum} from "../../layout/Resum"
 
 
 type Service = {
