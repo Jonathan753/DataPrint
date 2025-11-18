@@ -155,7 +155,7 @@ const Template = () => {
 
                 <Resum totalBruto={totalBruto} totalLiquido={totalLiquido} services={services} />
 
-                <div className="flex p-4 justify-end">
+                <div className="flex m-4 justify-end">
                     <ButtonPrinter onClick={handleSaveAndGeneratePDF} />
                 </div>
             </div>

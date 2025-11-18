@@ -2,7 +2,7 @@
 
 import { Menu, X } from "lucide-react";
 import { createContext, useContext, useState } from "react";
-import logo from "../assets/logo_newDataPrint.svg";
+import logo from "../assets/logo_dataprint.png";
 
 // Criando um contexto para compartilhar o estado da sidebar
 const SidebarContext = createContext<{ expanded: boolean }>({ expanded: true });
@@ -19,7 +19,7 @@ const Sidebar = ({ children }: SidebarProps) => {
             <div className="p-4 pb-2 flex justify-between items-center">
                <img
                   src={logo}
-                  className={`overflow-hidden transition-all ${expanded ? "w-32" : "hidden"
+                  className={` mx-auto overflow-hidden transition-all ${expanded ? "w-32" : "hidden"
                      }`}
                   alt="Logo"
                />

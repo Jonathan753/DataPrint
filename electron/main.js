@@ -434,8 +434,8 @@ ipcMain.handle("receipt:generate-pdf", async (event, receiptId) => {
 
     // Gerar QR Code e Logo em Base64 para embutir no HTML
     const qrCodeBase64 = await gerarQrCodePixNode(receipt.totalLiquido * 100, myInfo.pix, myInfo.name, myInfo.city);
-    const logoPath = path.join(__dirname, 'assets', 'logo_newDataPrint.svg'); // Crie uma pasta 'assets' e coloque seu logo lá
-    const logoBase64 = `data:image/svg+xml;base64,${fs.readFileSync(logoPath, 'base64')}`;
+    const logoPath = path.join(__dirname, 'assets', 'logo_dataprint.png'); // Crie uma pasta 'assets' e coloque seu logo lá
+    const logoBase64 = `data:image/png+xml;base64,${fs.readFileSync(logoPath, 'base64')}`;
 
     // Substituir os placeholders
     const dataEmissao = new Date(receipt.date);
@@ -546,8 +546,8 @@ ipcMain.handle("receipt:generate-pdf-fast", async (event, data, client) => {
     let htmlTemplate = fs.readFileSync(path.join(__dirname, 'recibo-template.html'), 'utf-8');
 
     const qrCodeBase64 = await gerarQrCodePixNode(data.totalLiquido * 100, myInfo.pix, myInfo.name, myInfo.city);
-    const logoPath = path.join(__dirname, 'assets', 'logo_newDataPrint.svg'); // Crie uma pasta 'assets' e coloque seu logo lá
-    const logoBase64 = `data:image/svg+xml;base64,${fs.readFileSync(logoPath, 'base64')}`;
+    const logoPath = path.join(__dirname, 'assets', 'logo_dataprint.png'); // Crie uma pasta 'assets' e coloque seu logo lá
+    const logoBase64 = `data:image/png+xml;base64,${fs.readFileSync(logoPath, 'base64')}`;
 
     const dataEmissao = new Date(data.dataEmissao);
 

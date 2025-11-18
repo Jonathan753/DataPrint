@@ -124,13 +124,13 @@ const Resum2 = ({ totalBruto, totalLiquido, services2, desconto = 0, acrescimo =
                 </table>
                 <h2>Desconto:
                     {
-                        (desconto / 100) + " % "
+                        " " + (desconto / 100) + " % "
                     }
                 </h2>
                 <h2>Acrescimo:
                     {
 
-                        (acrescimo / 100) + " % "
+                        " " + (acrescimo / 100) + " % "
 
                     }
                 </h2>

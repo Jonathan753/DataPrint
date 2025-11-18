@@ -35,7 +35,7 @@ const MyInfo = () => {
             <div className="p-8">
                 <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                        <Input disabled={edit} gridClass="md:col-span-1" onChange={handleChange} value={form.name} label="Nome" id="nome" name="name" type="text" placeholder="João da Silva" />
+                        <Input disabled={edit} gridClass="md:col-span-1" onChange={handleChange} value={form.name} label="Nome (Nome da chave pix)" id="nome" name="name" type="text" placeholder="João da Silva" />
                         <Input disabled={edit} gridClass="md:col-span-1" onChange={handleChange} value={form.email} label="Email" id="email" name="email" type="email" placeholder="contato@silvacomercio.com" />
                         <Input disabled={edit} gridClass="md:col-span-2" onChange={handleChange} value={form.adress} label="Endereço" id="endereco" name="adress" type="text" placeholder="Rua das Flores, 123" />
                         <Input disabled={edit} gridClass="md:col-span-1" onChange={handleChange} value={form.number} label="Nº" id="numero" name="number" type="text" placeholder="122" />
@@ -46,7 +46,7 @@ const MyInfo = () => {
                         <Input disabled={edit} gridClass="md:col-span-1" onChange={handleChange} value={form.cnpj} mask="cpf-cnpj" label="CPF/CNPJ" id="cnpj" name="cnpj" type="text" placeholder="00.000.000/0001-00" />
                         <Input disabled={edit} gridClass="md:col-span-1" onChange={handleChange} value={form.phone} mask="(00) 00000-0000" label="Telefone" id="telefone" name="phone" type="text" placeholder="(11) 2345-6789" />
                         <Input disabled={edit} gridClass="md:col-span-1" onChange={handleChange} value={form.cell} mask="(00) 00000-0000" label="Celular" id="celular" name="cell" type="text" placeholder="(11) 98765-4321" />
-                        <Input disabled={edit} gridClass="md:col-span-1" onChange={handleChange} value={form.pix} label="Chave PIX" id="pix" name="pix" type="text" placeholder="key pix" />
+                        <Input disabled={edit} gridClass="md:col-span-1" onChange={handleChange} value={form.pix} label="Chave PIX (Apenas números no Cel ou CPF)" id="pix" name="pix" type="text" placeholder="key pix" />
                         {/* <Input disabled={edit} gridClass="md:col-span-1" label="Logo" id="celular" name="cell" type="file" /> */}
                     </div>
                     <div className="mt-8 flex justify-end gap-4">

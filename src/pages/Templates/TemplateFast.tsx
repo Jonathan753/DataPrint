@@ -33,7 +33,9 @@ const TemplateFast = () => {
     const dadosRecebidos = location.state?.dadosDoFormulario || null
 
     // let result = (totalBruto) - (totalBruto * (desconto / 10000)) + (totalBruto * (acrescimo / 10000));
-    let totalLiquido = (totalBruto / 100) - (((totalBruto / 100) * desconto / 100) / 100) + (((totalBruto / 100) * acrescimo / 100) / 100)
+    // let totalLiquido = (totalBruto / 100) - (((totalBruto / 100) * desconto / 100) / 100) + (((totalBruto / 100) * acrescimo / 100) / 100);
+        let totalLiquido = (totalBruto) - (totalBruto * (desconto / 10000)) + (totalBruto * (acrescimo / 10000));
+
 
 
     useEffect(() => {
@@ -68,7 +70,7 @@ const TemplateFast = () => {
         dataEmissao: new Date().toISOString(),
         pedido: "XXXX",
         totalBruto: totalBruto,
-        totalLiquido: totalLiquido,
+        totalLiquido: totalLiquido/100,
         acrescimo: acrescimo,
         desconto: desconto,
         obs: obs,
@@ -118,23 +120,10 @@ const TemplateFast = () => {
             <Title title="Criaçao da nota" subtitle={"Nota de " + subtitle} />
             <div style={{ minWidth: "210mm" }}>
                 <div className="p-4">
-                    <label className="block text-sm font-medium text-white mb-1" htmlFor="">Adição de Serviços</label>
+                    <label className="block text-sm font-medium text-text-primary mb-1" htmlFor="">Adição de Serviços</label>
                     <SearchService onAdd={addService} />
-                    <h3>Produtos na Nota</h3>
-                    <ul className="mb-4">
-                        {services.map((s, idx) => (
-                            <li key={idx}>
-                                {s.service} - {
-                                    new Intl.NumberFormat("pt-BR", {
-                                        style: "currency",
-                                        currency: "BRL",
-                                    }).format(s.value / 100)
-                                }
-                            </li>
-                        ))}
-                    </ul>
 
-                    <div className="grid grid-cols-4 gap-2">
+                    <div className="grid grid-cols-4 gap-2 mt-2">
                         <Input gridClass="md:col-span-4" onChange={handleChangeObs} value={obs} label="OBS" id="obs" name="obs" type="text" placeholder="Uma Observação" />
                         <Input gridClass="md:col-span-1" onChange={handleChangeAcressimo} value={
                             acrescimo
@@ -156,7 +145,7 @@ const TemplateFast = () => {
                 </div>
 
                 <Resum totalBruto={totalBruto} totalLiquido={totalLiquido} services={services} />
-                <div className="grid grid-cols-6 p-4">
+                <div className="flex m-4 justify-end">
                     <ButtonPrinter onClick={handleSaveAndGeneratePDF} />
                 </div>
             </div>

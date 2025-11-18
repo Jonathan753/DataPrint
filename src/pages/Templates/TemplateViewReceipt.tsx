@@ -93,7 +93,7 @@ const TemplateViewReceipt = () => {
 
                 <Resum2 totalBruto={receiptView.totalBruto} totalLiquido={receiptView.totalLiquido} services2={services} desconto={receiptView.desconto} acrescimo={receiptView.acrescimo} />
 
-                <div className="flex p-4 justify-end">
+                <div className="flex m-4 justify-end">
                     <ButtonPrinter onClick={handleSaveAndGeneratePDF} />
                 </div>
             </div>
